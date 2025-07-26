@@ -5,6 +5,10 @@ if ($isLocalhost) {
     header('Content-Type: application/json');
     ini_set('display_errors', 1); // Change to 0 in production
     error_reporting(E_ALL);
+} else {
+    header('Content-Type: application/json');
+    ini_set('display_errors', 1); // Change to 0 in production
+    error_reporting(E_ALL);
 }
 
 
