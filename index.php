@@ -1,5 +1,5 @@
 <?php
 
-echo 'hello 1';
+echo 'hostinger testing';
 
 ?>
