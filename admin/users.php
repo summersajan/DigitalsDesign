@@ -83,7 +83,7 @@
 <td>${i + 1}</td>
 <td>${user.name}</td>
 <td>${user.email}</td>
-<td>${user.is_admin == 1 ? "Yes" : "No"}</td>
+<td>${user.is_admin == 1 ? "Yes" : "Customer"}</td>
 <td>${user.created_at}</td>
 <td>
 
