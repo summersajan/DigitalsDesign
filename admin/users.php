@@ -19,7 +19,7 @@
             <th>#</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Admin?</th>
+            <th>Role</th>
             <th>Created</th>
             <th>Actions</th>
           </tr>
@@ -83,7 +83,7 @@
 <td>${i + 1}</td>
 <td>${user.name}</td>
 <td>${user.email}</td>
-<td>${user.is_admin == 1 ? "Yes" : "Customer"}</td>
+<td>${user.is_admin == 1 ? "Admin" : "Customer"}</td>
 <td>${user.created_at}</td>
 <td>
 
