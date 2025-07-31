@@ -1,10 +1,10 @@
 <?php
-require_once 'stripe_config.php';
-
-\Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
-
-
 include_once '../../config/db.php';
+require_once 'vendor/autoload.php';
+\Stripe\Stripe::setApiKey($stripe_key); // Use your Stripe secret key
+
+
+
 
 header("Content-Type: text/html; charset=utf-8"); // Add this line
 

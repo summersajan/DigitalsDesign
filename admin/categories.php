@@ -4,7 +4,7 @@
   <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h3 class="mb-0">Manage Categories</h3>
-      <button class="btn btn-primary shadow" data-bs-toggle="modal" data-bs-target="#categoryModal">
+      <button class="btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#categoryModal">
         <i class="bi bi-plus-lg"></i> Add Category
       </button>
     </div>

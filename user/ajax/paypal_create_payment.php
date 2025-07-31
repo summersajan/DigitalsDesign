@@ -1,5 +1,26 @@
 <?php
-include 'paypal_config.php';
+include_once '../../config/db.php';
+include_once 'paypal_config.php';
+
+
+function getAccessToken($paypal_base_url, $paypal_client_id, $paypal_secret)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $paypal_base_url . "v1/oauth2/token");
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Accept: application/json",
+        "Accept-Language: en_US"
+    ]);
+    curl_setopt($ch, CURLOPT_USERPWD, $paypal_client_id . ":" . $paypal_secret);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = json_decode(curl_exec($ch));
+    curl_close($ch);
+    return $response->access_token ?? null;
+}
+
+
 
 if (!isset($_POST['amount']) || empty($_POST['amount'])) {
     echo json_encode(["status" => "error", "message" => "Error"]);
@@ -8,11 +29,11 @@ if (!isset($_POST['amount']) || empty($_POST['amount'])) {
 
 $amount = $_POST['amount']; // Get the dynamic amount
 
+$accessToken = getAccessToken($paypal_base_url, $paypal_client_id, $paypal_secret);
 
 
 
 
-$accessToken = getAccessToken();
 if (!$accessToken) {
     echo json_encode(["status" => "error", "message" => "Failed to get access token"]);
     exit;

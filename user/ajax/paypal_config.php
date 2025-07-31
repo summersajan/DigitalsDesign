@@ -1,23 +1,49 @@
 <?php
-define('PAYPAL_CLIENT_ID', 'ASZISxafDlkgZUov1Pz1DlHJnqhQFWO3X8lgHrczKUUk5jwt8iFNUsx2WpGqUgn1kQjL9F2CBYJqUv-P');
-define('PAYPAL_SECRET', 'EHGNZY4Ir3dS7VwqdgCIvrCyToWUy9vSD2mSjOP7KkD9xda5sTOVMso4dtMcgm9nlZUSFQK4-qbR93Jv');
-define('PAYPAL_BASE_URL', 'https://api-m.sandbox.paypal.com/'); // Change to live URL when going live
+include_once '../config/db.php';
 
-define('MAIN_URL', 'http://localhost/digitalProduct/user/ajax/');
-function getAccessToken()
+
+
+function getAccessToken($paypal_base_url, $paypal_client_id, $paypal_secret)
 {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, PAYPAL_BASE_URL . "v1/oauth2/token");
+    curl_setopt($ch, CURLOPT_URL, $paypal_base_url . "v1/oauth2/token");
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Accept: application/json",
         "Accept-Language: en_US"
     ]);
-    curl_setopt($ch, CURLOPT_USERPWD, PAYPAL_CLIENT_ID . ":" . PAYPAL_SECRET);
+    curl_setopt($ch, CURLOPT_USERPWD, $paypal_client_id . ":" . $paypal_secret);
     curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    $response = json_decode(curl_exec($ch));
+    $result = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($ch)) {
+        $error_msg = curl_error($ch);
+        curl_close($ch);
+        return [
+            'success' => false,
+            'error' => 'cURL Error: ' . $error_msg
+        ];
+    }
+
     curl_close($ch);
-    return $response->access_token ?? null;
+
+    $response = json_decode($result);
+
+    if ($httpCode !== 200 || isset($response->error)) {
+        return [
+            'success' => false,
+            'http_code' => $httpCode,
+            'error' => $response->error_description ?? $response->error ?? 'Unknown error',
+            'response' => $response
+        ];
+    }
+
+    return [
+        'success' => true,
+        'access_token' => $response->access_token
+    ];
 }
+
 ?>

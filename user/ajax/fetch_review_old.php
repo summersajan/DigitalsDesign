@@ -23,7 +23,7 @@ $res = $q->get_result();
         <i class="bi bi-chat-dots fs-1 text-muted mb-3"></i>
         <h5>All Reviewed!</h5>
         <p class="text-secondary">No Review Pending</p>
-        <a href="../" class="btn btn-primary mt-3">
+        <a href="../" class="btn btn-danger mt-3">
             <i class="bi bi-bag"></i> Shop
         </a>
     </div>

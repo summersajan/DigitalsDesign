@@ -1,68 +1,163 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 require_once 'db.php';
+header('Content-Type: application/json; charset=utf-8');
 
-$product_id = intval($_POST['product_id']);
-$title = trim($_POST['title'] ?? "");
-$desc = trim($_POST['description'] ?? "");
-$price = floatval($_POST['price'] ?? 0);
-$category_ids = $_POST['category_ids'] ?? [];
-
-if ($product_id > 0 && $title && $price > 0 && count($category_ids) > 0) {
-    // Update product main table (without old_price/discount)
-    $stmt = $mysqli->prepare("UPDATE products SET title=?, description=?, price=? WHERE product_id=?");
-    $stmt->bind_param("ssdi", $title, $desc, $price, $product_id);
-    if ($stmt->execute()) {
-
-        // Update product_categories: delete all, then add new
-        $mysqli->query("DELETE FROM product_categories WHERE product_id=$product_id");
-        foreach ($category_ids as $catid) {
-            $mysqli->query("INSERT INTO product_categories (product_id, category_id) VALUES ($product_id, " . intval($catid) . ")");
-        }
-
-        // --- ADD NEWLY UPLOADED IMAGES ---
-        if (!empty($_FILES['product_image']['name'][0])) {
-            foreach ($_FILES['product_image']['tmp_name'] as $i => $tmpName) {
-                if (!is_uploaded_file($tmpName) || empty($_FILES['product_image']['name'][$i]))
-                    continue;
-                $ext = strtolower(pathinfo($_FILES['product_image']['name'][$i], PATHINFO_EXTENSION));
-                $allowed_ext = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
-                if (!in_array($ext, $allowed_ext))
-                    continue;
-                $uniqueName = 'uploads/' . uniqid('img_', true) . '.' . $ext;
-                if (move_uploaded_file($tmpName, $uniqueName)) {
-                    // You could set is_main by UI, here we keep all as "not main"
-                    $mysqli->query("INSERT INTO product_images (product_id, image_url, is_main) VALUES ($product_id, '" . $mysqli->real_escape_string($uniqueName) . "', 0)");
-                }
-            }
-        }
-
-        // --- ADD NEWLY UPLOADED DIGITAL FILES ---
-        if (!empty($_FILES['digital_file']['name'][0])) {
-            foreach ($_FILES['digital_file']['tmp_name'] as $i => $tmpName) {
-                if (!is_uploaded_file($tmpName) || empty($_FILES['digital_file']['name'][$i]))
-                    continue;
-                $ext = strtolower(pathinfo($_FILES['digital_file']['name'][$i], PATHINFO_EXTENSION));
-                $allowed_ext = ['zip', 'jpg', 'jpeg', 'png', 'svg', 'ai', 'psd', 'eps', 'webp'];
-                if (!in_array($ext, $allowed_ext))
-                    continue;
-                $uniqueName = 'uploads/digital_' . uniqid('', true) . '.' . $ext;
-                if (move_uploaded_file($tmpName, $uniqueName)) {
-                    $mysqli->query(
-                        "INSERT INTO digital_files (product_id, file_url, file_type) VALUES ($product_id, '" .
-                        $mysqli->real_escape_string($uniqueName) . "', '$ext')"
-                    );
-                }
-            }
-        }
-
-        // To implement full "remove image/file" for editing:
-        // - Add "delete" buttons and endpoint for each file/image and handle on demand.
-
-        echo "Product updated!";
-    } else {
-        echo "Error updating product.";
-    }
-} else {
-    echo "Fill all required fields.";
+function json_error($msg)
+{
+    echo json_encode(['success' => false, 'message' => $msg]);
+    exit;
 }
+
+function json_success($msg, $data = [])
+{
+    echo json_encode(array_merge(['success' => true, 'message' => $msg], $data));
+    exit;
+}
+
+function ensure_dir($dir)
+{
+    if (!is_dir($dir)) {
+        if (!mkdir($dir, 0777, true)) {
+            json_error("Failed to create folder: $dir");
+        }
+    }
+}
+
+// Validate inputs (same as upload script)
+$product_id = intval($_POST['product_id'] ?? 0);
+$title = trim($_POST['title'] ?? '');
+$price = floatval($_POST['price'] ?? 0);
+$desc = trim($_POST['description'] ?? '');
+$additional_info = trim($_POST['additional_info'] ?? 'NA');
+$category_ids = $_POST['category_ids'] ?? [];
+$featured = isset($_POST['featured']) ? 1 : 0;
+
+// Validation (same as upload script)
+if ($product_id <= 0)
+    json_error('Invalid product ID.');
+if ($title === '' || strlen($title) > 190)
+    json_error('Invalid product title.');
+if ($price <= 0)
+    json_error('Price must be greater than 0.');
+if (!is_array($category_ids) || !count($category_ids))
+    json_error('At least one category required.');
+if (strlen(strip_tags($desc)) === 0)
+    json_error('Description required.');
+
+// Directory paths (same as upload script)
+$img_base_dir = __DIR__ . '/../../uploads/';
+$file_base_dir = __DIR__ . '/../../digitals/';
+$img_base_url = '../../uploads/';
+$file_base_url = '../../digitals/';
+
+// Ensure folders exist
+ensure_dir($img_base_dir);
+ensure_dir($file_base_dir);
+
+// File settings (same as upload script)
+$imgAllowedExt = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
+$imgMaxFiles = 6;
+$imgMaxSize = 5 * 1024 * 1024;
+
+$fileAllowedExt = ['jpg', 'jpeg', 'png', 'svg', 'ai', 'psd', 'eps', 'webp', 'zip'];
+$fileMaxFiles = 6;
+$fileMaxSize = 15 * 1024 * 1024;
+
+// Get uploaded files
+$product_images = $_FILES['product_image'] ?? null;
+$digital_files = $_FILES['digital_file'] ?? null;
+
+$has_images = ($product_images && !empty($product_images['name'][0]));
+$has_files = ($digital_files && !empty($digital_files['name'][0]));
+
+// Update product main table
+$stmt = $mysqli->prepare("UPDATE products SET title=?, description=?, additional_info=?, price=?, featured=? WHERE product_id=?");
+if (!$stmt)
+    json_error("Product update prepare failed: " . $mysqli->error);
+if (!$stmt->bind_param("sssddi", $title, $desc, $additional_info, $price, $featured, $product_id))
+    json_error("Product update bind failed: " . $stmt->error);
+if (!$stmt->execute())
+    json_error("Error updating product: " . $stmt->error);
+
+// Update product categories
+$mysqli->query("DELETE FROM product_categories WHERE product_id=$product_id");
+foreach ($category_ids as $catid) {
+    $stmt2 = $mysqli->prepare("INSERT INTO product_categories (product_id, category_id) VALUES (?, ?)");
+    if (!$stmt2)
+        continue;
+    $stmt2->bind_param("ii", $product_id, $catid);
+    $stmt2->execute();
+}
+
+// Upload new product images (FIXED: correct directory and validation)
+if ($has_images) {
+    $n = count($product_images['name']);
+    for ($i = 0; $i < $n; $i++) {
+        $name = $product_images['name'][$i];
+        $tmp = $product_images['tmp_name'][$i];
+        $size = $product_images['size'][$i] ?? 0;
+        $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $imgAllowedExt))
+            json_error("Image file extension not allowed: $name");
+        if ($size > $imgMaxSize)
+            json_error("Image file too large: $name");
+        if (!is_uploaded_file($tmp))
+            json_error("Invalid uploaded image file: $name");
+
+        $uniqueName = 'img_' . uniqid() . '.' . $ext;
+        $fullPath = $img_base_dir . $uniqueName;
+        $img_path = 'uploads/' . $uniqueName; // FIXED: correct path
+
+        if (!move_uploaded_file($tmp, $fullPath))
+            json_error("Failed to move uploaded image: $name");
+
+        // Insert with proper prepared statement
+        $stmt = $mysqli->prepare("INSERT INTO product_images (product_id, image_url, is_main) VALUES (?, ?, 0)");
+        if (!$stmt)
+            json_error("Image insert prepare failed: " . $mysqli->error);
+        if (!$stmt->bind_param("is", $product_id, $img_path))
+            json_error("Image insert bind failed: " . $stmt->error);
+        if (!$stmt->execute())
+            json_error("Failed to insert image: $name. Error: " . $stmt->error);
+    }
+}
+
+// Upload new digital files (FIXED: correct directory and validation)
+if ($has_files) {
+    $n = count($digital_files['name']);
+    for ($i = 0; $i < $n; $i++) {
+        $name = $digital_files['name'][$i];
+        $tmp = $digital_files['tmp_name'][$i];
+        $size = $digital_files['size'][$i] ?? 0;
+        $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $fileAllowedExt))
+            json_error("Digital file extension not allowed: $name");
+        if ($size > $fileMaxSize)
+            json_error("Digital file too large: $name");
+        if (!is_uploaded_file($tmp))
+            json_error("Invalid uploaded digital file: $name");
+
+        $uniqueName = 'digital_' . uniqid() . '.' . $ext;
+        $fullPath = $file_base_dir . $uniqueName;
+        $digi_path = 'digitals/' . $uniqueName; // FIXED: correct path
+
+        if (!move_uploaded_file($tmp, $fullPath))
+            json_error("Failed to move uploaded digital file: $name");
+
+        // Insert with proper prepared statement
+        $stmt = $mysqli->prepare("INSERT INTO digital_files (product_id, file_url, file_type) VALUES (?, ?, ?)");
+        if (!$stmt)
+            json_error("Digital insert prepare failed: " . $mysqli->error);
+        if (!$stmt->bind_param("iss", $product_id, $digi_path, $ext))
+            json_error("Digital insert bind failed: " . $stmt->error);
+        if (!$stmt->execute())
+            json_error("Failed to insert digital file: $name. Error: " . $stmt->error);
+    }
+}
+
+json_success("Product updated successfully!", ['product_id' => $product_id]);
 ?>

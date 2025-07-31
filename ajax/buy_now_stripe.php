@@ -1,8 +1,9 @@
 <?php
 require_once '../config/db.php';
 header('Content-Type: application/json');
-include '../user/ajax/stripe_config.php';
-\Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
+
+require_once '../user/ajax/vendor/autoload.php';
+\Stripe\Stripe::setApiKey($stripe_key);
 header('Content-Type: application/json');
 
 
@@ -61,8 +62,8 @@ try {
         'payment_method_types' => ['card'],
         'line_items' => $line_items,
         'mode' => 'payment',
-        'success_url' => MAIN_URL . 'stripe_success.php?session_id={CHECKOUT_SESSION_ID}',
-        'cancel_url' => MAIN_URL . 'stripe_cancel.php',
+        'success_url' => $mail_url . '/user/ajax/stripe_success.php?session_id={CHECKOUT_SESSION_ID}',
+        'cancel_url' => $mail_url . '/user/ajax/stripe_cancel.php',
     ]);
 
     echo json_encode([

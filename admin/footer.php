@@ -15,16 +15,16 @@
             <div class="text-secondary small">admin@example.com</div>
         </div>
         <nav class="nav flex-column w-100 mb-1">
-            <a class="nav-link active" href="admin-dashboard.html"><i class="bi bi-house"></i> Dashboard</a>
-            <a class="nav-link" href="users.html"><i class="bi bi-people"></i> Users</a>
-            <a class="nav-link" href="categories.html"><i class="bi bi-tags"></i> Categories</a>
-            <a class="nav-link" href="products.html"><i class="bi bi-box-seam"></i> Products</a>
-            <a class="nav-link" href="orders.html"><i class="bi bi-cart-check"></i> Orders</a>
-            <a class="nav-link" href="payments.html"><i class="bi bi-credit-card"></i> Payments</a>
+            <a class="nav-link active" href="index.php"><i class="bi bi-house"></i> Dashboard</a>
+            <a class="nav-link" href="users.php"><i class="bi bi-people"></i> Users</a>
+            <a class="nav-link" href="categories.php"><i class="bi bi-tags"></i> Categories</a>
+            <a class="nav-link" href="products.php"><i class="bi bi-box-seam"></i> Products</a>
+            <a class="nav-link" href="orders.php"><i class="bi bi-cart-check"></i> Orders</a>
+            <a class="nav-link" href="payments.php"><i class="bi bi-credit-card"></i> Payments</a>
         </nav>
-        <button class="btn btn-outline-danger logout-btn mt-4">
+        <a href="auth/logout.php" class="btn btn-outline-danger logout-btn w-100 text-decoration-none">
             <i class="bi bi-box-arrow-left"></i> Logout
-        </button>
+        </a>
     </div>
 </div>
 </div>

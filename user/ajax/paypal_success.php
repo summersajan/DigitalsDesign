@@ -3,12 +3,11 @@ require_once 'paypal_config.php';
 include_once '../../config/db.php';
 require_once '../auth/Mailer.php';
 $mailer = new Mailer();
-
 header("Content-Type: text/html; charset=utf-8");
 
-if (!$usercode) {
-    die("❌ Missing session or user not logged in.");
-}
+
+if (!$usercode)
+    die("Session expired. Please log in again.");
 
 if (!isset($_GET['paymentId'], $_GET['PayerID'])) {
     die("❌ Missing PayPal payment ID or Payer ID.");
@@ -18,14 +17,19 @@ $paymentId = $_GET['paymentId'];
 $payerId = $_GET['PayerID'];
 
 // STEP 1: Get PayPal Access Token
-$accessToken = getAccessToken();
-if (!$accessToken)
-    die("❌ Failed to obtain PayPal access token.");
+$tokenResult = getAccessToken($paypal_base_url, $paypal_client_id, $paypal_secret);
+if (!$tokenResult['success']) {
+    die("❌ Failed to obtain PayPal access token: " . $tokenResult['error']);
+}
+$accessToken = $tokenResult['access_token'];
 
 // STEP 2: Execute payment
+$paypal_base_url = rtrim($paypal_base_url, '/') . '/';
+$executeUrl = $paypal_base_url . "v1/payments/payment/$paymentId/execute";
+
 $ch = curl_init();
 curl_setopt_array($ch, [
-    CURLOPT_URL => PAYPAL_BASE_URL . "v1/payments/payment/$paymentId/execute",
+    CURLOPT_URL => $executeUrl,
     CURLOPT_HTTPHEADER => [
         "Content-Type: application/json",
         "Authorization: Bearer $accessToken"
@@ -37,16 +41,16 @@ curl_setopt_array($ch, [
 $response = json_decode(curl_exec($ch), true);
 curl_close($ch);
 
-if (!isset($response['state']) || $response['state'] !== 'approved') {
+if (!isset($response['state']) || strtolower($response['state']) !== 'approved') {
     die("❌ Payment not approved.");
 }
 
 // STEP 3: Extract payment info
-$transactionId = $response['id'];
-$payerEmail = $response['payer']['payer_info']['email'];
-$amount = $response['transactions'][0]['amount']['total'];
-$currency = strtoupper($response['transactions'][0]['amount']['currency']);
-$payment_time = date('Y-m-d H:i:s', strtotime($response['create_time']));
+$transactionId = $response['id'] ?? '';
+$payerEmail = $response['payer']['payer_info']['email'] ?? '';
+$amount = $response['transactions'][0]['amount']['total'] ?? 0;
+$currency = strtoupper($response['transactions'][0]['amount']['currency'] ?? 'USD');
+$payment_time = date('Y-m-d H:i:s', strtotime($response['create_time'] ?? 'now'));
 
 // STEP 4: Prevent duplicate payment
 $stmt = $mysqli->prepare("SELECT payment_id FROM payments WHERE transaction_id = ? AND payment_status = 'success' LIMIT 1");
@@ -163,5 +167,6 @@ if ($mailer->sendPurchaseReceipt($_SESSION['user_email'], $order_id, $cart_items
     echo "<h2>✅ Payment Received<br>Order ID: $order_id<br>Redirecting...</h2>";
     echo "<script>setTimeout(() => { window.location.href = '../index.php'; }, 2500);</script>";
 } else {
-    echo "❌ Failed to send email. but payment is successful.";
+    echo "❌ Failed to send email, but payment is successful.";
 }
+

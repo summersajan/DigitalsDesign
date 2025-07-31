@@ -65,6 +65,10 @@ $sql = "
     LIMIT $offset, $limit
 ";
 
+
+
+
+
 $res = $mysqli->query($sql);
 
 $out = [];

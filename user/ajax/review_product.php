@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         placeholder="Write something about the product..."></textarea>
                 </div>
 
-                <button class="btn btn-primary w-100">
+                <button class="btn btn-danger w-100">
                     <i class="fas fa-paper-plane me-1"></i> Submit Review
                 </button>
             </form>

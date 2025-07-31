@@ -39,7 +39,7 @@ $update->execute();
 $update->close();
 
 // Send email
-$resetUrl = $mail_url . 'user/auth/reset_password_handler.php?token=' . urlencode($token);
+$resetUrl = $mail_url . '/user/auth/reset_password_handler.php?token=' . urlencode($token);
 
 $mailer = new Mailer();
 $sent = $mailer->sendLinkEmail($email, 'reset', $resetUrl);

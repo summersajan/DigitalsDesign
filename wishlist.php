@@ -2,43 +2,46 @@
 include 'header.php';
 
 ?>
-<div class="container py-5">
-    <div id="wishlist-container">
-        <h2 class="mb-4 text-center">Your Wishlist</h2>
-        <div id="wishlist-items" class="row justify-content-center text-center">
-            <div class="loader">Loading wishlist...</div>
-        </div>
-    </div>
+<div style="margin-left: 7%; margin-right: 7%;">
 
-    <div id="search-results-section" class="container py-4" style="display:none;">
-
-
-        <div class="d-flex align-items-center mb-3">
-            <h4 class="fw-bold mb-0" id="search-title"></h4>
-            <button type="button" id="clear-category-btn" class="btn btn-sm btn-outline-secondary ms-2"
-                title="Clear category" style="line-height: 1;">
-                &times;
-            </button>
+    <div class="container py-5">
+        <div id="wishlist-container">
+            <h2 class="mb-4 text-center">Your Wishlist</h2>
+            <div id="wishlist-items" class="row justify-content-center text-center">
+                <div class="loader">Loading wishlist...</div>
+            </div>
         </div>
 
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="search-products-dynamic"></div>
-
+        <div id="search-results-section" class="container py-4" style="display:none;">
 
 
-        <div class="text-center my-4">
-            <button id="load-more-search-products" class="btn btn-cta" style="display:none;">Load More</button>
+            <div class="d-flex align-items-center mb-3">
+                <h4 class="fw-bold mb-0" id="search-title"></h4>
+                <button type="button" id="clear-category-btn" class="btn btn-sm btn-outline-secondary ms-2"
+                    title="Clear category" style="line-height: 1;">
+                    &times;
+                </button>
+            </div>
+
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="search-products-dynamic">
+            </div>
+
+
+
+            <div class="text-center my-4">
+                <button id="load-more-search-products" class="btn btn-cta" style="display:none;">Load More</button>
+            </div>
         </div>
-    </div>
-    <div id="emptyCartMessage" class="text-center text-muted d-none">
-        <!-- Font Awesome Cart Icon -->
-        <i class="fas fa-cart-shopping fa-5x text-muted mb-3"></i>
+        <div id="emptyCartMessage" class="text-center text-muted d-none">
+            <!-- Font Awesome Cart Icon -->
+            <i class="fas fa-cart-shopping fa-5x text-muted mb-3"></i>
 
-        <h5>Your cart is empty</h5>
-        <p>Looks like you haven’t added anything yet.</p>
+            <h5>Your cart is empty</h5>
+            <p>Looks like you haven’t added anything yet.</p>
+        </div>
     </div>
 </div>
-
 <style>
     .wishlist-card img {
         height: 200px;

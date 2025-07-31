@@ -18,7 +18,7 @@ $res = $q->get_result();
         </div>
         <h5 class="empty-state-title">No Orders Yet</h5>
         <p class="empty-state-text">You haven't placed any orders yet. When you do, they'll appear here.</p>
-        <a href="../" class="btn btn-primary mt-3">
+        <a href="../" class="btn btn-danger mt-3">
             <i class="bi bi-bag"></i> Browse Products
         </a>
     </div>

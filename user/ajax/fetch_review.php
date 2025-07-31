@@ -26,7 +26,7 @@ $res = $q->get_result();
         </div>
         <h5 class="fw-semibold">All Reviewed!</h5>
         <p class="text-secondary">No pending reviews at the moment.</p>
-        <a href="../" class="btn btn-primary mt-3">
+        <a href="../" class="btn btn-danger mt-3">
             <i class="fas fa-store me-1"></i> Shop Now
         </a>
     </div>

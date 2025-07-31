@@ -49,11 +49,19 @@ if ($total <= 0 || empty($items)) {
     exit;
 }
 
-$accessToken = getAccessToken();
-if (!$accessToken) {
-    echo json_encode(["status" => "error", "message" => "Failed to get access token"]);
+$result = getAccessToken($paypal_base_url, $paypal_client_id, $paypal_secret);
+
+if (!$result['success']) {
+    echo json_encode([
+        "status" => "error",
+        "message" => "Failed to get access token",
+        "details" => $result['error'] ?? 'Unknown error'
+    ]);
     exit;
 }
+
+$accessToken = $result['access_token'];
+
 
 // use a PayPal payment structure that supports several items (item_list)
 $paymentData = [
@@ -72,13 +80,13 @@ $paymentData = [
         ]
     ],
     "redirect_urls" => [
-        "return_url" => MAIN_URL . "paypal_success.php",
-        "cancel_url" => MAIN_URL . "paypal_cancel.php"
+        "return_url" => $mail_url . "/user/ajax/paypal_success.php",
+        "cancel_url" => $mail_url . "/user/ajax/paypal_cancel.php"
     ]
 ];
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, PAYPAL_BASE_URL . "v1/payments/payment");
+curl_setopt($ch, CURLOPT_URL, $paypal_base_url . "v1/payments/payment");
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     "Content-Type: application/json",
     "Authorization: Bearer $accessToken"

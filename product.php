@@ -89,66 +89,67 @@ if ($product_id <= 0) {
   }
 </style>
 
+<div style="margin-left: 7%; margin-right: 7%;">
 
-<div class="container py-4" id="product_id">
-  <div class="row g-5" id="product-row">
-    <!-- Left: Images -->
-    <div class="col-lg-7">
-      <div id="product-carousel-wrap"></div>
-      <div class="d-flex gap-2 justify-content-start" id="product-thumbs"></div>
-    </div>
-    <!-- Right: Info -->
-    <div class="col-lg-5">
-      <h3 id="product-title"></h3>
-      <p class="mb-1" id="product-meta"></p>
-      <h4 class="text-danger mt-2" id="product-price"></h4>
-      <div class="d-flex align-items-center mb-2" id="product-rating"></div>
-      <div class="mb-3" id="product-social"></div>
-
-      <div class="d-flex flex-column flex-md-row gap-3 mt-4">
-        <button id="buyNowBtn" class="btn btn-success w-100">
-          <i class="fas fa-shopping-cart me-2"></i> Buy It Now
-        </button>
+  <div class="container py-4" id="product_id">
+    <div class="row g-5" id="product-row">
+      <!-- Left: Images -->
+      <div class="col-lg-7">
+        <div id="product-carousel-wrap"></div>
+        <div class="d-flex gap-2 justify-content-start" id="product-thumbs"></div>
       </div>
+      <!-- Right: Info -->
+      <div class="col-lg-5">
+        <h3 id="product-title"></h3>
+        <p class="mb-1" id="product-meta"></p>
+        <h4 class="text-danger mt-2" id="product-price"></h4>
+        <div class="d-flex align-items-center mb-2" id="product-rating"></div>
+        <div class="mb-3" id="product-social"></div>
+
+        <div class="d-flex flex-column flex-md-row gap-3 mt-4">
+          <button id="buyNowBtn" class="btn btn-success w-100">
+            <i class="fas fa-shopping-cart me-2"></i> Buy It Now
+          </button>
+        </div>
 
 
-      <div class="border-top pt-3" id="product-additional-info"></div>
+        <div class="border-top pt-3" id="product-additional-info"></div>
+      </div>
+    </div>
+    <!-- Tabs: Description & Comments -->
+    <div class="row mt-5">
+      <div class="col-lg-8">
+        <ul class="nav nav-tabs" id="productTab" role="tablist">
+          <li class="nav-item">
+            <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button"
+              role="tab">Description</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button"
+              role="tab">Reviews (<span id="review-count">0</span>)</button>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade show active pt-3" id="desc" role="tabpanel">
+            <div id="product-description"></div>
+          </div>
+          <div class="tab-pane fade pt-3" id="comments" role="tabpanel">
+            <div id="product-reviews"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <!-- Tabs: Description & Comments -->
-  <div class="row mt-5">
-    <div class="col-lg-8">
-      <ul class="nav nav-tabs" id="productTab" role="tablist">
-        <li class="nav-item">
-          <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button"
-            role="tab">Description</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button"
-            role="tab">Reviews (<span id="review-count">0</span>)</button>
-        </li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane fade show active pt-3" id="desc" role="tabpanel">
-          <div id="product-description"></div>
-        </div>
-        <div class="tab-pane fade pt-3" id="comments" role="tabpanel">
-          <div id="product-reviews"></div>
-        </div>
-      </div>
+  <!-- Bootstrap 5 and icons -->
+  <!-- Search/Category Results -->
+  <div id="search-results-section" class="container py-4" style="display:none;">
+    <h4 class="fw-bold" id="search-title"></h4>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="search-products-dynamic"></div>
+    <div class="text-center my-4">
+      <button id="load-more-search-products" class="btn btn-cta" style="display:none;">Load More</button>
     </div>
   </div>
 </div>
-<!-- Bootstrap 5 and icons -->
-<!-- Search/Category Results -->
-<div id="search-results-section" class="container py-4" style="display:none;">
-  <h4 class="fw-bold" id="search-title"></h4>
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="search-products-dynamic"></div>
-  <div class="text-center my-4">
-    <button id="load-more-search-products" class="btn btn-cta" style="display:none;">Load More</button>
-  </div>
-</div>
-
 <script>
   // Helper: Get product ID from URL
   function getProductId() {
@@ -276,7 +277,7 @@ if ($product_id <= 0) {
            <button class="btn btn-sm btn-dark me-2">X Post</button>
            <button class="btn btn-sm btn-primary">Share</button>`;
         document.getElementById('product-additional-info').innerHTML =
-          `<h5>Additional Information</h5>
+          `
           <p>${product.addional_info}</p>`;
 
         // Description

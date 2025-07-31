@@ -25,7 +25,7 @@ $res = $q->get_result();
         </div>
         <h5 class="digital-empty-title">No Files Available</h5>
         <p class="digital-empty-text">You haven't purchased or completed any orders yet.</p>
-        <a href="../" class="btn btn-primary mt-3">
+        <a href="../" class="btn btn-danger mt-3">
             <i class="bi bi-bag"></i> Browse Products
         </a>
     </div>

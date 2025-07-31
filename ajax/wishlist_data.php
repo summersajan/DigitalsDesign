@@ -45,7 +45,7 @@ if ($items->num_rows === 0) {
     <div class='text-center my-5'>
         <i class='bi bi-heart-slash fs-1 text-muted'></i>
         <h4 class='mt-3'>Your Wishlist is empty.</h4>
-        <a href='products.php' class='btn btn-primary mt-3'>Browse Products</a>
+        <a href='index.php' class='btn btn-primary mt-3'>Browse Products</a>
     </div>";
     exit;
 }

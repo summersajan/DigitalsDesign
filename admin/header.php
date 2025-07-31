@@ -3,15 +3,16 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Admin Dashboard - DigitalsProduct</title>
+    <title>Admin Dashboard - DigitalsDesign</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <style>
         body {
-            background: #f4f6fa;
             min-height: 100vh;
+            background: #fff;
+            font-family: "Poppins", sans-serif;
         }
 
         .brand {
@@ -20,7 +21,8 @@
         }
 
         .brand .highlight {
-            color: #6c63ff;
+            color: #ff5757;
+
         }
 
         .sidebar {
@@ -36,7 +38,7 @@
 
         .sidebar .user-block .bi-person {
             background: #f4f6fa;
-            color: #6c63ff;
+            color: #ff5757;
             padding: 9px;
             border-radius: 50%;
             font-size: 2rem;
@@ -57,7 +59,7 @@
 
         .sidebar .nav-link.active,
         .sidebar .nav-link:hover {
-            color: #6c63ff !important;
+            color: #ff5757 !important;
             background: #f0eeff;
         }
 
@@ -162,15 +164,17 @@
         <div class="col-12 col-md-3 col-lg-2 sidebar static-sidebar d-flex flex-column align-items-center px-3">
             <!-- Sidebar CONTENT -->
             <div class="w-100 text-start py-4">
-                <span class="brand">Digitals<span class="highlight">Product</span></span>
+                <span class="brand">Digitals<span class="highlight">Design</span></span>
             </div>
+
             <div class="user-block text-center w-100 mb-2">
-                <div class="mb-2">
+                <div class="mb-2" id="userIcon">
                     <i class="bi bi-person"></i>
                 </div>
-                <div class="fw-bold" style="font-size: 1.12em">Admin</div>
-                <div class="text-secondary small">admin@example.com</div>
+                <div class="fw-bold" id="userBlockName" style="font-size: 1.12em">Admin</div>
+                <div class="text-secondary small" id="userBlockEmail"></div>
             </div>
+
             <div class="w-100">
                 <nav class="nav flex-column w-100 mb-1">
                     <a class="nav-link active" href="index.php
@@ -181,12 +185,10 @@
                     <a class="nav-link" href="orders.php"><i class="bi bi-cart-check"></i> Orders</a>
                     <a class="nav-link" href="payments.php"><i class="bi bi-credit-card"></i> Payments</a>
                 </nav>
-                <button class="btn btn-outline-danger logout-btn mt-4">
-                    <a href="auth/logout.php">
-                        <i class="bi bi-box-arrow-left"></i> Logout
-                    </a>
+                <a href="auth/logout.php" class="btn btn-outline-danger logout-btn w-100 text-decoration-none">
+                    <i class="bi bi-box-arrow-left"></i> Logout
+                </a>
 
-                </button>
             </div>
         </div>
 
@@ -201,8 +203,7 @@
                     </button>
                 </div>
                 <div>
-                    <button class="icon-btn"><i class="bi bi-bell"></i></button>
-                    <button class="icon-btn"><i class="bi bi-person"></i></button>
+
                 </div>
             </div>
 
@@ -241,4 +242,27 @@
                         console.error('Session check failed:', error);
                         window.location.href = 'admin_login.php';
                     });
+                $.get('../user/ajax/get_user_sidebar.php', function (data) {
+                    try {
+                        const parsed = typeof data === 'string' ? JSON.parse(data) : data;
+
+                        // For sidebar user profile
+                        $('#userName').text(parsed.name || 'User');
+                        $('#userEmail').text(parsed.email || 'user@example.com');
+                        if (parsed.initials) {
+                            $('#userAvatar').html(parsed.initials);
+                        }
+
+                        // For user block
+                        $('#userBlockName').text(parsed.name || 'User');
+                        $('#userBlockEmail').text(parsed.email || 'user@example.com');
+                    } catch (e) {
+                        console.error('Error parsing user data:', e);
+
+                        // Fallback
+                        $('#userName, #userBlockName').text('User');
+                        $('#userEmail, #userBlockEmail').text('user@example.com');
+                    }
+                });
+
             </script>

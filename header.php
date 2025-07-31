@@ -9,7 +9,38 @@ header("Content-Type: text/html; charset=utf-8");
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Digitals Design</title>
+    <title>Digitals Design | Download Premium PDFs, Educational & Productivity Materials</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="main_logo.svg" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Digitals Design offers high-quality digital products including educational PDFs, productivity templates, and learning materials. Get instant downloads to boost your knowledge and efficiency." />
+    <meta name="keywords"
+        content="Digital Products, Educational PDFs, Productivity Templates, Download PDFs, Study Materials, Printable Resources, Digitals Design" />
+    <meta name="author" content="Digitals Design Team" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="en" />
+    <meta name="theme-color" content="#ff5757" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Digitals Design | Educational & Productivity Digital Products" />
+    <meta property="og:description"
+        content="Download educational PDFs, productivity tools, templates and more. Instant access to top-quality digital downloads." />
+    <meta property="og:image" content="https://digitalsdesign.com/main_logo.svg" />
+    <meta property="og:url" content="https://digitalsdesign.com/" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:title" content="Digitals Design" />
+    <meta name="twitter:description"
+        content="Premium digital downloads including educational PDFs, planners, and productivity tools." />
+    <meta name="twitter:image" content="https://digitalsdesign.com//main_logo.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://digitalsdesign.com/" />
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -20,9 +51,8 @@ header("Content-Type: text/html; charset=utf-8");
         crossorigin="anonymous" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-
 </head>
+
 <style>
     body {
         background: #fff;
@@ -196,6 +226,7 @@ header("Content-Type: text/html; charset=utf-8");
 
         .navbar {
             padding: 0.5rem 0;
+
         }
 
         .navbar-collapse {
@@ -760,10 +791,424 @@ header("Content-Type: text/html; charset=utf-8");
         }
     }
 </style>
+<style>
+    /* ===== CATEGORY NAVIGATION & DROPDOWN STYLES ===== */
+
+    /* Main category navigation container */
+    .category-nav {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        overflow: visible !important;
+        /* Important: Don't clip dropdowns */
+        white-space: nowrap;
+        position: relative;
+        z-index: 1000;
+    }
+
+    .category-nav .navbar-nav {
+        flex-wrap: nowrap;
+        overflow: visible !important;
+    }
+
+    .category-nav .nav-item {
+        position: relative;
+    }
+
+    .category-nav .nav-link {
+        font-weight: 600;
+        color: #222 !important;
+        margin-right: 10px;
+        padding: 0.5rem 0.75rem;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    /*
+    .category-nav .nav-link:hover {
+        color: #ff5757 !important;
+    }*/
+
+    .category-nav .nav-link:hover::after {
+        content: '';
+        display: block;
+        height: 3px;
+        width: 90%;
+        margin: 0 auto 0 auto;
+        background: #ff5757;
+        border-radius: 1.5px;
+        position: absolute;
+        bottom: 0;
+        left: 5%;
+        right: 5%;
+    }
+
+    /* ===== DROPDOWN MEGA MENU STYLES ===== */
+
+    /* Parent dropdown container */
+    .dropdown-mega {
+        position: relative;
+        z-index: 1001;
+    }
+
+    /* Mega menu dropdown */
+    .dropdown-mega .mega-menu {
+        width: 400px;
+        left: 0;
+        right: auto;
+        position: absolute !important;
+        top: 100%;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        display: none;
+        z-index: 99999 !important;
+        /* High z-index to ensure it's on top */
+        padding: 20px;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+    }
+
+    /* Show dropdown on hover */
+    .dropdown-mega:hover .mega-menu {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Dropdown header styling */
+    .dropdown-mega .dropdown-header {
+        font-weight: 600;
+        color: #ff5757;
+        font-size: 16px;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* Dropdown items */
+    .dropdown-mega .dropdown-item {
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        color: #555;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .dropdown-mega .dropdown-item:hover {
+        background-color: rgba(255, 87, 87, 0.1);
+        color: #ff5757;
+        text-decoration: none;
+    }
+
+    .dropdown-mega .dropdown-item i {
+        color: #ff5757;
+        margin-right: 8px;
+    }
+
+    /* Remove existing border on dropdown-toggle */
+    .dropdown-toggle {
+        background-color: white;
+        border: none !important;
+        /* Remove border */
+        box-shadow: none !important;
+        padding: 6px 14px;
+        /* Keep padding for clickable area */
+        border-radius: 6px;
+        position: relative;
+    }
+
+    /* If you want a custom arrow instead of bootstrap's, use this: */
+    .dropdown-toggle::after {
+        content: "\f078";
+        /* Font Awesome down arrow, or use ▼ instead: "\25BC" */
+        font-family: "FontAwesome";
+        /* Or remove line for plain text arrow */
+        font-size: 0.75em;
+        border: none;
+        margin-left: 0.5em;
+        vertical-align: middle;
+    }
+
+    /* ===== ALTERNATIVE: SIMPLE HOVER DROPDOWN ===== */
+
+    /* Simple submenu for pure CSS approach */
+    .nav-item.has-submenu {
+        position: relative;
+    }
+
+    .nav-item.has-submenu .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        min-width: 200px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 99999 !important;
+        padding: 8px 0;
+    }
+
+    .nav-item.has-submenu:hover .submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .submenu a {
+        display: block;
+        padding: 10px 15px;
+        color: #555;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .submenu a:hover {
+        background-color: rgba(255, 87, 87, 0.1);
+        color: #ff5757;
+        text-decoration: none;
+    }
+
+
+
+    /* === CATEGORY NAV CLEAN ACTIVE UNDERLINE === */
+    .category-nav .nav-link {
+        background: none !important;
+        border: none !important;
+        color: #222 !important;
+        box-shadow: none !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        font-weight: 600;
+        position: relative;
+        transition: color .2s;
+    }
+
+    /* On hover: just underline */
+    .category-nav .nav-link:hover,
+    .category-nav .nav-link:focus {
+        background: none !important;
+        border: none !important;
+        color: #ff5757 !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    .category-nav .nav-link:hover::after,
+    .category-nav .nav-link:focus::after {
+        content: '';
+        display: block;
+        height: 3px;
+        width: 90%;
+        margin: 0 auto;
+        background: #ff5757;
+        /* a faint underline for hover */
+        border-radius: 1.5px;
+        position: absolute;
+        bottom: -8px;
+        left: 5%;
+        right: 5%;
+        z-index: 2;
+    }
+
+    /* On active (selected): underline, no box */
+    .category-nav .nav-link.active,
+    .category-nav .nav-link.selected {
+        background: none !important;
+        border: none !important;
+        color: #ff5757 !important;
+        font-weight: 700;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        outline: none !important;
+    }
+
+    .category-nav .nav-link.active::after,
+    .category-nav .nav-link.selected::after {
+        content: '';
+        display: block;
+        height: 3px;
+        width: 90%;
+        margin: 0 auto;
+        background: #ff5757;
+        border-radius: 1.5px;
+        position: absolute;
+        bottom: -8px;
+        left: 5%;
+        right: 5%;
+        z-index: 2;
+    }
+
+    /* Remove ALL FOCUS/CLICK BOXES from active */
+    .category-nav .nav-link:focus,
+    .category-nav .nav-link:active,
+    .category-nav .nav-link.active:focus,
+    .category-nav .nav-link.active:active {
+        background: none !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Optionally, if using Bootstrap tabs/pills, disable their active style: */
+    .category-nav .nav-item .nav-link.active,
+    .category-nav .nav-item.show .nav-link {
+        background: none !important;
+        border: none !important;
+        color: #ff5757 !important;
+        border-radius: 0 !important;
+        font-weight: 700;
+    }
+
+    /* ===== RESPONSIVE STYLES ===== */
+
+    /* Mobile and tablet responsive */
+    @media (max-width: 991.98px) {
+        .dropdown-mega .mega-menu {
+            width: 100%;
+            position: static !important;
+            display: block;
+            box-shadow: none;
+            border: none;
+            padding: 10px 0;
+            background: rgba(255, 87, 87, 0.05);
+            opacity: 1;
+            transform: none;
+        }
+
+        .nav-item.has-submenu .submenu {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            box-shadow: none;
+            border: none;
+            background: rgba(255, 87, 87, 0.05);
+            min-width: auto;
+            display: none;
+        }
+
+        .nav-item.has-submenu:hover .submenu,
+        .nav-item.has-submenu.active .submenu {
+            display: block;
+        }
+
+        .category-nav .navbar-nav {
+            padding: 0.5rem 0;
+        }
+
+        .category-nav .nav-link {
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            padding: 0.4rem 0.6rem;
+        }
+    }
+
+    /* Mobile styles */
+    @media (max-width: 575.98px) {
+        .category-nav .nav-link {
+            font-size: 0.85rem;
+            padding: 0.3rem 0.5rem;
+        }
+
+        .dropdown-mega .dropdown-item,
+        .submenu a {
+            font-size: 13px;
+            padding: 8px 12px;
+        }
+    }
+
+    /* ===== BOOTSTRAP DROPDOWN OVERRIDE ===== */
+
+    /* If using Bootstrap dropdowns */
+    .navbar-nav .dropdown-menu {
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+        z-index: 99999 !important;
+    }
+
+    .navbar-nav .dropdown-item:hover {
+        background-color: rgba(255, 87, 87, 0.1);
+        color: #ff5757;
+    }
+
+    /* ===== FORCE DROPDOWN TO FRONT (EMERGENCY FIX) ===== */
+
+    /* Emergency z-index fixes */
+    .dropdown-menu,
+    .mega-menu,
+    .submenu,
+    .dropdown-mega .mega-menu {
+        z-index: 99999 !important;
+        position: absolute !important;
+    }
+
+    /* Ensure parent containers don't interfere */
+    .navbar-nav,
+    .category-nav,
+    .navbar,
+    .container-fluid {
+        overflow: visible !important;
+    }
+
+    /* Fix for any potential conflicts */
+    .dropdown-mega,
+    .nav-item.has-submenu {
+        z-index: 1001;
+    }
+
+    /* ===== SCROLL BAR STYLING FOR CATEGORY NAV ===== */
+
+    .category-nav::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .category-nav::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .category-nav::-webkit-scrollbar-thumb {
+        background: #ff5757;
+        border-radius: 2px;
+    }
+
+    .category-nav::-webkit-scrollbar-thumb:hover {
+        background: #e14545;
+    }
+
+    /* ===== ACCESSIBILITY & FOCUS STATES ===== */
+
+    .dropdown-mega .dropdown-item:focus,
+    .submenu a:focus,
+    .nav-link:focus {
+        outline: 2px solid #ff5757;
+        outline-offset: 2px;
+    }
+
+    /* Keyboard navigation support */
+    .dropdown-mega:focus-within .mega-menu,
+    .nav-item.has-submenu:focus-within .submenu {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+</style>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid px-3">
+        <div class="container-fluid px-3" style="margin-left: 7%; margin-right:7%;">
             <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center" href="index.php">
                 <span>Digitals</span><strong>Design</strong>
@@ -786,7 +1231,6 @@ header("Content-Type: text/html; charset=utf-8");
 
                 <!-- Right Side -->
                 <div class="header-actions">
-                    <a class="btn btn-cta d-none d-sm-inline-block" href="#">Unlock Your Creativity Today!</a>
                     <a class="btn btn-cta d-sm-none" href="#">Get Started!</a>
 
                     <?php if (!$usercode): ?>
@@ -821,7 +1265,7 @@ header("Content-Type: text/html; charset=utf-8");
 
     <!-- Category Navigation -->
     <nav class="navbar navbar-expand category-nav">
-        <div class="container-fluid px-3">
+        <div class="container-fluid px-3" style="margin-left: 7%; margin-right:7%;">
             <ul class="navbar-nav" id="category-nav"></ul>
         </div>
     </nav>

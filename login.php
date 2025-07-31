@@ -294,7 +294,7 @@
                         </div>
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="terms-agree">
-                            <label class="form-check-label" for="terms-agree">I agree to the <a href="#">Terms &
+                            <label class="form-check-label" for="terms-agree">I agree to the <a href="terms.php">Terms &
                                     Conditions</a></label>
                         </div>
                         <button type="submit" class="btn btn-primary mb-3" id="register-btn">
@@ -310,20 +310,23 @@
                         Already have an account? <a href="#" id="show-login">Sign In</a>
                     </div>
                 </div>
-                <div class="divider">
-                    <span class="divider-text">OR</span>
-                </div>
-                <div class="social-login">
+                <div id="google-form" style="display: none;">
+                    <div class="divider">
+                        <span class="divider-text">OR</span>
+                    </div>
+                    <div class="social-login">
 
-                    <div id="loginDiv">
-                        <div id="g_id_onload" data-client_id="" data-callback="handleCredentialResponse"
-                            data-auto_prompt="false">
-                        </div>
-                        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
-                            data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                        <div id="loginDiv">
+                            <div id="g_id_onload" data-client_id="" data-callback="handleCredentialResponse"
+                                data-auto_prompt="false">
+                            </div>
+                            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+                                data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                            </div>
                         </div>
                     </div>
                 </div>
+
                 <!-- Resend Verification After Registration (Hidden by default) -->
                 <div id="resend-verification-after-register" style="display: none;">
                     <h2 class="form-title">Verify Your Email</h2>
@@ -436,16 +439,19 @@
 
     <script>
         $(document).ready(function () {
+            $('#google-form').show();
             // Toggle between login and register forms
             $('#show-register').click(function (e) {
                 e.preventDefault();
                 $('#login-form').hide();
                 $('#register-form').show();
+                $('#google-form').show();
                 $('#resend-verification-after-register').hide();
             });
             $('#show-login').click(function (e) {
                 e.preventDefault();
                 $('#register-form').hide();
+                $('#google-form').show();
                 $('#resend-verification-after-register').hide();
                 $('#login-form').show();
             });
@@ -454,6 +460,7 @@
                 $('#resend-verification-after-register').hide();
                 $('#register-form').hide();
                 $('#login-form').show();
+                $('#google-form').hide();
             });
             // Password toggle functionality
             $('#toggleLoginPassword').click(function () {
@@ -526,6 +533,7 @@
                             setTimeout(() => {
                                 $('#register-form').hide();
                                 $('#login-form').hide();
+                                $('#google-form').hide();
                                 $('#resend-verification-after-register').show();
                             }, 500);
                         } else {
@@ -624,6 +632,7 @@
                                 setTimeout(() => {
                                     $('#register-form').hide();
                                     $('#login-form').hide();
+                                    $('#google-form').hide();
                                     $('#resend-verification-after-register').show();
                                 }, 500);
                             } else {

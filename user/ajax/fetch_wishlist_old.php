@@ -13,7 +13,7 @@ if (!$w) {
         </div>
         <h5 class="empty-state-title">No Wishlist Found</h5>
         <p class="empty-state-text">You haven’t saved any products yet. Add items to your wishlist to view them later.</p>
-        <a href="../" class="btn btn-danger mt-3">
+        <a href="../" class="btn btn-primary mt-3">
             <i class="bi bi-bag"></i> Browse Products
         </a>
     </div>';
@@ -28,22 +28,6 @@ $sql = "SELECT wi.wishlist_item_id, p.product_id, p.title, p.price, pi.image_url
         LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_main=1
         WHERE wi.wishlist_id = $wishlist_id";
 $res = $mysqli->query($sql);
-
-// Check if any wishlist items exist
-if ($res->num_rows === 0) {
-    echo '
-    <div class="empty-state">
-        <div class="empty-state-icon">
-            <i class="bi bi-heart" style="font-size: 3rem; color: #94a3b8;"></i>
-        </div>
-        <h5 class="empty-state-title">Your Wishlist is Empty</h5>
-        <p class="empty-state-text">Start adding products you love to see them here later.</p>
-        <a href="../" class="btn btn-danger mt-3">
-            <i class="bi bi-bag"></i> Browse Products
-        </a>
-    </div>';
-    exit;
-}
 ?>
 
 <h2 style="text-align: center; font-weight: 700; margin: 2rem 0;">Your Wishlist</h2>

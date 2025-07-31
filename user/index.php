@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         :root {
-            --primary: #4f46e5;
+            --primary: #ff5757;
             --primary-light: #e0e7ff;
             --dark: #1e293b;
             --light: #f8fafc;
@@ -74,32 +74,41 @@
             align-items: center;
             gap: 1rem;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            background-color: #ffffff;
         }
 
         .user-avatar {
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: var(--primary-light);
+            background-color: var(--primary-light);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary);
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.6rem;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .user-info h5 {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
+            margin: 0;
             font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
         }
 
         .user-info p {
-            color: var(--gray);
+            margin: 2px 0 0;
             font-size: 0.85rem;
-            margin-bottom: 0;
+            color: var(--gray);
+            word-break: break-all;
         }
+
 
         .nav-menu {
             padding: 1rem 0;
@@ -331,6 +340,20 @@
         .dashboard-section.active {
             display: block;
         }
+
+
+
+        .user-block {
+            padding: 32px 0 18px 0;
+        }
+
+        .user-block .bi-person {
+            background: #f4f6fa;
+            color: #ff5757;
+            padding: 9px;
+            border-radius: 50%;
+            font-size: 2rem;
+        }
     </style>
 </head>
 
@@ -341,18 +364,19 @@
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="#" class="sidebar-brand">Digitals<span>Product</span></a>
+            <a href="#" class="sidebar-brand">Digitals<span>Design</span></a>
         </div>
 
-        <div class="user-profile">
-            <div class="user-avatar" id="userAvatar">
-                <i class="bi bi-person-circle"></i>
+
+        <div class="user-block text-center w-100 mb-2">
+            <div class="mb-2" id="userIcon">
+                <i class="bi bi-person"></i>
             </div>
-            <div class="user-info">
-                <h5 id="userName">Loading...</h5>
-                <p id="userEmail"><?php echo $_SESSION['user_email'] ?> </p>
-            </div>
+            <div class="fw-bold" id="userName" style="font-size: 1.12em">User</div>
+            <div class="text-secondary small" id="userEmail"></div>
         </div>
+
+
 
         <nav class="nav-menu">
             <div class="nav-item">
@@ -400,12 +424,7 @@
                 <i class="bi bi-list"></i>
             </button>
             <div class="header-actions">
-                <button class="btn btn-sm btn-outline-secondary me-2">
-                    <i class="bi bi-bell"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-secondary">
-                    <i class="bi bi-question-circle"></i>
-                </button>
+
             </div>
         </header>
 
@@ -486,15 +505,22 @@
 
             // Load user data
             $.get('ajax/get_user_sidebar.php', function (data) {
-                $('#userName').text(data.name || 'User');
-                $('#userEmail').text(data.email || 'user@example.com');
-                if (data.initials) {
-                    $('#userAvatar').html(data.initials);
+                console.log('User data:', data);
+                try {
+                    const parsed = typeof data === 'string' ? JSON.parse(data) : data;
+
+                    $('#userName').text(parsed.name || 'User');
+                    $('#userEmail').text(parsed.email || 'user@example.com');
+                    if (parsed.initials) {
+                        $('#userAvatar').html(parsed.initials);
+                    }
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                    $('#userName').text('User');
+                    $('#userEmail').text('user@example.com');
                 }
-            }).fail(function () {
-                $('#userName').text('User');
-                $('#userEmail').text('user@example.com');
             });
+
 
             // Navigation handling
             $('.nav-link').click(function () {
@@ -523,7 +549,7 @@
             function loadSection(section) {
                 const $content = $(`#${section}-content`);
 
-                console.log(`Loading section: ${section}`);
+
                 // Show loading state
                 $content.html(`
                     <div class="text-center py-5">

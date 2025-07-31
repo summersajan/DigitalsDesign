@@ -67,7 +67,7 @@
   <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h3 class="mb-0">Manage Products</h3>
-      <button class="btn btn-success shadow" data-bs-toggle="modal" data-bs-target="#prodModal">
+      <button class="btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#prodModal">
         <i class="bi bi-plus-lg"></i> Add Product
       </button>
     </div>
@@ -391,31 +391,79 @@
   // --- Form Validation (including file presence!) ---
   function validateFormFields() {
     let err = false;
+
+    // 1. Product Title Validation
     if (!$('#prod_title').val().trim() || $('#prod_title').val().length > 190) {
-      $('#prod_title').addClass('is-invalid'); err = true;
-    } else { $('#prod_title').removeClass('is-invalid'); }
+      $('#prod_title').addClass('is-invalid');
+      err = true;
+    } else {
+      $('#prod_title').removeClass('is-invalid');
+    }
+
+    // 2. Price Validation
     let price = parseFloat($('#prod_price').val());
     if (isNaN(price) || price <= 0) {
-      $('#prod_price').addClass('is-invalid'); err = true;
-    } else { $('#prod_price').removeClass('is-invalid'); }
+      $('#prod_price').addClass('is-invalid');
+      err = true;
+    } else {
+      $('#prod_price').removeClass('is-invalid');
+    }
+
+    // 3. Category Validation (Multi-select)
     if (!$('#product_category_dropdown').val() || !$('#product_category_dropdown').val().length) {
-      $('#product_category_dropdown').addClass('is-invalid'); err = true;
-    } else { $('#product_category_dropdown').removeClass('is-invalid'); }
+      $('#product_category_dropdown').addClass('is-invalid');
+      err = true;
+    } else {
+      $('#product_category_dropdown').removeClass('is-invalid');
+    }
+
+    // 4. Description Validation (Quill Editor)
     let desc = quillDesc.getText().trim();
     if (desc.length === 0) {
-      $('#prod_desc_error').text("Description required"); err = true;
+      $('#prod_desc_error').text("Description required");
+      err = true;
     } else {
       $('#prod_desc_error').text('');
       $('input[name="description"]').val(quillDesc.root.innerHTML);
     }
+
+    // 5. Additional Info (Optional - just save the content)
     $('input[name="additional_info"]').val(quillAdditional.root.innerHTML);
-    if (selectedImages.length === 0 && selectedFiles.length === 0) {
-      $('#prod_images_error,#prod_files_error').text("At least one image or digital file is required."); err = true;
-    } else {
-      $('#prod_images_error,#prod_files_error').text('');
+
+    // 6. File Validation (FIXED: Handle both Add and Edit modes)
+    let product_id = $('#product_id').val();
+    let isEditMode = (product_id && product_id !== '');
+    let hasExistingFiles = false;
+
+    if (isEditMode) {
+      // Count existing images and digital files in the preview areas
+      let existingImages = $('#prod_images_preview').find('img').length;
+      let existingDigitalFiles = $('#prod_files_preview').find('.file-badge, img').length;
+      hasExistingFiles = (existingImages > 0 || existingDigitalFiles > 0);
     }
+
+    // Check file requirements based on mode
+    if (!isEditMode) {
+      // ADD MODE: Require at least one new file
+      if (selectedImages.length === 0 && selectedFiles.length === 0) {
+        $('#prod_images_error,#prod_files_error').text("At least one image or digital file is required.");
+        err = true;
+      } else {
+        $('#prod_images_error,#prod_files_error').text('');
+      }
+    } else {
+      // EDIT MODE: Allow existing files OR new files
+      if (selectedImages.length === 0 && selectedFiles.length === 0 && !hasExistingFiles) {
+        $('#prod_images_error,#prod_files_error').text("At least one image or digital file is required.");
+        err = true;
+      } else {
+        $('#prod_images_error,#prod_files_error').text('');
+      }
+    }
+
     return !err;
   }
+
 
   // --- Category multi-select handling --- 
   function appendCategoriesToFormData(formData, ids) {
@@ -452,6 +500,7 @@
       processData: false,
       contentType: false,
       success: function (res) {
+        console.log('Upload response:', res);
         try {
           if (typeof res === 'string') res = JSON.parse(res);
           if (res.success) {
@@ -472,6 +521,7 @@
         loadProductsTable();
       },
       error: function (xhr, status, error) {
+        console.error(`Server error: ${xhr.status} ${xhr.statusText}\n${xhr.responseText}`);
         showProdMsg('danger', `Server error: ${xhr.status} ${xhr.statusText}<br><pre>${xhr.responseText}</pre>`);
       }
     });

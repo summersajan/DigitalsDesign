@@ -54,98 +54,101 @@
   }
 </style>
 
-<div class="container py-5">
-  <div class="row justify-content-center">
+<div style="margin-left: 7%; margin-right: 7%;">
 
-    <!-- Cart Table Section -->
-    <div class="col-lg-8 mb-4" id="cartSection">
-      <div class="border rounded">
-        <table class="table mb-0 align-middle" id="cartTable">
-          <thead class="table-light">
-            <tr>
-              <th style="width: 60px">&nbsp;</th>
-              <th style="width: 170px">SHOPPING CART</th>
-              <th>PRODUCT NAME</th>
-              <th style="width: 130px" class="text-end">PRICE</th>
-            </tr>
-          </thead>
-          <tbody id="cartItems">
-            <!-- JS will populate this -->
-          </tbody>
-        </table>
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+
+      <!-- Cart Table Section -->
+      <div class="col-lg-8 mb-4" id="cartSection">
+        <div class="border rounded">
+          <table class="table mb-0 align-middle" id="cartTable">
+            <thead class="table-light">
+              <tr>
+                <th style="width: 60px">&nbsp;</th>
+                <th style="width: 170px">SHOPPING CART</th>
+                <th>PRODUCT NAME</th>
+                <th style="width: 130px" class="text-end">PRICE</th>
+              </tr>
+            </thead>
+            <tbody id="cartItems">
+              <!-- JS will populate this -->
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
 
-    <!-- Empty Cart Message -->
-    <div class="col-lg-8 text-center d-none" id="emptyCartMessage">
-      <div class="text-muted my-5">
-        <i class="fas fa-shopping-cart fa-3x mb-3"></i>
-        <h4>Your cart is empty</h4>
-        <p>Add some products to get started</p>
-        <a href="index.php" class="btn btn-outline-primary mt-3">Continue Shopping</a>
+      <!-- Empty Cart Message -->
+      <div class="col-lg-8 text-center d-none" id="emptyCartMessage">
+        <div class="text-muted my-5">
+          <i class="fas fa-shopping-cart fa-3x mb-3"></i>
+          <h4>Your cart is empty</h4>
+          <p>Add some products to get started</p>
+          <a href="index.php" class="btn btn-outline-primary mt-3">Continue Shopping</a>
+        </div>
       </div>
-    </div>
 
-    <!-- Totals Section -->
-    <div class="col-lg-4" id="cartTotalSection">
-      <div class="border rounded">
-        <div class="p-3 bg-light fw-bold">CART TOTAL</div>
-        <div class="p-3">
-          <div class="d-flex justify-content-between mb-2">
-            <span>Subtotal</span>
-            <span class="fw-bold" id="subtotal">$0.00</span>
-          </div>
-          <hr />
-          <div class="d-flex justify-content-between mb-3">
-            <span class="fw-bold">Grand Total</span>
-            <span class="fw-bold" id="grandtotal">$0.00</span>
-          </div>
-          <div class="d-grid gap-2 mt-4">
-            <button id="paypalCheckoutBtn" class="btn btn-paypal">
-              <i class="fab fa-paypal me-2"></i> Pay with PayPal
-            </button>
-            <button id="stripeCheckoutBtn" class="btn btn-stripe">
-              <i class="fab fa-stripe me-2"></i> Pay with Stripe
-            </button>
+      <!-- Totals Section -->
+      <div class="col-lg-4" id="cartTotalSection">
+        <div class="border rounded">
+          <div class="p-3 bg-light fw-bold">CART TOTAL</div>
+          <div class="p-3">
+            <div class="d-flex justify-content-between mb-2">
+              <span>Subtotal</span>
+              <span class="fw-bold" id="subtotal">$0.00</span>
+            </div>
+            <hr />
+            <div class="d-flex justify-content-between mb-3">
+              <span class="fw-bold">Grand Total</span>
+              <span class="fw-bold" id="grandtotal">$0.00</span>
+            </div>
+            <div class="d-grid gap-2 mt-4">
+              <button id="paypalCheckoutBtn" class="btn btn-paypal">
+                <i class="fab fa-paypal me-2"></i> Pay with PayPal
+              </button>
+              <button id="stripeCheckoutBtn" class="btn btn-stripe">
+                <i class="fab fa-stripe me-2"></i> Pay with Stripe
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div id="search-results-section" class="container py-4" style="display:none;">
+      <div id="search-results-section" class="container py-4" style="display:none;">
 
 
-      <div class="d-flex align-items-center mb-3">
-        <h4 class="fw-bold mb-0" id="search-title"></h4>
-        <button type="button" id="clear-category-btn" class="btn btn-sm btn-outline-secondary ms-2"
-          title="Clear category" style="line-height: 1;">
-          &times;
-        </button>
+        <div class="d-flex align-items-center mb-3">
+          <h4 class="fw-bold mb-0" id="search-title"></h4>
+          <button type="button" id="clear-category-btn" class="btn btn-sm btn-outline-secondary ms-2"
+            title="Clear category" style="line-height: 1;">
+            &times;
+          </button>
+        </div>
+
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="search-products-dynamic"></div>
+
+
+
+        <div class="text-center my-4">
+          <button id="load-more-search-products" class="btn btn-cta" style="display:none;">Load More</button>
+        </div>
+      </div>
+      <div id="emptyCartMessage" class="text-center text-muted d-none">
+        <!-- Font Awesome Cart Icon -->
+        <i class="fas fa-cart-shopping fa-5x text-muted mb-3"></i>
+
+        <h5>Your cart is empty</h5>
+        <p>Looks like you haven’t added anything yet.</p>
       </div>
 
 
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="search-products-dynamic"></div>
 
-
-
-      <div class="text-center my-4">
-        <button id="load-more-search-products" class="btn btn-cta" style="display:none;">Load More</button>
-      </div>
     </div>
-    <div id="emptyCartMessage" class="text-center text-muted d-none">
-      <!-- Font Awesome Cart Icon -->
-      <i class="fas fa-cart-shopping fa-5x text-muted mb-3"></i>
-
-      <h5>Your cart is empty</h5>
-      <p>Looks like you haven’t added anything yet.</p>
-    </div>
-
-
 
   </div>
-
 </div>
-
 <script>
   let cartProductIds = [];
   let cartProductQtys = [];
@@ -214,7 +217,7 @@
   function deleteItem(btn, cart_item_id) {
     if (confirm("Remove this item from your cart?")) {
       $.post('ajax/cart_delete.php', { cart_item_id }, function () {
-        loadCart();
+        location.reload();
       });
     }
   }
@@ -238,11 +241,13 @@
       if (data.checkoutUrl || data.approveUrl) {
         window.location.href = data.checkoutUrl || data.approveUrl;
       } else {
+        console.error("Checkout failed:", data);
         alert(data.error || "Checkout failed");
         $btn.prop('disabled', false).html(originalText);
         window.location.href = 'login.php';
       }
     }, 'json').fail(function (xhr) {
+      console.error("Checkout failed:", xhr.responseText);
       alert("Checkout error:\n" + xhr.responseText);
       $btn.prop('disabled', false).html(originalText);
     });
@@ -379,4 +384,6 @@
   });
 
 </script>
+
+
 <?php include 'footer.html'; ?>

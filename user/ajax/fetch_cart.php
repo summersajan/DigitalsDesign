@@ -15,7 +15,7 @@ if (!$cart) {
         </div>
         <h5 class="empty-state-title">Cart is Empty</h5>
         <p class="empty-state-text">Looks like you haven’t added anything to your cart yet.</p>
-        <a href="../" class="btn btn-primary mt-3">
+        <a href="../" class="btn btn-danger mt-3">
             <i class="bi bi-bag"></i> Browse Products
         </a>
     </div>';

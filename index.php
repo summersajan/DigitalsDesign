@@ -33,44 +33,47 @@
         </div>
     </div>
 </section>
+<div style="margin-left: 7%; margin-right: 7%;">
 
 
-<!-- Featured Section -->
-<div class="container py-4" id="featured-section">
-    <h4 class="fw-bold">Featured Products</h4>
+    <!-- Featured Section -->
+    <div class="container py-4" id="featured-section">
+        <h4 class="fw-bold">Featured Products</h4>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="featured-products-dynamic"></div>
-    <div class="text-center my-4">
-        <button id="load-more-featured-products" class="btn btn-cta" style="display:none;">Load More</button>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="featured-products-dynamic"></div>
+        <div class="text-center my-4">
+            <button id="load-more-featured-products" class="btn btn-cta" style="display:none;">Load More</button>
+        </div>
+    </div>
+
+    <!-- Premium Section -->
+    <div class="container py-4" id="premium-section">
+        <h4 class="fw-bold">Premium Graphic Design Resources</h4>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="premium-products-dynamic"></div>
+        <div class="text-center my-4">
+            <button id="load-more-premium-products" class="btn btn-cta" style="display:none;">Load More</button>
+        </div>
+    </div>
+
+    <!-- Search/Category Results -->
+
+
+    <div id="search-results-section" class="container py-4" style="display:none;">
+        <div class="d-flex align-items-center mb-3">
+            <h4 class="fw-bold mb-0" id="search-title"></h4>
+            <button type="button" id="clear-category-btn" class="btn btn-sm btn-outline-secondary ms-2"
+                title="Clear category" style="display:none;line-height: 1;">
+                &times;
+            </button>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="search-products-dynamic"></div>
+        <div class="text-center my-4">
+            <button id="load-more-search-products" class="btn btn-cta" style="display:none;">Load More</button>
+        </div>
     </div>
 </div>
-
-<!-- Premium Section -->
-<div class="container py-4" id="premium-section">
-    <h4 class="fw-bold">Premium Graphic Design Resources</h4>
-
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="premium-products-dynamic"></div>
-    <div class="text-center my-4">
-        <button id="load-more-premium-products" class="btn btn-cta" style="display:none;">Load More</button>
-    </div>
-</div>
-
-<!-- Search/Category Results -->
-<div id="search-results-section" class="container py-4" style="display:none;">
-    <div class="d-flex align-items-center mb-3">
-        <h4 class="fw-bold mb-0" id="search-title"></h4>
-        <button type="button" id="clear-category-btn" class="btn btn-sm btn-outline-secondary ms-2"
-            title="Clear category" style="display:none;line-height: 1;">
-            &times;
-        </button>
-    </div>
-
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="search-products-dynamic"></div>
-    <div class="text-center my-4">
-        <button id="load-more-search-products" class="btn btn-cta" style="display:none;">Load More</button>
-    </div>
-</div>
-
 
 <script>
     const ITEMS_PER_PAGE = 4;
@@ -90,12 +93,12 @@
 
         let html = '';
         products.forEach(function (p) {
-            console.log('Rendering products:', p);
+
             html += `
 <div class="col">
   <div class="product-card bg-white">
     <div class="rating"><i class="fa fa-star"></i> ${parseFloat(p.rating || 5).toFixed(1)}</div>
-    <img src="${p.image || '../../images/octopus.webp'}" class="product-img" alt="${p.title}">
+    <img src="${p.image || 'images/octopus.webp'}" class="product-img" alt="${p.title}">
     <div class="overlay-buttons" data-product-id="${p.product_id}">
       <button class="action-btn wishlist-btn" title="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
       <button class="action-btn cart-btn" title="Add to Cart"><i class="fa-solid fa-cart-plus"></i></button>
@@ -257,66 +260,10 @@
             $('#premium-products-dynamic').html(renderProducts(products, 0));
         });
 
-        // Add to cart/wishlist AJAX
-        $(document).on('click', '.wishlist-btn, .cart-btn', function () {
-            var productId = $(this).closest('.overlay-buttons').data('product-id');
-            var action = $(this).hasClass('wishlist-btn') ? 'add_to_wishlist' : 'add_to_cart';
 
-            $.ajax({
-                type: "POST",
-                url: 'ajax/product_action.php',
-                data: {
-                    action: action,
-                    product_id: productId,
-                    url: 'index.php' // Current page URL
-                },
-                dataType: "json",
-                success: function (resp) {
-                    console.log('Response:', resp);
-                    if (resp.success) {
-                        updateCartIconCount();
-                        alert(resp.message || 'Action complete');
-                        window.location.href = 'cart.php';
-                    } else {
-                        console.log('Error:', resp);
-                        alert(resp.message || 'Something went wrong');
-
-                        window.location.href = 'login.php'; // Redirect to login if not logged in
-                        //   window.location.href = 
-
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // This runs if the response is not valid JSON or server/network error occurs
-                    let msg = "Unexpected error. ";
-                    if (xhr.responseText) {
-                        msg += "\nServer says: " + xhr.responseText;
-                    }
-                    alert(msg);
-                    console.error('AJAX Error:', status, error, xhr.responseText);
-                }
-            });
-        });
     });
-    function updateCartIconCount() {
-        $.getJSON('ajax/cart_get.php', function (items) {
-            const count = items?.length || 0;
-            const badge = $('#cartCountBadge');
 
-            badge.text(count);
 
-            if (count > 0) {
-                badge.css('color', '#dc3545'); // Bootstrap Red
-            } else {
-                badge.css('color', '#aaa'); // Grey for 0
-            }
-        });
-    }
-
-    // Run it on page load
-    $(function () {
-        updateCartIconCount();
-    });
 </script>
 
 <?php include 'footer.html'; ?>

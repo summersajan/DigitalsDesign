@@ -60,7 +60,7 @@ $update->close();
 
 
 
-$resetLink = $mail_url . 'user/auth/verify_token.php?token=' . urlencode($token);
+$resetLink = $mail_url . '/user/auth/verify_token.php?token=' . urlencode($token);
 
 
 require_once 'Mailer.php'; // Adjust the path as necessary

@@ -6,7 +6,7 @@
 
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="mb-0">Manage Users</h3>
-    <button class="btn btn-primary shadow" data-bs-toggle="modal" data-bs-target="#userModal">
+    <button class="btn btn-danger shadow" data-bs-toggle="modal" data-bs-target="#userModal">
       <i class="bi bi-plus-lg"></i> Add User
     </button>
   </div>

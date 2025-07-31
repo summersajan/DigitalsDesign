@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } else {
                 $mysqli->query("UPDATE users SET login_attempts = 0 WHERE user_id = $id");
                 $_SESSION['admin_digital_product'] = $usercode;
+                $_SESSION['user_email'] = $email;
                 echo json_encode([
                     "status" => 1,
                     "message" => "Login successful.",
