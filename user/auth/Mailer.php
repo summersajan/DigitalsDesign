@@ -39,6 +39,9 @@ class Mailer
                     <p>Click the link below to verify your account:</p>
                     <p><a href='{$url}'>Verify Account</a></p>
                     
+                    <p>Or copy and paste this URL into your browser:</p>
+                    <p>{$url}</p>
+                    
                     <p>If you didn't request this, you can ignore this email.</p>
                     <p>Thanks,<br>Digitals Product Team</p>
                 ";

@@ -61,6 +61,8 @@ if ($ticket) {
 
     $_SESSION['user_digital_product'] = $usercode;
     $_SESSION['user_email'] = $email;
+
+
     $redirectUrl = $_SESSION['return_url'] ?? 'index.php';
     unset($_SESSION['return_url']); // clear after use
     echo json_encode(['success' => true, 'message' => 'Login successful', 'redirect' => $redirectUrl]);
