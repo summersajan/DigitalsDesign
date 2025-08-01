@@ -40,7 +40,7 @@ class Mailer
                     <p><a href='{$url}'>Verify Account</a></p>
                     
                     <p>Or copy and paste this URL into your browser:</p>
-                    <p>{$url}</p>
+                    <p><a href='{$url}'>{$url}</a></p>
                     
                     <p>If you didn't request this, you can ignore this email.</p>
                     <p>Thanks,<br>Digitals Product Team</p>
