@@ -1212,6 +1212,78 @@ header("Content-Type: text/html; charset=utf-8");
         margin-right: auto;
         width: 100%;
     }
+
+    /* Mobile and tablet responsive */
+    @media (max-width: 991.98px) {
+        .dropdown-mega .mega-menu {
+            width: 100%;
+            position: static !important;
+            display: none;
+            box-shadow: none;
+            border: none;
+            padding: 10px 0;
+            background: rgba(255, 87, 87, 0.05);
+            opacity: 1;
+            transform: none;
+        }
+
+        .dropdown-mega.show .mega-menu {
+            display: block !important;
+        }
+
+        .nav-item.has-submenu .submenu {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            box-shadow: none;
+            border: none;
+            background: rgba(255, 87, 87, 0.05);
+            min-width: auto;
+            display: none;
+        }
+
+        .nav-item.has-submenu.active .submenu,
+        .nav-item.has-submenu.show .submenu {
+            display: block !important;
+        }
+    }
+
+    @media (max-width: 991.98px) {
+
+        .dropdown-mega .mega-menu,
+        .nav-item.has-submenu .submenu {
+            display: none;
+        }
+
+        .dropdown-mega.show .mega-menu,
+        .nav-item.has-submenu.show .submenu,
+        .nav-item.has-submenu.active .submenu {
+            display: block !important;
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        .category-nav .navbar-nav {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            width: 100%;
+            scrollbar-width: thin;
+            scrollbar-color: #ff5757 #f1f1f1;
+        }
+
+        .category-nav .nav-item {
+            flex: 0 0 auto;
+        }
+
+        /* Spacing for touch targets */
+        .category-nav .nav-link {
+            padding-left: 0.8rem;
+            padding-right: 0.8rem;
+        }
+    }
 </style>
 
 <body>

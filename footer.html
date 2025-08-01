@@ -307,7 +307,22 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
   }
 
 
-
+  $(document).ready(function () {
+    function isMobile() { return window.innerWidth < 992; }
+    $('#category-nav').on('click', '.dropdown-mega > .nav-link, .nav-item.has-submenu > .nav-link', function (e) {
+        if (isMobile()) {
+            e.preventDefault();
+            var $parent = $(this).parent();
+            $parent.siblings('.show,.active').removeClass('show active');
+            $parent.toggleClass('show active');
+        }
+    });
+    $(document).on('click touchstart', function (e) {
+        if (isMobile() && $(e.target).closest('#category-nav').length === 0) {
+            $('#category-nav .show, #category-nav .active').removeClass('show active');
+        }
+    });
+});
 
 </script>
 
