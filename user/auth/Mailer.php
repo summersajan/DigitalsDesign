@@ -245,7 +245,7 @@ class Mailer
 
                 <!-- Dashboard Link -->
                 <div style='text-align: center; margin: 30px 0;'>
-                    <a href='https://digitalsdesign.com/dashboard' target='_blank' style='background: linear-gradient(135deg, #FF5757, #FF6B6B); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-size: 16px; font-weight: 600; display: inline-block; box-shadow: 0 4px 12px rgba(255, 87, 87, 0.3);'>
+                    <a href='https://digitalsdesign.com/user' target='_blank' style='background: linear-gradient(135deg, #FF5757, #FF6B6B); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-size: 16px; font-weight: 600; display: inline-block; box-shadow: 0 4px 12px rgba(255, 87, 87, 0.3);'>
                         🏠 Visit Your Dashboard
                     </a>
                 </div>
@@ -281,11 +281,11 @@ class Mailer
                 <p style='margin: 0 0 15px; font-size: 16px; font-weight: 600;'>DigitalsDesign.com</p>
                 <p style='margin: 0 0 15px; font-size: 14px; opacity: 0.8;'>© 2025 DigitalsDesign.com — Premium Digital Designs</p>
                 <div style='font-size: 13px;'>
-                    <a href='https://digitalsdesign.com' target='_blank' style='color: #FF5757; text-decoration: none; margin: 0 10px;'>🌐 Website</a>
+                    <a href='https://digitalsdesign.com.php' target='_blank' style='color: #FF5757; text-decoration: none; margin: 0 10px;'>🌐 Website</a>
                     <span style='color: #7f8c8d;'>|</span>
-                    <a href='https://digitalsdesign.com/support' target='_blank' style='color: #FF5757; text-decoration: none; margin: 0 10px;'>🛠️ Support</a>
+                    <a href='https://digitalsdesign.com/support.php' target='_blank' style='color: #FF5757; text-decoration: none; margin: 0 10px;'>🛠️ Support</a>
                     <span style='color: #7f8c8d;'>|</span>
-                    <a href='https://digitalsdesign.com/privacy' target='_blank' style='color: #FF5757; text-decoration: none; margin: 0 10px;'>🔒 Privacy</a>
+                    <a href='https://digitalsdesign.com/privacy.php' target='_blank' style='color: #FF5757; text-decoration: none; margin: 0 10px;'>🔒 Privacy</a>
                 </div>
             </div>
         </div>";

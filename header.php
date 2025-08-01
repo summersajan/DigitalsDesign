@@ -1306,7 +1306,6 @@ header("Content-Type: text/html; charset=utf-8");
                 <!-- Right Side -->
                 <div class="d-flex align-items-center gap-3 flex-shrink-0">
                     <!-- CTA on small screens -->
-                    <a class="btn btn-cta d-sm-none" href="#">Get Started!</a>
 
                     <?php if (!$usercode): ?>
                         <!-- If not signed in -->
