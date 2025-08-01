@@ -164,7 +164,9 @@
         <div class="col-12 col-md-3 col-lg-2 sidebar static-sidebar d-flex flex-column align-items-center px-3">
             <!-- Sidebar CONTENT -->
             <div class="w-100 text-start py-4">
-                <span class="brand">Digitals<span class="highlight">Design</span></span>
+                <a class="navbar-brand d-flex align-items-center" id="logo-div" href="../">
+                    <img src="../ic_logo.svg" alt="Gadget Grid logo" style="height:48px;" />
+                </a>
             </div>
 
             <div class="user-block text-center w-100 mb-2">

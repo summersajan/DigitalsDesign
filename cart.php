@@ -216,11 +216,22 @@
 
   function deleteItem(btn, cart_item_id) {
     if (confirm("Remove this item from your cart?")) {
-      $.post('ajax/cart_delete.php', { cart_item_id }, function () {
-        location.reload();
-      });
+      const $btn = $(btn);
+      $btn.prop("disabled", true).html("Removing...");
+
+      $.post('ajax/cart_delete.php', { cart_item_id })
+        .done(function (resp) {
+          // Optional: parse JSON if your PHP returns a message
+          // const response = JSON.parse(resp);
+          location.reload();
+        })
+        .fail(function () {
+          location.reload();
+          $btn.prop("disabled", false).html("Remove");
+        });
     }
   }
+
 
   function startCheckout(buttonId, gateway) {
     if (!cartProductIds.length) {

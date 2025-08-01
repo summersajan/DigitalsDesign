@@ -75,6 +75,8 @@ if (!$has_images && !$has_files) {
     json_error("Please upload at least one image or one digital file.");
 }
 
+
+
 // Insert product into database (add featured here)
 $stmt = $mysqli->prepare("INSERT INTO products (title, description, additional_info, price, featured) VALUES (?, ?, ?, ?, ?)");
 if (!$stmt)

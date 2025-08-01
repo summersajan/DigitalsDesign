@@ -3,7 +3,9 @@
 <!-- Sidebar Offcanvas (Mobile) -->
 <div class="offcanvas offcanvas-start sidebar" tabindex="-1" id="mobileSidebar">
     <div class="offcanvas-header">
-        <span class="brand">Digitals<span class="highlight">Product</span></span>
+        <a class="navbar-brand d-flex align-items-center" id="logo-div" href="../">
+            <img src="../ic_logo.svg" alt="Gadget Grid logo" style="height:48px;" />
+        </a>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body d-flex flex-column align-items-center px-3 pt-0">

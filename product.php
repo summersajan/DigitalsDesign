@@ -289,7 +289,7 @@ if ($product_id <= 0) {
 
   });
 </script>
-
+<!--
 <script>
   $('#buyNowBtn').click(function () {
     const productId = getProductId();
@@ -305,7 +305,6 @@ if ($product_id <= 0) {
     // Step 1: Check if the product is already in the cart
     $.getJSON('ajax/cart_get.php', function (cartItems) {
       let found = false;
-
       if (Array.isArray(cartItems)) {
         cartItems.forEach(item => {
           if (item.product_id == productId) found = true;
@@ -323,6 +322,7 @@ if ($product_id <= 0) {
           data: { action: 'add_to_cart', product_id: productId },
           dataType: "json",
           success: function (resp) {
+            console.log('Add to cart response:', resp);
             if (resp.success) {
               window.location.href = 'cart.php';
             } else {
@@ -342,6 +342,59 @@ if ($product_id <= 0) {
 
 
 </script>
+
+-->
+
+<script>
+  $('#buyNowBtn').click(function () {
+    const productId = getProductId();
+    const $btn = $(this);
+    const originalText = $btn.html();
+
+    if (!productId) {
+      alert("Product ID is missing.");
+      return;
+    }
+
+    // Step 1: Check if the product is already in the cart
+    $.getJSON('ajax/cart_get.php', function (cartItems) {
+      let found = false;
+      if (Array.isArray(cartItems)) {
+        cartItems.forEach(item => {
+          if (item.product_id == productId) found = true;
+        });
+      }
+
+      if (found) {
+        window.location.href = 'cart.php';
+      } else {
+        $.ajax({
+          type: "POST",
+          url: 'ajax/product_action.php',
+          data: { action: 'add_to_cart', product_id: productId, url: window.location.href },
+          dataType: "json",
+          success: function (resp) {
+            console.log('Add to cart response:', resp);
+            if (resp.success === '1') {
+              window.location.href = 'cart.php';
+            } else if (resp.success === 'login_required') {
+              alert(resp.message);
+              window.location.href = 'login.php';
+            } else {
+              alert(resp.message || 'Failed to add to cart.');
+              $btn.prop("disabled", false).html(originalText);
+            }
+          },
+          error: function () {
+            alert("Error adding product to cart.");
+            $btn.prop("disabled", false).html(originalText);
+          }
+        });
+      }
+    });
+  });
+</script>
+
 
 <script>
   const ITEMS_PER_PAGE = 4;

@@ -76,7 +76,8 @@ $paymentData = [
             "item_list" => [
                 "items" => $items
             ],
-            "description" => "Cart Purchase - $" . number_format($total, 2, '.', '')
+            "description" => "DigitalsDesign - Cart Purchase - $" . number_format($total, 2, '.', ''),
+            "custom" => "DigitalsDesign" // Optional: stored and retrievable from PayPal dashboard or IPN
         ]
     ],
     "redirect_urls" => [
@@ -84,6 +85,7 @@ $paymentData = [
         "cancel_url" => $mail_url . "/user/ajax/paypal_cancel.php"
     ]
 ];
+
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $paypal_base_url . "v1/payments/payment");

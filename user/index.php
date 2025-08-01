@@ -364,7 +364,12 @@
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <a href="#" class="sidebar-brand">Digitals<span>Design</span></a>
+            <a class="navbar-brand d-flex align-items-center me-3" href="index.php">
+
+                <a class="navbar-brand d-flex align-items-center" id="logo-div" href="../" style="margin-left: -6%;">
+                    <img src="../ic_logo.svg" alt="Gadget Grid logo" style="height:48px;" />
+                </a>
+            </a>
         </div>
 
 

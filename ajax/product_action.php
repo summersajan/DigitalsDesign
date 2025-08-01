@@ -9,8 +9,10 @@ if (empty($usercode)) {
     echo json_encode([
         'success' => 'login_required',
         'message' => 'Please log in first',
-        'return_url' => $currentUrl
+        'return_url' => $currentUrl,
+        'login_url' => 'login.php'
     ]);
+    $_SESSION['return_url'] = $currentUrl;
     exit;
 }
 

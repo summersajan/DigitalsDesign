@@ -4,12 +4,12 @@
       <div class="row g-4">
         <!-- Logo and Counts -->
         <div class="col-lg-4">
-          <a  href="index.php">
-            <div class="footer-logo mb-2">
-              <span >Digtials</span>Design<small>.Com</small>
-   
-             </div>
-          </a>
+          <a class="navbar-brand d-flex align-items-center me-3" href="index.php">
+
+            <a class="navbar-brand d-flex align-items-center" id="logo-div" href="/" >
+                <img src="ic_logo.svg" alt="Gadget Grid logo" style="height:68px;" />
+            </a>
+        </a>
         
           <p class="mb-3">
             Craft, create, and inspire with endless design possibilities at
@@ -56,10 +56,7 @@
   
         <!-- Badge -->
         <div class="col-lg-1 certified-badge text-lg-end">
-          <img
-            src="main_logo.svg"
-            alt="Digtials Design"
-          />
+         
         </div>
       </div>
   
@@ -132,17 +129,18 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
 });*/
 
 
+
+
+
 $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link', function (e) {
   e.preventDefault();
+
+  // Close ALL open mega menus/dropdowns
+  $('.dropdown-mega, .mega-menu, .dropdown-menu').removeClass('show');
+
   let href = $(this).attr('href');
-  let urlParams = new URLSearchParams(href.split('?')[1]);
+  let urlParams = new URLSearchParams((href || '').split('?')[1] || '');
   let catId = urlParams.get('category_id');
-
-  // ✅ Hide dropdown manually
-  $('.dropdown-mega.show').removeClass('show').find('.mega-menu').removeClass('show');
-
-  // Optional: If needed, also close Bootstrap's internal dropdown state (if using Bootstrap 5)
-  $('.dropdown-menu').removeClass('show');
 
   if (catId) {
     currentCategory = catId;
@@ -154,10 +152,10 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
     $('#clear-category-btn').show();
     fetchAndRenderSearch(true);
     searchMode = true;
+    $('#clear-category-btn').focus();
+    console.log('cat click ');
   }
 });
-
-
 
 
 

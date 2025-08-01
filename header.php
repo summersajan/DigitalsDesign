@@ -1204,33 +1204,36 @@ header("Content-Type: text/html; charset=utf-8");
         visibility: visible;
         transform: translateY(0);
     }
+
+    .custom-container {
+        max-width: 1300px;
+        /* or any width */
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
 </style>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid px-3" style="margin-left: 7%; margin-right:7%;">
-            <!-- Logo -->
-            <a class="navbar-brand d-flex align-items-center" href="index.php">
-                <span>Digitals</span><strong>Design</strong>
-                <span class="fs-4" style="color: #222">.com</span>
-            </a>
+        <div class="custom-container px-3">
+            <div class="d-flex w-100 align-items-center justify-content-between flex-wrap flex-lg-nowrap">
 
-            <!-- Mobile Toggle -->
-            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center mx-auto mx-lg-0" id="logo-div" href="/">
+                    <img src="ic_logo.svg" alt="Gadget Grid logo" style="height:68px;" />
+                </a>
 
-            <!-- Navbar Content -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Search Bar -->
-                <form class="header-search mx-auto" role="search">
+
+                <!-- Search Bar (centered) -->
+                <form class="header-search flex-grow-1 mx-3" role="search">
                     <input id="main-search-input" class="form-control" type="search"
                         placeholder="Search names, categories, occasions..." aria-label="Search" />
                 </form>
 
                 <!-- Right Side -->
-                <div class="header-actions">
+                <div class="d-flex align-items-center gap-3 flex-shrink-0">
+                    <!-- CTA on small screens -->
                     <a class="btn btn-cta d-sm-none" href="#">Get Started!</a>
 
                     <?php if (!$usercode): ?>
@@ -1245,8 +1248,6 @@ header("Content-Type: text/html; charset=utf-8");
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                                 <li><a class="dropdown-item" href="user/">My Profile</a></li>
-
-
                             </ul>
                         </div>
                     <?php endif; ?>
@@ -1263,10 +1264,16 @@ header("Content-Type: text/html; charset=utf-8");
         </div>
     </nav>
 
+
     <!-- Category Navigation -->
     <nav class="navbar navbar-expand category-nav">
-        <div class="container-fluid px-3" style="margin-left: 7%; margin-right:7%;">
+        <div class="custom-container px-3">
             <ul class="navbar-nav" id="category-nav"></ul>
         </div>
     </nav>
+
+
+
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -357,12 +357,26 @@
   }
 
   // --- Drag-drop & Input Events ---
+
+
+
+  // For image upload
   $('#prodImgDrop').on('click', function (e) {
-    if (e.target === this) $('#prod_images').trigger('click');
+    // If the user clicked the input itself, ignore (it will open as normal)
+    if (!$(e.target).is('#prod_images')) {
+      $('#prod_images').trigger('click');
+    }
   });
+
+  // For digital file upload
   $('#prodFileDrop').on('click', function (e) {
-    if (e.target === this) $('#prod_files').trigger('click');
+    if (!$(e.target).is('#prod_files')) {
+      $('#prod_files').trigger('click');
+    }
   });
+
+
+
   $('.dragzone-area').on('dragover', function (e) { e.preventDefault(); e.stopPropagation(); $(this).addClass('dragzone'); });
   $('.dragzone-area').on('dragleave dragend drop', function () { $(this).removeClass('dragzone'); });
   $('#prodImgDrop').on('drop', function (e) {
@@ -444,20 +458,35 @@
 
     // Check file requirements based on mode
     if (!isEditMode) {
-      // ADD MODE: Require at least one new file
-      if (selectedImages.length === 0 && selectedFiles.length === 0) {
-        $('#prod_images_error,#prod_files_error').text("At least one image or digital file is required.");
+      // ADD MODE: Require at least one image AND one digital file
+      if (selectedImages.length === 0) {
+        $('#prod_images_error').text("At least one image is required.");
         err = true;
       } else {
-        $('#prod_images_error,#prod_files_error').text('');
+        $('#prod_images_error').text('');
+      }
+      if (selectedFiles.length === 0) {
+        $('#prod_files_error').text("At least one digital file is required.");
+        err = true;
+      } else {
+        $('#prod_files_error').text('');
       }
     } else {
-      // EDIT MODE: Allow existing files OR new files
-      if (selectedImages.length === 0 && selectedFiles.length === 0 && !hasExistingFiles) {
-        $('#prod_images_error,#prod_files_error').text("At least one image or digital file is required.");
+      // EDIT MODE: Allow existing files OR new files per category
+      let existingImages = $('#prod_images_preview').find('img').length;
+      let existingDigitalFiles = $('#prod_files_preview').find('.file-badge, img').length;
+
+      if (selectedImages.length === 0 && existingImages === 0) {
+        $('#prod_images_error').text("At least one image is required.");
         err = true;
       } else {
-        $('#prod_images_error,#prod_files_error').text('');
+        $('#prod_images_error').text('');
+      }
+      if (selectedFiles.length === 0 && existingDigitalFiles === 0) {
+        $('#prod_files_error').text("At least one digital file is required.");
+        err = true;
+      } else {
+        $('#prod_files_error').text('');
       }
     }
 
