@@ -74,7 +74,7 @@ $google_client_id = getenv('GOOGLE_CLIENT_ID');
 $google_auth_api_key = getenv('GOOGLE_AUTH_API_KEY');
 $mail_url = getenv(name: 'MAIL_URL');
 if (!$isLocalhost) {
-    $mail_url = getenv(name: 'DOMAIN_MAIL_URL');
+    $mail_url = getenv(name: 'DOMAIN_URL');
 }
 
 
