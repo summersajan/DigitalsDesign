@@ -23,7 +23,7 @@
                 </p>
                 <form class="email-signup mt-4 row gx-2 align-items-center">
                     <div class="col-12 col-md-auto d-flex align-items-center mb-2 mb-md-0">
-                        <span class="bi bi-envelope me-2 fs-5"></span>
+
                     </div>
                     <div class="col-12 col-md">
                         <input type="email" class="form-control" placeholder="Enter email address" required />
@@ -32,7 +32,6 @@
                         <button class="btn btn-signup w-100" type="submit">Sign Up</button>
                     </div>
                 </form>
-
             </div>
             <div class="col-lg-6 text-center">
                 <img class="hero-img" src="images/octopus.webp" alt="Cute Octopus" />

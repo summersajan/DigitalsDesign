@@ -1403,6 +1403,177 @@ header("Content-Type: text/html; charset=utf-8");
             user-select: none;
         }
     }
+
+    /* Mobile search bar styling to match screenshot */
+    @media (max-width: 991.98px) {
+        .mobile-search-container {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: #fff;
+        }
+
+        .mobile-search-container .header-search {
+            margin: 0;
+            max-width: none;
+            position: relative;
+        }
+
+        .mobile-search-container .header-search input {
+            width: 100%;
+            border-radius: 25px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 3rem 0.75rem 1.5rem;
+            font-size: 1rem;
+            background: #f8f9fa;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-search-container .header-search input:focus {
+            border-color: #ff5757;
+            box-shadow: 0 0 0 0.2rem rgba(255, 87, 87, 0.25);
+            background: #fff;
+            outline: none;
+        }
+
+        /* Add search icon */
+        .mobile-search-container .header-search::after {
+            content: '\f002';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 1rem;
+            pointer-events: none;
+        }
+    }
+
+    /* Email signup form - mobile specific styling */
+    @media (max-width: 991.98px) {
+        .email-signup {
+            background: #fff;
+            border-radius: 25px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            max-width: 100%;
+            margin-top: 2rem !important;
+            border: 2px solid #e9ecef;
+        }
+
+        .email-signup .row {
+            margin: 0;
+            align-items: center;
+        }
+
+        .email-signup .col-12:first-child {
+            display: none;
+            /* Hide envelope icon on mobile */
+        }
+
+        .email-signup input[type="email"] {
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            background: transparent;
+            font-size: 1rem;
+            padding: 0.75rem 1rem;
+            outline: none;
+            box-shadow: none;
+        }
+
+        .email-signup input[type="email"]:focus {
+            box-shadow: none;
+            border: none;
+            outline: none;
+        }
+
+        .email-signup .btn-signup {
+            background: #ff5757;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            white-space: nowrap;
+            margin-left: 0.5rem;
+        }
+
+        .email-signup .btn-signup:hover {
+            background: #e14545;
+        }
+
+        /* Stack elements vertically on very small screens */
+        @media (max-width: 575.98px) {
+            .email-signup {
+                border: 2px solid #e9ecef;
+                padding: 0.75rem;
+                border-radius: 20px;
+            }
+
+            .email-signup .row {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .email-signup input[type="email"] {
+                width: 100%;
+                text-align: center;
+            }
+
+            .email-signup .btn-signup {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+    }
+
+    /* Desktop - keep original styling */
+    @media (min-width: 992px) {
+        .email-signup {
+            background: #fff;
+            border-radius: 50px;
+            padding: 6px 10px;
+            display: flex;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            max-width: 500px;
+            align-items: center;
+            margin-top: 32px;
+        }
+
+        .email-signup input[type="email"] {
+            border: none;
+            border-radius: 30px;
+            flex: 1;
+            outline: none;
+            font-size: 1.15rem;
+            background: transparent;
+            padding: 0.5rem 1rem;
+        }
+
+        .email-signup .btn-signup {
+            background: #ff5757;
+            color: #fff;
+            padding: 0.65em 2em;
+            border-radius: 30px;
+            font-weight: 600;
+            border: none;
+            margin-left: 0.5em;
+            font-size: 1.07rem;
+        }
+
+        .email-signup .btn-signup:hover {
+            background: #e14545;
+        }
+
+        .email-signup .bi-envelope {
+            font-size: 1.3em;
+            color: #c2c2c2;
+            margin-right: 8px;
+        }
+    }
 </style>
 
 <body>
@@ -1495,7 +1666,7 @@ header("Content-Type: text/html; charset=utf-8");
             <div class="d-lg-none mobile-search-container">
                 <form class="header-search" role="search">
                     <input id="main-search-input-mobile" class="form-control" type="search"
-                        placeholder="Search names, categories, occasions..." aria-label="Search" />
+                        placeholder="Search products, categories..." aria-label="Search" />
                 </form>
             </div>
 
