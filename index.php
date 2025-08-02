@@ -6,20 +6,18 @@
         <div class="row align-items-center d-flex">
             <div class="col-lg-6">
                 <h1 class="display-5 mb-3">
-                    Crafts Made
-                    <span class="easy-tag">easy</span>
+                    Digital Marketing
+                    <span class="easy-tag">Templates</span>
                     <img src="#" class="pencil" alt="" />
-                    <br />for Fun and Profit
+                    <br />& Business Resources
                 </h1>
                 <p style="font-size: 1.17rem">
-                    Creating beautifully designed crafts doesn't have to be as hard as
-                    you think.
-                    <span class="text-orange fw-semibold">With one email</span> a week
-                    you'll discover
-                    <span class="text-link">everything you need</span> to make
-                    beautiful things that friends, family and customers rave about.
-                    See how over five million people around the world are creating fun
-                    art.
+                    Get instant access to premium eBooks, video bundles, Canva templates, digital planners, social media
+                    designs, business templates, and marketing materials proven to convert.
+                    <span class="text-orange fw-semibold">Receive weekly insights on high-performing formats top
+                        creators use to generate 6-figure income</span>
+                    <span class="text-link"></span> Revolutionize your online presence with expertly
+                    crafted digital products engineered for maximum engagement and sales.
                 </p>
                 <form class="email-signup mt-4 row gx-2 align-items-center">
                     <div class="col-12 col-md-auto d-flex align-items-center mb-2 mb-md-0">
