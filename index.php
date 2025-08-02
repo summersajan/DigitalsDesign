@@ -8,14 +8,16 @@
                 <h1 class="display-5 mb-3">
                     Digital Marketing
                     <span class="easy-tag">Templates</span>
-                    <img src="#" class="pencil" alt="" />
-                    <br />& Business Resources
+                    <img src="#" class="pencil" alt="" style="margin-top:4px;" />
+                    & Business Resources
                 </h1>
                 <p style="font-size: 1.17rem">
-                    Get instant access to premium eBooks, video bundles, Canva templates, digital planners, social media
-                    designs, business templates, and marketing materials proven to convert.
-                    <span class="text-orange fw-semibold">Receive weekly insights on high-performing formats top
-                        creators use to generate 6-figure income</span>
+                    Get instant access to <span class="text-orange fw-semibold">
+                        premium eBooks, video bundles, Canva templates, digital planners, social media
+                        designs, business templates, and marketing materials
+                    </span> proven to convert.
+                    Receive weekly insights on high-performing formats top
+                    creators use to generate 6-figure income</span>
                     <span class="text-link"></span> Revolutionize your online presence with expertly
                     crafted digital products engineered for maximum engagement and sales.
                 </p>
