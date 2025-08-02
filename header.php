@@ -1379,6 +1379,30 @@ header("Content-Type: text/html; charset=utf-8");
             height: auto !important;
         }
     }
+
+    /* Prevent submenu from closing accidentally */
+    @media (max-width: 991.98px) {
+        .mobile-subcategory-list {
+            z-index: 10;
+            position: relative;
+        }
+
+        .mobile-category-item.show .mobile-subcategory-list {
+            display: block !important;
+        }
+
+        /* Prevent touch events from bubbling */
+        .mobile-category-link,
+        .mobile-subcategory-link {
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    }
 </style>
 
 <body>

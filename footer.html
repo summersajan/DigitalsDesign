@@ -382,19 +382,76 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
   }
 
   // Toggle mobile submenu
-  function toggleMobileSubmenu(element, event) {
-      event.preventDefault();
-      const $item = $(element).closest('.mobile-category-item');
-      const $submenu = $item.find('.mobile-subcategory-list');
+ // Updated toggle function with proper event handling
+function toggleMobileSubmenu(element, event) {
+    event.preventDefault();
+    event.stopPropagation(); // Prevent event bubbling
+    event.stopImmediatePropagation(); // Stop all event propagation
+    
+    const $item = $(element).closest('.mobile-category-item');
+    const $submenu = $item.find('.mobile-subcategory-list');
+    
+    // Close other open submenus
+    $('.mobile-category-item').not($item).removeClass('show');
+    $('.mobile-subcategory-list').not($submenu).slideUp(200);
+    
+    // Toggle current submenu
+    $item.toggleClass('show');
+    $submenu.slideToggle(200);
+}
 
-      // Close other open submenus
-      $('.mobile-category-item').not($item).removeClass('show');
-      $('.mobile-subcategory-list').not($submenu).slideUp(200);
+// Updated mobile category click handler
+// Fixed mobile category click handler
+$(document).on('click', '.mobile-category-link', function(e) {
+    const $submenu = $(this).next('.mobile-subcategory-list');
+    
+    if ($submenu.length > 0) {
+        // Has subcategories - toggle submenu
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const $item = $(this).closest('.mobile-category-item');
+        const isCurrentlyOpen = $item.hasClass('show');
+        
+        // Close all other open submenus first
+        $('.mobile-category-item').not($item).removeClass('show');
+        $('.mobile-subcategory-list').not($submenu).slideUp(200);
+        
+        // Toggle current submenu
+        if (isCurrentlyOpen) {
+            $item.removeClass('show');
+            $submenu.slideUp(200);
+        } else {
+            $item.addClass('show');
+            $submenu.slideDown(200);
+        }
+    } else {
+        // No subcategories - treat as direct category link
+        $(this).addClass('mobile-category-direct');
+        // Let the main category handler process this
+    }
+});
 
-      // Toggle current submenu
-      $item.toggleClass('show');
-      $submenu.slideToggle(200);
-  }
+// Allow clicking outside menu to close all submenus
+$(document).on('click touchstart', function(e) {
+    // Close submenus if clicking outside the entire offcanvas menu
+    if (!$(e.target).closest('#mobileMenuOffcanvas').length) {
+        $('.mobile-category-item').removeClass('show');
+        $('.mobile-subcategory-list').slideUp(200);
+    }
+});
+
+// Close submenus when offcanvas is being hidden
+document.addEventListener('DOMContentLoaded', function() {
+    const offcanvasElement = document.getElementById('mobileMenuOffcanvas');
+    if (offcanvasElement) {
+        offcanvasElement.addEventListener('hide.bs.offcanvas', function () {
+            $('.mobile-category-item').removeClass('show');
+            $('.mobile-subcategory-list').slideUp(200);
+        });
+    }
+});
+
 
   // Handle category clicks
 // Update the mobile category click handler
@@ -599,6 +656,37 @@ document.addEventListener('DOMContentLoaded', function() {
           }
       });
   });
+
+  // Updated offcanvas handlers
+document.addEventListener('DOMContentLoaded', function() {
+    const offcanvasElement = document.getElementById('mobileMenuOffcanvas');
+    if (offcanvasElement) {
+        const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
+            backdrop: false,
+            keyboard: true,
+            scroll: true
+        });
+        
+        // Don't close submenu when offcanvas events fire
+        offcanvasElement.addEventListener('hide.bs.offcanvas', function (e) {
+            // Only close if not clicking on submenu elements
+            if ($(e.target).closest('.mobile-subcategory-list, .mobile-category-link').length === 0) {
+                $('.mobile-category-item').removeClass('show');
+                $('.mobile-subcategory-list').slideUp(200);
+            }
+        });
+    }
+});
+
+// Prevent document click from closing submenus unless clicking outside menu
+$(document).on('click touchstart', function(e) {
+    // Only close submenus if clicking completely outside the offcanvas
+    if (!$(e.target).closest('#mobileMenuOffcanvas').length) {
+        $('.mobile-category-item').removeClass('show');
+        $('.mobile-subcategory-list').slideUp(200);
+    }
+});
+
   </script>
   
 </body>
