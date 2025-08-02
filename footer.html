@@ -341,6 +341,7 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
   }
 
   // Mobile menu renderer
+  /*
   function renderMobileMenu(categories) {
       let html = '';
       categories.forEach(function (category) {
@@ -366,6 +367,31 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
           }
       });
       return html;
+  }*/
+  function renderMobileMenu(categories) {
+    let html = '';
+    categories.forEach(function (category) {
+      if (category.children && category.children.length > 0) {
+        html += `
+            <div class="mobile-category-item">
+                <a href="#" class="mobile-category-link" data-category-id="${category.category_id}" data-has-submenu="true">
+                    <span>${category.name}</span>
+                    <i class="fas fa-chevron-down mobile-category-icon"></i>
+                </a>
+                <div class="mobile-subcategory-list">
+                    ${renderMobileSubCategories(category.children)}
+                </div>
+            </div>`;
+      } else {
+        html += `
+            <div class="mobile-category-item">
+                <a href="?category_id=${category.category_id}" class="mobile-category-link mobile-category-direct" data-category-id="${category.category_id}">
+                    <span>${category.name}</span>
+                </a>
+            </div>`;
+      }
+    });
+    return html;
   }
 
   function renderMobileSubCategories(subcategories) {
