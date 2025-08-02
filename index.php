@@ -437,8 +437,9 @@
             }
 
             // Add your email signup AJAX call here
-            showMessage('Thank you for subscribing!', 'success');
+            // showMessage('Thank you for subscribing!', 'success');
             $(this).find('input[type="email"]').val('');
+            window.location.href = 'login.php';
         });
 
         // Initialize cart count
