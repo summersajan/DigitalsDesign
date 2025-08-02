@@ -8,8 +8,7 @@
                 <h1 class="display-5 mb-3">
                     Digital Marketing
                     <span class="easy-tag">Templates</span>
-                    <img src="#" class="pencil" alt="" style="margin-top:4px;" />
-                    & Business Resources
+                    <img src="#" class="pencil" alt="" style="margin-top:4px;" />& Business Resources
                 </h1>
                 <p style="font-size: 1.17rem">
                     Get instant access to <span class="text-orange fw-semibold">
