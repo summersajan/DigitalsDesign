@@ -398,23 +398,47 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
 
   // Handle category clicks
 // Update the mobile category click handler
+// Updated mobile category click handler with scroll fix
 $(document).on('click', '.mobile-category-direct, .mobile-subcategory-link', function (e) {
     e.preventDefault();
-    e.stopPropagation(); // Add this to prevent event bubbling
+    e.stopPropagation();
     
     // Remove any active/focus states
     $(this).blur();
     
-    // Close the offcanvas menu without backdrop
+    // Store scroll position before closing menu
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Close the offcanvas menu
     const offcanvasElement = document.getElementById('mobileMenuOffcanvas');
     const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
     if (offcanvas) {
         offcanvas.hide();
     }
     
-    // Remove any backdrop manually
-    $('.offcanvas-backdrop').remove();
-    $('body').removeClass('modal-open offcanvas-open');
+    // Force cleanup after menu closes
+    setTimeout(() => {
+        // Remove any backdrop manually
+        $('.offcanvas-backdrop').remove();
+        
+        // Restore body scroll
+        $('body').removeClass('modal-open offcanvas-open')
+                 .css({
+                     'overflow': 'auto',
+                     'position': 'static',
+                     'padding-right': '0',
+                     'height': 'auto'
+                 });
+        
+        // Restore scroll position
+        window.scrollTo(0, scrollTop);
+        
+        // Force repaint
+        document.body.style.display = 'none';
+        document.body.offsetHeight; // Trigger reflow
+        document.body.style.display = '';
+        
+    }, 100);
     
     // Handle the category selection
     let href = $(this).attr('href');
@@ -431,17 +455,46 @@ $(document).on('click', '.mobile-category-direct, .mobile-subcategory-link', fun
         $('#clear-category-btn').show();
         fetchAndRenderSearch(true);
         searchMode = true;
+        
+        // Ensure page is scrollable after content loads
+        setTimeout(() => {
+            $('body, html').css('overflow', 'auto');
+            // Scroll to top of results
+            $('html, body').animate({ scrollTop: 0 }, 300);
+        }, 200);
     }
 });
 
-// Also update the offcanvas initialization to prevent backdrop
+// Also fix the offcanvas event listeners
 document.addEventListener('DOMContentLoaded', function() {
     const offcanvasElement = document.getElementById('mobileMenuOffcanvas');
     if (offcanvasElement) {
+        // Initialize with proper settings
         const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
-            backdrop: false, // Disable backdrop
+            backdrop: false,
             keyboard: true,
             scroll: true
+        });
+        
+        // Fix scroll when offcanvas is hidden
+        offcanvasElement.addEventListener('hidden.bs.offcanvas', function () {
+            // Force restore scrolling
+            $('body, html').css({
+                'overflow': 'auto',
+                'position': 'static',
+                'padding-right': '0'
+            });
+            
+            // Remove any lingering classes
+            $('body').removeClass('modal-open offcanvas-open');
+            
+            // Force focus back to body
+            $('body').focus();
+        });
+        
+        // Prevent scroll lock when showing
+        offcanvasElement.addEventListener('show.bs.offcanvas', function () {
+            $('body').css('overflow', 'auto');
         });
     }
 });

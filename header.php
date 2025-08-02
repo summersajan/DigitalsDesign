@@ -1328,6 +1328,57 @@ header("Content-Type: text/html; charset=utf-8");
     .mobile-menu-offcanvas.show {
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1) !important;
     }
+
+    /* iOS specific scroll fixes */
+    @media (max-width: 991.98px) {
+
+        /* Fix iOS viewport issues */
+        body {
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+        }
+
+        /* Prevent iOS bounce scroll from interfering */
+        .mobile-menu-offcanvas {
+            -webkit-overflow-scrolling: touch;
+            overflow-scrolling: touch;
+        }
+    }
+
+    /* Fix mobile scrolling after category selection */
+    @media (max-width: 991.98px) {
+
+        /* Ensure body scroll is restored after category clicks */
+        body {
+            overflow: auto !important;
+            position: relative !important;
+            height: auto !important;
+            padding-right: 0 !important;
+        }
+
+        /* Prevent scroll lock from offcanvas */
+        body.modal-open,
+        body.offcanvas-open {
+            overflow: auto !important;
+            position: static !important;
+        }
+
+        /* Fix iOS scroll issues */
+        body,
+        html {
+            -webkit-overflow-scrolling: touch;
+            overflow-scrolling: touch;
+        }
+
+        /* Ensure content areas are scrollable */
+        #search-results-section,
+        .hero-section,
+        #featured-section,
+        #premium-section {
+            overflow: visible !important;
+            height: auto !important;
+        }
+    }
 </style>
 
 <body>
