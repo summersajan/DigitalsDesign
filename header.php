@@ -1348,12 +1348,7 @@ header("Content-Type: text/html; charset=utf-8");
                     <img src="ic_logo.svg" alt="Digitals Design logo" style="height:48px;" />
                 </a>
                 <!-- Cart -->
-                <div class="cart-section">
-                    <a href="cart.php">
-                        <i class="bi bi-bag" style="font-size: 1.2em; color: #222"></i>
-                    </a>
-                    <span id="cartCountBadge" class="ms-1 fs-6" style="color: #aaa">0</span>
-                </div>
+
                 <!-- Mobile Actions -->
                 <div class="mobile-header-actions">
                     <?php if (!$usercode): ?>
@@ -1371,7 +1366,12 @@ header("Content-Type: text/html; charset=utf-8");
                             </ul>
                         </div>
                     <?php endif; ?>
-
+                    <div class="cart-section">
+                        <a href="cart.php">
+                            <i class="bi bi-bag" style="font-size: 1.2em; color: #222"></i>
+                        </a>
+                        <span id="cartCountBadge" class="ms-1 fs-6" style="color: #aaa">0</span>
+                    </div>
 
                 </div>
             </div>
