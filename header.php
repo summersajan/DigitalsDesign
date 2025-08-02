@@ -1345,7 +1345,7 @@ header("Content-Type: text/html; charset=utf-8");
 
                 <!-- Logo (Centered) -->
                 <a class="navbar-brand d-flex align-items-center" id="logo-div" href="/">
-                    <img src="ic_logo.svg" alt="Digitals Design logo" style="height:48px;" />
+                    <img src="ic_logo.svg" alt="Digitals Design logo" style="height:38px;" />
                 </a>
                 <!-- Cart -->
 
