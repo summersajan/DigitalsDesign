@@ -83,45 +83,51 @@
 </div>
 
 <script>
+    // Global variables
     const ITEMS_PER_PAGE = 4;
     let featPage = 0, premPage = 0, searchPage = 0;
     let currentSearch = "";
     let currentCategory = 0;
+    let currentCategoryName = "";
     let searchMode = false;
 
     // Render product cards
     function renderProducts(products, targetSelector, append = false) {
-
         if (!Array.isArray(products) || products.length === 0) {
             console.warn('No products to render or invalid data:', products);
-            $(targetSelector).html('<div class="col">No products found.</div>');
+            if (!append) {
+                $(targetSelector).html('<div class="col-12 text-center py-5"><p>No products found.</p></div>');
+            }
             return;
         }
 
         let html = '';
         products.forEach(function (p) {
-
             html += `
-<div class="col">
-  <div class="product-card bg-white">
-    <div class="rating"><i class="fa fa-star"></i> ${parseFloat(p.rating || 5).toFixed(1)}</div>
-    <img src="${p.image || 'images/octopus.webp'}" class="product-img" alt="${p.title}">
-    <div class="overlay-buttons" data-product-id="${p.product_id}">
-      <button class="action-btn wishlist-btn" title="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
-      <button class="action-btn cart-btn" title="Add to Cart"><i class="fa-solid fa-cart-plus"></i></button>
-    </div>
-    <div class="p-3">
-      <a href="product.php?product_id=${p.product_id}"><h6 class="mb-1 fw-semibold">${p.title}</h6></a>
-      <small class="text-muted">${p.vendor || ''}</small><br/>
-      <span class="text-danger fw-bold">$${parseFloat(p.price).toFixed(2)}</span>
-      ${p.old_price ? `<span class="strike">$${parseFloat(p.old_price).toFixed(2)}</span>` : ''}
-      ${p.discount ? `<span class="discount">–${p.discount}%</span>` : ''}
-    </div>
-  </div>
-</div>
-`;
+        <div class="col">
+            <div class="product-card bg-white">
+                <div class="rating"><i class="fa fa-star"></i> ${parseFloat(p.rating || 5).toFixed(1)}</div>
+                <img src="${p.image || 'images/octopus.webp'}" class="product-img" alt="${p.title}" 
+                     onerror="this.src='images/octopus.webp'">
+                <div class="overlay-buttons" data-product-id="${p.product_id}">
+                    <button class="action-btn wishlist-btn" title="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
+                    <button class="action-btn cart-btn" title="Add to Cart"><i class="fa-solid fa-cart-plus"></i></button>
+                </div>
+                <div class="p-3">
+                    <a href="product.php?product_id=${p.product_id}"><h6 class="mb-1 fw-semibold">${p.title}</h6></a>
+                    <small class="text-muted">${p.vendor || ''}</small><br/>
+                    <span class="text-danger fw-bold">$${parseFloat(p.price || 0).toFixed(2)}</span>
+                    ${p.old_price ? `<span class="strike">$${parseFloat(p.old_price).toFixed(2)}</span>` : ''}
+                    ${p.discount ? `<span class="discount">–${p.discount}%</span>` : ''}
+                </div>
+            </div>
+        </div>`;
         });
-        if (html === '' && !append) html = '<div class="col">No products yet.</div>';
+
+        if (html === '' && !append) {
+            html = '<div class="col-12 text-center py-5"><p>No products available at the moment.</p></div>';
+        }
+
         if (append) {
             $(targetSelector).append(html);
         } else {
@@ -129,148 +135,335 @@
         }
     }
 
-    // Loaders
+    // Fetch and render featured products
     function fetchAndRenderFeatured(reset = false) {
         if (reset) featPage = 0;
+
         $.getJSON('ajax/get_products.php', {
             offset: featPage * ITEMS_PER_PAGE,
             limit: ITEMS_PER_PAGE,
             featured: 1
         }, function (resp) {
+            console.log('Featured products loaded:', resp.products?.length || 0);
             renderProducts(resp.products, '#featured-products-dynamic', !reset);
-            (featPage + 1) * ITEMS_PER_PAGE < resp.total ?
-                $('#load-more-featured-products').show() :
+
+            const totalLoaded = (featPage + 1) * ITEMS_PER_PAGE;
+            if (totalLoaded < resp.total) {
+                $('#load-more-featured-products').show();
+            } else {
                 $('#load-more-featured-products').hide();
+            }
+        }).fail(function (xhr, status, error) {
+            console.error('Failed to load featured products:', error);
+            if (!reset) {
+                $('#featured-products-dynamic').html('<div class="col-12 text-center py-5"><p class="text-danger">Error loading featured products. Please try again.</p></div>');
+            }
         });
     }
 
+    // Fetch and render premium products
     function fetchAndRenderPremium(reset = false) {
         if (reset) premPage = 0;
+
         $.getJSON('ajax/get_products.php', {
             offset: premPage * ITEMS_PER_PAGE,
             limit: ITEMS_PER_PAGE,
             featured: 0
         }, function (resp) {
+            console.log('Premium products loaded:', resp.products?.length || 0);
             renderProducts(resp.products, '#premium-products-dynamic', !reset);
-            (premPage + 1) * ITEMS_PER_PAGE < resp.total ?
-                $('#load-more-premium-products').show() :
+
+            const totalLoaded = (premPage + 1) * ITEMS_PER_PAGE;
+            if (totalLoaded < resp.total) {
+                $('#load-more-premium-products').show();
+            } else {
                 $('#load-more-premium-products').hide();
+            }
+        }).fail(function (xhr, status, error) {
+            console.error('Failed to load premium products:', error);
+            if (!reset) {
+                $('#premium-products-dynamic').html('<div class="col-12 text-center py-5"><p class="text-danger">Error loading premium products. Please try again.</p></div>');
+            }
         });
     }
 
+    // Fetch and render search results
     function fetchAndRenderSearch(reset = false) {
-        console.log('fetchAndRenderSearch :', currentSearch, 'Category:', currentCategory);
+        console.log('fetchAndRenderSearch - Search:', currentSearch, 'Category:', currentCategory);
+
         if (reset) searchPage = 0;
+
         let params = {
             offset: searchPage * ITEMS_PER_PAGE,
             limit: ITEMS_PER_PAGE
         };
+
         if (currentSearch) params.search = currentSearch;
         if (currentCategory) params.category_id = currentCategory;
 
         $.getJSON('ajax/get_products.php', params, function (resp) {
+            console.log('Search results loaded:', resp.products?.length || 0);
             renderProducts(resp.products, '#search-products-dynamic', !reset);
+
             let totalLoaded = (searchPage + 1) * ITEMS_PER_PAGE;
-            totalLoaded < resp.total ?
-                $('#load-more-search-products').show() :
+            if (totalLoaded < resp.total) {
+                $('#load-more-search-products').show();
+            } else {
                 $('#load-more-search-products').hide();
+            }
+        }).fail(function (xhr, status, error) {
+            console.error('Failed to load search results:', error);
+            if (!reset) {
+                $('#search-products-dynamic').html('<div class="col-12 text-center py-5"><p class="text-danger">Error loading search results. Please try again.</p></div>');
+            }
         });
     }
 
-    // Reset view to main home
+    // Reset view to main home sections
     function showMainSections() {
         $('#hero-section, #featured-section, #premium-section').show();
         $('#search-results-section').hide();
+        $('#clear-category-btn').hide();
         searchMode = false;
         currentSearch = "";
         currentCategory = 0;
+        currentCategoryName = "";
         $('#search-products-dynamic').empty();
-        $('#main-search-input').val('');
+        $('#main-search-input, #main-search-input-mobile').val('');
+        $('#load-more-search-products').hide();
+
+        // Refresh featured and premium sections
+        fetchAndRenderFeatured(true);
+        fetchAndRenderPremium(true);
     }
 
-    $(function () {
+    // Show temporary message
+    function showMessage(message, type = 'info') {
+        const alertClass = type === 'success' ? 'alert-success' :
+            type === 'error' ? 'alert-danger' : 'alert-info';
+
+        const messageHtml = `
+        <div class="alert ${alertClass} alert-dismissible fade show position-fixed" 
+             style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+
+        // Remove existing messages
+        $('.alert').remove();
+
+        // Add message
+        $('body').append(messageHtml);
+
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            $('.alert').fadeOut(300, function () { $(this).remove(); });
+        }, 3000);
+    }
+
+    // Document ready
+    $(document).ready(function () {
+        // Initial load of featured and premium products
         fetchAndRenderFeatured(true);
         fetchAndRenderPremium(true);
 
-        // Load More for featured/premium
+        // Load More button handlers
         $('#load-more-featured-products').click(function () {
             featPage++;
             fetchAndRenderFeatured(false);
         });
+
         $('#load-more-premium-products').click(function () {
             premPage++;
             fetchAndRenderPremium(false);
         });
+
         $('#load-more-search-products').click(function () {
             searchPage++;
             fetchAndRenderSearch(false);
         });
 
-        // *** LIVE Search as user types (debounced) ***
+        // Live search functionality (debounced)
         let searchTimeout = null;
-        $('#main-search-input').on('input', function () {
+        $('#main-search-input, #main-search-input-mobile').on('input', function () {
             clearTimeout(searchTimeout);
             let val = $(this).val().trim();
+
+            // Sync both search inputs
+            $('#main-search-input, #main-search-input-mobile').val(val);
+
             searchTimeout = setTimeout(function () {
                 if (val.length === 0) {
                     showMainSections();
-                    fetchAndRenderFeatured(true);
-                    fetchAndRenderPremium(true);
-                    $('#clear-category-btn').hide();
                 } else {
                     currentSearch = val;
                     currentCategory = 0; // Clear category when searching by keyword
+                    currentCategoryName = "";
                     searchPage = 0;
+                    searchMode = true;
                     $('#hero-section, #featured-section, #premium-section').hide();
                     $('#search-results-section').show();
                     $('#search-title').text('Search: ' + currentSearch);
-                    $('#clear-category-btn').hide(); // Only show X when a category is active, not when searching
+                    $('#clear-category-btn').hide(); // Only show X for category searches
                     fetchAndRenderSearch(true);
-                    searchMode = true;
                 }
             }, 300);
         });
 
-
-        $(document).on('click', '#category-nav .nav-link', function (e) {
+        // Combined desktop and mobile category click handler
+        $(document).on('click', '#category-nav .nav-link, .mobile-category-direct, .mobile-subcategory-link', function (e) {
             e.preventDefault();
+            e.stopPropagation();
+
+            // Remove any active/focus states
+            $(this).blur();
+
+            // Handle mobile menu closing if it's a mobile click
+            if ($(this).hasClass('mobile-category-direct') || $(this).hasClass('mobile-subcategory-link')) {
+                // Store scroll position before closing menu
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                // Close the offcanvas menu
+                const offcanvasElement = document.getElementById('mobileMenuOffcanvas');
+                const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+                if (offcanvas) {
+                    offcanvas.hide();
+                }
+
+                // Force cleanup after menu closes
+                setTimeout(() => {
+                    // Remove any backdrop manually
+                    $('.offcanvas-backdrop').remove();
+
+                    // Restore body scroll
+                    $('body').removeClass('modal-open offcanvas-open')
+                        .css({
+                            'overflow': 'auto',
+                            'position': 'static',
+                            'padding-right': '0',
+                            'height': 'auto'
+                        });
+
+                    // Restore scroll position
+                    window.scrollTo(0, scrollTop);
+                }, 100);
+            }
+
+            // Get category data
             let href = $(this).attr('href');
-            let urlParams = new URLSearchParams(href.split('?')[1]);
+            if (!href || href === '#') return;
+
+            let urlParams = new URLSearchParams((href.split('?')[1] || ''));
             let catId = urlParams.get('category_id');
+
             if (catId) {
                 currentCategory = catId;
                 currentCategoryName = $(this).text().trim();
-                $('#main-search-input').val('');
+                currentSearch = "";
+                searchPage = 0;
+                searchMode = true;
+                $('#main-search-input, #main-search-input-mobile').val('');
                 $('#hero-section, #featured-section, #premium-section').hide();
                 $('#search-results-section').show();
                 $('#search-title').text('Category: ' + currentCategoryName);
-                $('#clear-category-btn').show(); // Show the X button when category active
+                $('#clear-category-btn').show(); // Show X button for category searches
                 fetchAndRenderSearch(true);
-                searchMode = true;
+
+                // Ensure page is scrollable after content loads (mobile fix)
+                if (window.innerWidth < 992) {
+                    setTimeout(() => {
+                        $('body, html').css('overflow', 'auto');
+                        if ($('#search-results-section').length) {
+                            $('html, body').animate({
+                                scrollTop: $('#search-results-section').offset().top - 100
+                            }, 300);
+                        }
+                    }, 200);
+                }
             }
         });
 
+        // Handle mobile submenu toggle
+        $(document).on('click', '.mobile-category-link', function (e) {
+            const $submenu = $(this).next('.mobile-subcategory-list');
 
-        // Optional: Click logo to reset site
-        $(document).on('click', '.navbar-brand', function (e) {
+            if ($submenu.length > 0) {
+                // Has subcategories - toggle submenu
+                e.preventDefault();
+                e.stopPropagation();
+
+                const $item = $(this).closest('.mobile-category-item');
+                const isCurrentlyOpen = $item.hasClass('show');
+
+                // Close all other open submenus first
+                $('.mobile-category-item').not($item).removeClass('show');
+                $('.mobile-subcategory-list').not($submenu).slideUp(200);
+
+                // Toggle current submenu
+                if (isCurrentlyOpen) {
+                    $item.removeClass('show');
+                    $submenu.slideUp(200);
+                } else {
+                    $item.addClass('show');
+                    $submenu.slideDown(200);
+                }
+            } else {
+                // No subcategories - treat as direct category link
+                $(this).addClass('mobile-category-direct');
+            }
+        });
+
+        // Clear category button handler
+        $('#clear-category-btn').on('click', function () {
             showMainSections();
-            fetchAndRenderFeatured(true);
-            fetchAndRenderPremium(true);
-        });
-    });
-</script>
-
-<script>
-    $(function () {
-        $.getJSON('ajax/get_products.php', function (products) {
-            $('#featured-products-dynamic').html(renderProducts(products, 1));
-            $('#premium-products-dynamic').html(renderProducts(products, 0));
         });
 
+        // Logo click to reset to home
+        $(document).on('click', '.navbar-brand', function (e) {
+            if (searchMode) {
+                e.preventDefault();
+                showMainSections();
+            }
+        });
 
+        // Email signup form handler
+        $('.email-signup').on('submit', function (e) {
+            e.preventDefault();
+            const email = $(this).find('input[type="email"]').val();
+
+            if (!email) {
+                showMessage('Please enter a valid email address', 'error');
+                return;
+            }
+
+            // Add your email signup AJAX call here
+            showMessage('Thank you for subscribing!', 'success');
+            $(this).find('input[type="email"]').val('');
+        });
+
+        // Initialize cart count
+        updateCartIconCount();
     });
 
+    // Allow clicking outside menu to close all submenus
+    $(document).on('click touchstart', function (e) {
+        // Close submenus if clicking outside the entire offcanvas menu
+        if (!$(e.target).closest('#mobileMenuOffcanvas').length) {
+            $('.mobile-category-item').removeClass('show');
+            $('.mobile-subcategory-list').slideUp(200);
+        }
+    });
 
+    // Close submenus when offcanvas is being hidden
+    document.addEventListener('DOMContentLoaded', function () {
+        const offcanvasElement = document.getElementById('mobileMenuOffcanvas');
+        if (offcanvasElement) {
+            offcanvasElement.addEventListener('hide.bs.offcanvas', function () {
+                $('.mobile-category-item').removeClass('show');
+                $('.mobile-subcategory-list').slideUp(200);
+            });
+        }
+    });
 </script>
 
 <?php include 'footer.html'; ?>
