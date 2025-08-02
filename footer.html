@@ -177,154 +177,376 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
 </script>
 <script>
   $(function () {
-
-
-    // Add to cart/wishlist AJAX
-    $(document).on('click', '.wishlist-btn, .cart-btn', function () {
-      var productId = $(this).closest('.overlay-buttons').data('product-id');
-      var action = $(this).hasClass('wishlist-btn') ? 'add_to_wishlist' : 'add_to_cart';
-
-      $.ajax({
-        type: "POST",
-        url: 'ajax/product_action.php',
-        data: {
-          action: action,
-          product_id: productId,
-          url: 'index.php' // Current page URL
-        },
-        dataType: "json",
-        success: function (resp) {
-          console.log('Response:', resp);
-
-          if (resp.success === '1') {
-            updateCartIconCount();
-            alert(resp.message || 'Added to cart successfully');
-            window.location.href = 'cart.php';
-          } else if (resp.success === '2') {
-            alert(resp.message || 'Added to wishlist successfully');
-            window.location.href = 'wishlist.php';
-          } else if (resp.success === 'login_required') {
-            alert(resp.message || 'Please log in to continue');
-            window.location.href = 'login.php';
-          } else {
-            console.log('Unhandled response:', resp);
-            alert(resp.message || 'Something went wrong');
-          }
-
-        },
-        error: function (xhr, status, error) {
-          // This runs if the response is not valid JSON or server/network error occurs
-          let msg = "Unexpected error. ";
-          if (xhr.responseText) {
-            msg += "\nServer says: " + xhr.responseText;
-          }
-          alert(msg);
-          console.error('AJAX Error:', status, error, xhr.responseText);
-        }
+      // Add to cart/wishlist AJAX
+      $(document).on('click', '.wishlist-btn, .cart-btn', function () {
+          var productId = $(this).closest('.overlay-buttons').data('product-id');
+          var action = $(this).hasClass('wishlist-btn') ? 'add_to_wishlist' : 'add_to_cart';
+  
+          $.ajax({
+              type: "POST",
+              url: 'ajax/product_action.php',
+              data: {
+                  action: action,
+                  product_id: productId,
+                  url: 'index.php' // Current page URL
+              },
+              dataType: "json",
+              success: function (resp) {
+                  console.log('Response:', resp);
+  
+                  if (resp.success === '1') {
+                      updateCartIconCount();
+                      alert(resp.message || 'Added to cart successfully');
+                      window.location.href = 'cart.php';
+                  } else if (resp.success === '2') {
+                      alert(resp.message || 'Added to wishlist successfully');
+                      window.location.href = 'wishlist.php';
+                  } else if (resp.success === 'login_required') {
+                      alert(resp.message || 'Please log in to continue');
+                      window.location.href = 'login.php';
+                  } else {
+                      console.log('Unhandled response:', resp);
+                      alert(resp.message || 'Something went wrong');
+                  }
+              },
+              error: function (xhr, status, error) {
+                  let msg = "Unexpected error. ";
+                  if (xhr.responseText) {
+                      msg += "\nServer says: " + xhr.responseText;
+                  }
+                  alert(msg);
+                  console.error('AJAX Error:', status, error, xhr.responseText);
+              }
+          });
       });
-    });
+  
+      // Initialize cart count on page load
+      updateCartIconCount();
   });
+  
   function updateCartIconCount() {
-    $.getJSON('ajax/cart_get.php', function (items) {
-      const count = items?.length || 0;
-      const badge = $('#cartCountBadge');
-
-      badge.text(count);
-
-      if (count > 0) {
-        badge.css('color', '#dc3545'); // Bootstrap Red
-      } else {
-        badge.css('color', '#aaa'); // Grey for 0
-      }
-    });
+      $.getJSON('ajax/cart_get.php', function (items) {
+          console.log('Cart items received:', items); // Debug log
+          
+          let count = 0;
+          
+          // Handle different response formats
+          if (Array.isArray(items)) {
+              count = items.length;
+          } else if (items && typeof items === 'object') {
+              // If items is an object with a count property
+              if (items.count !== undefined) {
+                  count = parseInt(items.count) || 0;
+              } else if (items.items && Array.isArray(items.items)) {
+                  count = items.items.length;
+              } else {
+                  // Count object properties
+                  count = Object.keys(items).length;
+              }
+          } else if (typeof items === 'number') {
+              count = items;
+          }
+  
+          const badge = $('#cartCountBadge');
+          
+          // Update both mobile and desktop cart badges if they exist
+          $('#cartCountBadge, #cartCountBadgeMobile').each(function() {
+              $(this).text(count);
+              
+              if (count > 0) {
+                  $(this).css('color', '#dc3545'); // Bootstrap Red
+                  $(this).removeClass('d-none').show();
+              } else {
+                  $(this).css('color', '#aaa'); // Grey for 0
+              }
+          });
+          
+          console.log('Cart count updated to:', count); // Debug log
+      }).fail(function(xhr, status, error) {
+          console.error('Failed to load cart count:', error);
+          // Set count to 0 if request fails
+          $('#cartCountBadge, #cartCountBadgeMobile').text('0').css('color', '#aaa');
+      });
   }
-
-  // Run it on page load
-  $(function () {
-    updateCartIconCount();
+  
+  // Also update cart count when page becomes visible (user switches tabs)
+  $(document).on('visibilitychange', function() {
+      if (!document.hidden) {
+          updateCartIconCount();
+      }
   });
-</script>
-
+  
+  // Update cart count every 30 seconds (optional)
+  setInterval(updateCartIconCount, 30000);
+  </script>
+  
 
 <script>
   $(function () {
+      // Load categories for both desktop and mobile
       $.getJSON('ajax/get_categories.php', function (tree) {
+          // Desktop menu
           $('#category-nav').html(renderMegaMenu(tree));
+          // Mobile menu
+          $('#mobile-category-menu').html(renderMobileMenu(tree));
       });
   });
 
+  // Desktop mega menu renderer (existing function)
   function renderMegaMenu(categories) {
       let html = '';
-
       categories.forEach(function (category) {
           if (category.children && category.children.length > 0) {
-              // Category with subcategories - NO redirect on parent
               html += `
-      <li class="nav-item dropdown dropdown-mega">
-        <a class="nav-link dropdown-toggle" href="?category_id=${category.category_id}" id="navbarDropdown${category.category_id}" 
-           role="button" aria-expanded="false">
-          ${category.name}
-        </a>
-        <div class="dropdown-menu mega-menu" aria-labelledby="navbarDropdown${category.category_id}">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-12">
-                <h6 class="dropdown-header" >${category.name}</h6>
-                ${renderSubCategories(category.children)}
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>`;
+              <li class="nav-item dropdown dropdown-mega">
+                  <a class="nav-link dropdown-toggle" href="?category_id=${category.category_id}" id="navbarDropdown${category.category_id}" 
+                     role="button" aria-expanded="false">
+                    ${category.name}
+                  </a>
+                  <div class="dropdown-menu mega-menu" aria-labelledby="navbarDropdown${category.category_id}">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h6 class="dropdown-header">${category.name}</h6>
+                          ${renderSubCategories(category.children)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </li>`;
           } else {
-              // Regular category - can redirect
               html += `
-      <li class="nav-item">
-        <a class="nav-link" href="?category_id=${category.category_id}">
-          ${category.name}
-        </a>
-      </li>`;
+              <li class="nav-item">
+                  <a class="nav-link" href="?category_id=${category.category_id}">
+                    ${category.name}
+                  </a>
+              </li>`;
           }
       });
-
       return html;
   }
 
   function renderSubCategories(subcategories) {
       let html = '<div class="row">';
-
       subcategories.forEach(function (subcategory) {
           html += `
-    <div class="col-md-6 mb-2">
-      <a class="dropdown-item" href="?category_id=${subcategory.category_id}">
-        <i class="bi bi-arrow-right-short"></i> ${subcategory.name}
-      </a>
-    </div>`;
+          <div class="col-md-6 mb-2">
+            <a class="dropdown-item" href="?category_id=${subcategory.category_id}">
+              <i class="bi bi-arrow-right-short"></i> ${subcategory.name}
+            </a>
+          </div>`;
       });
-
       html += '</div>';
       return html;
   }
 
+  // Mobile menu renderer
+  function renderMobileMenu(categories) {
+      let html = '';
+      categories.forEach(function (category) {
+          if (category.children && category.children.length > 0) {
+              html += `
+              <div class="mobile-category-item">
+                  <a href="#" class="mobile-category-link" data-category-id="${category.category_id}" 
+                     onclick="toggleMobileSubmenu(this, event)">
+                      <span>${category.name}</span>
+                      <i class="fas fa-chevron-down mobile-category-icon"></i>
+                  </a>
+                  <div class="mobile-subcategory-list">
+                      ${renderMobileSubCategories(category.children)}
+                  </div>
+              </div>`;
+          } else {
+              html += `
+              <div class="mobile-category-item">
+                  <a href="?category_id=${category.category_id}" class="mobile-category-link mobile-category-direct">
+                      <span>${category.name}</span>
+                  </a>
+              </div>`;
+          }
+      });
+      return html;
+  }
 
-  $(document).ready(function () {
-    function isMobile() { return window.innerWidth < 992; }
-    $('#category-nav').on('click', '.dropdown-mega > .nav-link, .nav-item.has-submenu > .nav-link', function (e) {
-        if (isMobile()) {
-            e.preventDefault();
-            var $parent = $(this).parent();
-            $parent.siblings('.show,.active').removeClass('show active');
-            $parent.toggleClass('show active');
-        }
-    });
-    $(document).on('click touchstart', function (e) {
-        if (isMobile() && $(e.target).closest('#category-nav').length === 0) {
-            $('#category-nav .show, #category-nav .active').removeClass('show active');
-        }
-    });
+  function renderMobileSubCategories(subcategories) {
+      let html = '';
+      subcategories.forEach(function (subcategory) {
+          html += `
+          <div class="mobile-subcategory-item">
+              <a href="?category_id=${subcategory.category_id}" class="mobile-subcategory-link">
+                  ${subcategory.name}
+              </a>
+          </div>`;
+      });
+      return html;
+  }
+
+  // Toggle mobile submenu
+  function toggleMobileSubmenu(element, event) {
+      event.preventDefault();
+      const $item = $(element).closest('.mobile-category-item');
+      const $submenu = $item.find('.mobile-subcategory-list');
+
+      // Close other open submenus
+      $('.mobile-category-item').not($item).removeClass('show');
+      $('.mobile-subcategory-list').not($submenu).slideUp(200);
+
+      // Toggle current submenu
+      $item.toggleClass('show');
+      $submenu.slideToggle(200);
+  }
+
+  // Handle category clicks
+// Update the mobile category click handler
+$(document).on('click', '.mobile-category-direct, .mobile-subcategory-link', function (e) {
+    e.preventDefault();
+    e.stopPropagation(); // Add this to prevent event bubbling
+    
+    // Remove any active/focus states
+    $(this).blur();
+    
+    // Close the offcanvas menu without backdrop
+    const offcanvasElement = document.getElementById('mobileMenuOffcanvas');
+    const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+    if (offcanvas) {
+        offcanvas.hide();
+    }
+    
+    // Remove any backdrop manually
+    $('.offcanvas-backdrop').remove();
+    $('body').removeClass('modal-open offcanvas-open');
+    
+    // Handle the category selection
+    let href = $(this).attr('href');
+    let urlParams = new URLSearchParams((href || '').split('?')[1] || '');
+    let catId = urlParams.get('category_id');
+
+    if (catId) {
+        currentCategory = catId;
+        currentCategoryName = $(this).text().trim();
+        $('#main-search-input, #main-search-input-mobile').val('');
+        $('#hero-section, #featured-section, #premium-section').hide();
+        $('#search-results-section').show();
+        $('#search-title').text('Category: ' + currentCategoryName);
+        $('#clear-category-btn').show();
+        fetchAndRenderSearch(true);
+        searchMode = true;
+    }
 });
+
+// Also update the offcanvas initialization to prevent backdrop
+document.addEventListener('DOMContentLoaded', function() {
+    const offcanvasElement = document.getElementById('mobileMenuOffcanvas');
+    if (offcanvasElement) {
+        const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
+            backdrop: false, // Disable backdrop
+            keyboard: true,
+            scroll: true
+        });
+    }
+});
+
+  // Desktop hover functionality
+  $(function () {
+      $('#category-nav').on('mouseenter', '.dropdown-mega', function () {
+          $(this).addClass('show');
+          $(this).find('.mega-menu').addClass('show');
+      });
+      $('#category-nav').on('mouseleave', '.dropdown-mega', function () {
+          $(this).removeClass('show');
+          $(this).find('.mega-menu').removeClass('show');
+      });
+  });
+
+  // Handle desktop category clicks
+  $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link', function (e) {
+      e.preventDefault();
+      $('.dropdown-mega, .mega-menu, .dropdown-menu').removeClass('show');
+
+      let href = $(this).attr('href');
+      let urlParams = new URLSearchParams((href || '').split('?')[1] || '');
+      let catId = urlParams.get('category_id');
+
+      if (catId) {
+          currentCategory = catId;
+          currentCategoryName = $(this).text().trim();
+          $('#main-search-input, #main-search-input-mobile').val('');
+          $('#hero-section, #featured-section, #premium-section').hide();
+          $('#search-results-section').show();
+          $('#search-title').text('Category: ' + currentCategoryName);
+          $('#clear-category-btn').show();
+          fetchAndRenderSearch(true);
+          searchMode = true;
+      }
+  });
+
+  // Ensure mobile menu loads when offcanvas is shown
+  document.getElementById('mobileMenuOffcanvas').addEventListener('shown.bs.offcanvas', function () {
+      // If categories haven't loaded yet, load them
+      if ($('#mobile-category-menu').children().length === 0) {
+          $.getJSON('ajax/get_categories.php', function (tree) {
+              $('#mobile-category-menu').html(renderMobileMenu(tree));
+          });
+      }
+  });
+
+  // Fix for category loading - make sure this runs after DOM is ready
+  $(document).ready(function () {
+      // Load categories immediately
+      $.getJSON('ajax/get_categories.php', function (tree) {
+          // Desktop menu
+          $('#category-nav').html(renderMegaMenu(tree));
+          // Mobile menu
+          $('#mobile-category-menu').html(renderMobileMenu(tree));
+      }).fail(function () {
+          console.error('Failed to load categories');
+          // Fallback static menu for testing
+          $('#mobile-category-menu').html(`
+      <div class="mobile-category-item">
+          <a href="#" class="mobile-category-link">
+              <span>Sample Category</span>
+          </a>
+      </div>
+  `);
+      });
+  });
 
 </script>
 
+<script>
+  // Ensure Bootstrap dropdowns are initialized
+  $(document).ready(function() {
+      // Initialize all dropdowns
+      var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+      var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+          return new bootstrap.Dropdown(dropdownToggleEl);
+      });
+      
+      // Debug: Check if dropdowns are working
+      $('.dropdown-toggle').on('click', function(e) {
+          console.log('Dropdown clicked:', this.id);
+      });
+      
+      // Alternative: Manual dropdown toggle if Bootstrap doesn't work
+      $('.dropdown-toggle').on('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Close other dropdowns
+          $('.dropdown-menu').not($(this).next()).removeClass('show');
+          
+          // Toggle current dropdown
+          $(this).next('.dropdown-menu').toggleClass('show');
+      });
+      
+      // Close dropdown when clicking outside
+      $(document).on('click', function(e) {
+          if (!$(e.target).closest('.dropdown').length) {
+              $('.dropdown-menu').removeClass('show');
+          }
+      });
+  });
+  </script>
+  
 </body>
 </html>

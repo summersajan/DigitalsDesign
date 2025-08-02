@@ -111,16 +111,6 @@ header("Content-Type: text/html; charset=utf-8");
             flex: 1;
             align-items: center;
         }
-
-        /* Hide hamburger menu on desktop */
-        .navbar-toggler {
-            display: none !important;
-        }
-
-        /* Show category nav on desktop */
-        .category-nav {
-            display: block !important;
-        }
     }
 
     .header-search input {
@@ -179,139 +169,13 @@ header("Content-Type: text/html; charset=utf-8");
         margin-left: 0.5rem;
     }
 
-    /* ===== MOBILE HAMBURGER MENU STYLES ===== */
     .navbar-toggler {
         border: none;
         padding: 0.25rem 0.5rem;
-        background: none;
-        box-shadow: none !important;
-        outline: none !important;
     }
 
     .navbar-toggler:focus {
         box-shadow: none;
-        outline: none;
-    }
-
-    .navbar-toggler-icon {
-        background-image: none;
-        width: 24px;
-        height: 24px;
-        position: relative;
-    }
-
-    /* Custom hamburger icon */
-    .navbar-toggler-icon::before,
-    .navbar-toggler-icon::after,
-    .navbar-toggler-icon {
-        background-color: #333;
-    }
-
-    .navbar-toggler-icon::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: #333;
-        transition: all 0.3s;
-    }
-
-    .navbar-toggler-icon::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: #333;
-        transition: all 0.3s;
-    }
-
-    .navbar-toggler-icon {
-        background-color: #333;
-        height: 2px;
-        width: 100%;
-        position: relative;
-        transition: all 0.3s;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    /* Mobile offcanvas menu */
-    .mobile-menu-offcanvas {
-        width: 280px !important;
-        border: none;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .mobile-menu-header {
-        background: #ff5757;
-        color: white;
-        padding: 1rem;
-        border-bottom: 1px solid #e14545;
-    }
-
-    .mobile-menu-body {
-        padding: 0;
-    }
-
-    .mobile-category-item {
-        border-bottom: 1px solid #f0f0f0;
-    }
-
-    .mobile-category-link {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.75rem 1rem;
-        color: #333;
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s;
-    }
-
-    .mobile-category-link:hover {
-        background: rgba(255, 87, 87, 0.05);
-        color: #ff5757;
-    }
-
-    .mobile-category-icon {
-        font-size: 0.9rem;
-        color: #666;
-        transition: transform 0.3s;
-    }
-
-    .mobile-category-item.show .mobile-category-icon {
-        transform: rotate(180deg);
-    }
-
-    .mobile-subcategory-list {
-        background: #f8f9fa;
-        padding: 0;
-        display: none;
-    }
-
-    .mobile-subcategory-item {
-        padding: 0.5rem 1rem 0.5rem 2rem;
-        border-bottom: 1px solid #e9ecef;
-    }
-
-    .mobile-subcategory-item:last-child {
-        border-bottom: none;
-    }
-
-    .mobile-subcategory-link {
-        color: #666;
-        text-decoration: none;
-        font-size: 0.9rem;
-        display: block;
-        padding: 0.25rem 0;
-    }
-
-    .mobile-subcategory-link:hover {
-        color: #ff5757;
     }
 
     .nav-link,
@@ -322,7 +186,7 @@ header("Content-Type: text/html; charset=utf-8");
         padding: 0.5rem 0.75rem;
     }
 
-    /* Category Navigation - Hidden on mobile */
+    /* Category Navigation */
     .category-nav {
         background: #fff;
         border-bottom: 1px solid #eee;
@@ -330,8 +194,12 @@ header("Content-Type: text/html; charset=utf-8");
         white-space: nowrap;
     }
 
+    .category-nav .navbar-nav {
+        flex-wrap: nowrap;
+    }
+
     /* Mobile Styles */
-    @media (max-width: 991.98px) {
+    @media (max-width: 575.98px) {
         .navbar-brand span {
             font-size: 1.5rem;
         }
@@ -358,38 +226,24 @@ header("Content-Type: text/html; charset=utf-8");
 
         .navbar {
             padding: 0.5rem 0;
+
         }
 
-        /* Hide desktop category navigation on mobile */
-        .category-nav {
-            display: none !important;
+        .navbar-collapse {
+            margin-top: 1rem;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Show hamburger menu on mobile */
-        .navbar-toggler {
-            display: block !important;
-            order: -1;
+        .category-nav .navbar-nav {
+            padding: 0.5rem 0;
+        }
+
+        .category-nav .nav-link {
+            font-size: 0.9rem;
             margin-right: 0.5rem;
-        }
-
-        /* Mobile navbar layout */
-        .mobile-navbar-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            gap: 0.5rem;
-        }
-
-        .mobile-navbar-content .navbar-brand {
-            flex: 1;
-            text-align: center;
-            margin: 0;
-        }
-
-        .mobile-header-actions {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
     }
 
@@ -407,6 +261,14 @@ header("Content-Type: text/html; charset=utf-8");
 
         .navbar-brand span {
             font-size: 1.7rem;
+        }
+
+        .navbar-collapse {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 0.5rem;
         }
     }
 
@@ -474,216 +336,6 @@ header("Content-Type: text/html; charset=utf-8");
         display: flex;
         gap: 1rem;
         margin-top: 2rem;
-    }
-
-    /* Rest of your existing styles... */
-    /* (Include all the other styles from your original code here) */
-
-    /* ===== CATEGORY NAVIGATION & DROPDOWN STYLES ===== */
-    .category-nav {
-        background: #fff;
-        border-bottom: 1px solid #eee;
-        overflow: visible !important;
-        white-space: nowrap;
-        position: relative;
-        z-index: 1000;
-    }
-
-    .category-nav .navbar-nav {
-        flex-wrap: nowrap;
-        overflow: visible !important;
-    }
-
-    .category-nav .nav-item {
-        position: relative;
-    }
-
-    .category-nav .nav-link {
-        font-weight: 600;
-        color: #222 !important;
-        margin-right: 10px;
-        padding: 0.5rem 0.75rem;
-        transition: all 0.3s ease;
-        white-space: nowrap;
-    }
-
-    .category-nav .nav-link:hover::after {
-        content: '';
-        display: block;
-        height: 3px;
-        width: 90%;
-        margin: 0 auto 0 auto;
-        background: #ff5757;
-        border-radius: 1.5px;
-        position: absolute;
-        bottom: 0;
-        left: 5%;
-        right: 5%;
-    }
-
-    /* Dropdown mega menu styles */
-    .dropdown-mega {
-        position: relative;
-        z-index: 1001;
-    }
-
-    .dropdown-mega .mega-menu {
-        width: 400px;
-        left: 0;
-        right: auto;
-        position: absolute !important;
-        top: 100%;
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-        display: none;
-        z-index: 99999 !important;
-        padding: 20px;
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: all 0.3s ease;
-    }
-
-    .dropdown-mega:hover .mega-menu {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .dropdown-mega .dropdown-header {
-        font-weight: 600;
-        color: #ff5757;
-        font-size: 16px;
-        margin-bottom: 15px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #eee;
-    }
-
-    .dropdown-mega .dropdown-item {
-        font-size: 14px;
-        padding: 8px 12px;
-        border-radius: 6px;
-        transition: all 0.3s ease;
-        color: #555;
-        text-decoration: none;
-        display: block;
-        margin-bottom: 2px;
-    }
-
-    .dropdown-mega .dropdown-item:hover {
-        background-color: rgba(255, 87, 87, 0.1);
-        color: #ff5757;
-        text-decoration: none;
-    }
-
-    .dropdown-mega .dropdown-item i {
-        color: #ff5757;
-        margin-right: 8px;
-    }
-
-    .custom-container {
-        max-width: 1300px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 100%;
-    }
-
-    /* Mobile search bar full width with margins */
-    @media (max-width: 991.98px) {
-        .mobile-search-container {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            /* Margin from start and end */
-            background: #fff;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .mobile-search-container .header-search {
-            margin: 0;
-            max-width: none;
-        }
-
-        .mobile-search-container .header-search input {
-            width: 100%;
-            border-radius: 25px;
-            border: 2px solid #f0f0f0;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            background: #fafafa;
-        }
-
-        .mobile-search-container .header-search input:focus {
-            border-color: #ff5757;
-            box-shadow: 0 0 0 0.2rem rgba(255, 87, 87, 0.25);
-            background: #fff;
-        }
-    }
-
-    /* Custom hamburger icon - Fixed */
-    .navbar-toggler {
-        border: none;
-        padding: 0.4rem;
-        background: none;
-        box-shadow: none !important;
-        outline: none !important;
-        width: 40px;
-        height: 40px;
-        position: relative;
-    }
-
-    .navbar-toggler:focus {
-        box-shadow: none;
-        outline: none;
-    }
-
-    .navbar-toggler-icon {
-        background-image: none !important;
-        width: 24px;
-        height: 18px;
-        position: relative;
-        display: block;
-    }
-
-    /* Three horizontal lines */
-    .navbar-toggler-icon,
-    .navbar-toggler-icon::before,
-    .navbar-toggler-icon::after {
-        width: 24px;
-        height: 3px;
-        background-color: #333;
-        border-radius: 1px;
-        transition: all 0.3s ease;
-    }
-
-    .navbar-toggler-icon::before,
-    .navbar-toggler-icon::after {
-        content: '';
-        position: absolute;
-        left: 0;
-    }
-
-    .navbar-toggler-icon::before {
-        top: -7px;
-    }
-
-    .navbar-toggler-icon::after {
-        top: 7px;
-    }
-
-    /* Animation when opened */
-    .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
-        background-color: transparent;
-    }
-
-    .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
-        transform: rotate(45deg);
-        top: 0;
-    }
-
-    .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
-        transform: rotate(-45deg);
-        top: 0;
     }
 
     /* ===== EMAIL SIGNUP STYLES ===== */
@@ -1010,9 +662,95 @@ header("Content-Type: text/html; charset=utf-8");
     .category-nav::-webkit-scrollbar-thumb:hover {
         background: #e14545;
     }
+</style>
 
-    /* ===== MEGA MENU DROPDOWN STYLES (Updated) ===== */
-    .mega-menu {
+<style>
+    /* Footer styles updated with new theme color */
+    body {
+        font-family: "Poppins", sans-serif;
+    }
+
+    footer {
+        background-color: #f9f9f9;
+        padding: 60px 0 30px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    footer h6 {
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: #111;
+        font-size: 15px;
+    }
+
+    footer p,
+    footer a {
+        font-size: 14px;
+        line-height: 1.7;
+        color: #555;
+        text-decoration: none;
+    }
+
+    footer a:hover {
+        color: #ff5757;
+    }
+
+    .footer-logo {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .footer-logo span {
+        color: #ff5757;
+        font-weight: 700;
+    }
+
+    .footer-counts p {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .footer-links ul {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 8px;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid #ddd;
+        margin-top: 40px;
+        padding-top: 20px;
+        font-size: 13px;
+        color: #777;
+    }
+
+    .social-icons a {
+        color: #555;
+        margin-right: 15px;
+        font-size: 16px;
+    }
+
+    .social-icons a:hover {
+        color: #ff5757;
+    }
+
+    .dropdown-toggle {
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 6px 14px;
+        border-radius: 6px;
+    }
+
+    .certified-badge img {
+        max-width: 100px;
+    }
+
+    /* Mega-menu dropdown */
+    .dropdown-mega .mega-menu {
         width: 650px;
         left: 0;
         right: auto;
@@ -1041,6 +779,162 @@ header("Content-Type: text/html; charset=utf-8");
         background: transparent;
         border-radius: 0;
     }
+
+    @media (max-width: 991.98px) {
+        .dropdown-mega .mega-menu {
+            width: 100vw;
+            min-width: unset;
+            left: 0;
+            right: 0;
+            position: static !important;
+            box-shadow: none;
+        }
+    }
+</style>
+<style>
+    /* ===== CATEGORY NAVIGATION & DROPDOWN STYLES ===== */
+
+    /* Main category navigation container */
+    .category-nav {
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        overflow: visible !important;
+        /* Important: Don't clip dropdowns */
+        white-space: nowrap;
+        position: relative;
+        z-index: 1000;
+    }
+
+    .category-nav .navbar-nav {
+        flex-wrap: nowrap;
+        overflow: visible !important;
+    }
+
+    .category-nav .nav-item {
+        position: relative;
+    }
+
+    .category-nav .nav-link {
+        font-weight: 600;
+        color: #222 !important;
+        margin-right: 10px;
+        padding: 0.5rem 0.75rem;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    /*
+    .category-nav .nav-link:hover {
+        color: #ff5757 !important;
+    }*/
+
+    .category-nav .nav-link:hover::after {
+        content: '';
+        display: block;
+        height: 3px;
+        width: 90%;
+        margin: 0 auto 0 auto;
+        background: #ff5757;
+        border-radius: 1.5px;
+        position: absolute;
+        bottom: 0;
+        left: 5%;
+        right: 5%;
+    }
+
+    /* ===== DROPDOWN MEGA MENU STYLES ===== */
+
+    /* Parent dropdown container */
+    .dropdown-mega {
+        position: relative;
+        z-index: 1001;
+    }
+
+    /* Mega menu dropdown */
+    .dropdown-mega .mega-menu {
+        width: 400px;
+        left: 0;
+        right: auto;
+        position: absolute !important;
+        top: 100%;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        display: none;
+        z-index: 99999 !important;
+        /* High z-index to ensure it's on top */
+        padding: 20px;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+    }
+
+    /* Show dropdown on hover */
+    .dropdown-mega:hover .mega-menu {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Dropdown header styling */
+    .dropdown-mega .dropdown-header {
+        font-weight: 600;
+        color: #ff5757;
+        font-size: 16px;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* Dropdown items */
+    .dropdown-mega .dropdown-item {
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        color: #555;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .dropdown-mega .dropdown-item:hover {
+        background-color: rgba(255, 87, 87, 0.1);
+        color: #ff5757;
+        text-decoration: none;
+    }
+
+    .dropdown-mega .dropdown-item i {
+        color: #ff5757;
+        margin-right: 8px;
+    }
+
+    /* Remove existing border on dropdown-toggle */
+    .dropdown-toggle {
+        background-color: white;
+        border: none !important;
+        /* Remove border */
+        box-shadow: none !important;
+        padding: 6px 14px;
+        /* Keep padding for clickable area */
+        border-radius: 6px;
+        position: relative;
+    }
+
+    /* If you want a custom arrow instead of bootstrap's, use this: */
+    .dropdown-toggle::after {
+        content: "\f078";
+        /* Font Awesome down arrow, or use ▼ instead: "\25BC" */
+        font-family: "FontAwesome";
+        /* Or remove line for plain text arrow */
+        font-size: 0.75em;
+        border: none;
+        margin-left: 0.5em;
+        vertical-align: middle;
+    }
+
+    /* ===== ALTERNATIVE: SIMPLE HOVER DROPDOWN ===== */
 
     /* Simple submenu for pure CSS approach */
     .nav-item.has-submenu {
@@ -1085,35 +979,7 @@ header("Content-Type: text/html; charset=utf-8");
         text-decoration: none;
     }
 
-    /* ===== BOOTSTRAP DROPDOWN OVERRIDE ===== */
-    .navbar-nav .dropdown-menu {
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        border: 1px solid #e0e0e0;
-        z-index: 99999 !important;
-    }
 
-    .navbar-nav .dropdown-item:hover {
-        background-color: rgba(255, 87, 87, 0.1);
-        color: #ff5757;
-    }
-
-    /* ===== ACCESSIBILITY & FOCUS STATES ===== */
-    .dropdown-mega .dropdown-item:focus,
-    .submenu a:focus,
-    .nav-link:focus {
-        outline: 2px solid #ff5757;
-        outline-offset: 2px;
-    }
-
-    /* Keyboard navigation support */
-    .dropdown-mega:focus-within .mega-menu,
-    .nav-item.has-submenu:focus-within .submenu {
-        display: block;
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
 
     /* === CATEGORY NAV CLEAN ACTIVE UNDERLINE === */
     .category-nav .nav-link {
@@ -1146,6 +1012,7 @@ header("Content-Type: text/html; charset=utf-8");
         width: 90%;
         margin: 0 auto;
         background: #ff5757;
+        /* a faint underline for hover */
         border-radius: 1.5px;
         position: absolute;
         bottom: -8px;
@@ -1203,185 +1070,232 @@ header("Content-Type: text/html; charset=utf-8");
         font-weight: 700;
     }
 
-    /* Remove existing border on dropdown-toggle */
-    .dropdown-toggle {
-        background-color: white;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 6px 14px;
-        border-radius: 6px;
-        position: relative;
+    /* ===== RESPONSIVE STYLES ===== */
+
+    /* Mobile and tablet responsive */
+    @media (max-width: 991.98px) {
+        .dropdown-mega .mega-menu {
+            width: 100%;
+            position: static !important;
+            display: block;
+            box-shadow: none;
+            border: none;
+            padding: 10px 0;
+            background: rgba(255, 87, 87, 0.05);
+            opacity: 1;
+            transform: none;
+        }
+
+        .nav-item.has-submenu .submenu {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            box-shadow: none;
+            border: none;
+            background: rgba(255, 87, 87, 0.05);
+            min-width: auto;
+            display: none;
+        }
+
+        .nav-item.has-submenu:hover .submenu,
+        .nav-item.has-submenu.active .submenu {
+            display: block;
+        }
+
+        .category-nav .navbar-nav {
+            padding: 0.5rem 0;
+        }
+
+        .category-nav .nav-link {
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            padding: 0.4rem 0.6rem;
+        }
     }
 
-    /* Custom arrow for dropdown instead of bootstrap's */
-    .dropdown-toggle::after {
-        content: "\f078";
-        font-family: "FontAwesome";
-        font-size: 0.75em;
-        border: none;
-        margin-left: 0.5em;
-        vertical-align: middle;
+    /* Mobile styles */
+    @media (max-width: 575.98px) {
+        .category-nav .nav-link {
+            font-size: 0.85rem;
+            padding: 0.3rem 0.5rem;
+        }
+
+        .dropdown-mega .dropdown-item,
+        .submenu a {
+            font-size: 13px;
+            padding: 8px 12px;
+        }
     }
 
-    /* Profile dropdown fixes */
-    .dropdown-menu {
+    /* ===== BOOTSTRAP DROPDOWN OVERRIDE ===== */
+
+    /* If using Bootstrap dropdowns */
+    .navbar-nav .dropdown-menu {
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         border: 1px solid #e0e0e0;
-        z-index: 9999 !important;
-        min-width: 160px;
-        margin-top: 0.5rem;
+        z-index: 99999 !important;
     }
 
-    .dropdown-item {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-        color: #333;
-        transition: all 0.3s ease;
-    }
-
-    .dropdown-item:hover {
+    .navbar-nav .dropdown-item:hover {
         background-color: rgba(255, 87, 87, 0.1);
         color: #ff5757;
     }
 
-    /* Ensure dropdown appears above other elements */
-    .navbar .dropdown {
-        position: relative;
-        z-index: 1050;
+    /* ===== FORCE DROPDOWN TO FRONT (EMERGENCY FIX) ===== */
+
+    /* Emergency z-index fixes */
+    .dropdown-menu,
+    .mega-menu,
+    .submenu,
+    .dropdown-mega .mega-menu {
+        z-index: 99999 !important;
+        position: absolute !important;
     }
 
-    .dropdown-menu.show {
-        display: block !important;
+    /* Ensure parent containers don't interfere */
+    .navbar-nav,
+    .category-nav,
+    .navbar,
+    .container-fluid {
+        overflow: visible !important;
+    }
+
+    /* Fix for any potential conflicts */
+    .dropdown-mega,
+    .nav-item.has-submenu {
+        z-index: 1001;
+    }
+
+    /* ===== SCROLL BAR STYLING FOR CATEGORY NAV ===== */
+
+    .category-nav::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .category-nav::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .category-nav::-webkit-scrollbar-thumb {
+        background: #ff5757;
+        border-radius: 2px;
+    }
+
+    .category-nav::-webkit-scrollbar-thumb:hover {
+        background: #e14545;
+    }
+
+    /* ===== ACCESSIBILITY & FOCUS STATES ===== */
+
+    .dropdown-mega .dropdown-item:focus,
+    .submenu a:focus,
+    .nav-link:focus {
+        outline: 2px solid #ff5757;
+        outline-offset: 2px;
+    }
+
+    /* Keyboard navigation support */
+    .dropdown-mega:focus-within .mega-menu,
+    .nav-item.has-submenu:focus-within .submenu {
+        display: block;
         opacity: 1;
         visibility: visible;
+        transform: translateY(0);
     }
 
-    /* Mobile dropdown adjustments */
+    .custom-container {
+        max-width: 1300px;
+        /* or any width */
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
+
+    /* Mobile and tablet responsive */
     @media (max-width: 991.98px) {
-        .mobile-header-actions .dropdown-menu {
-            right: 0;
-            left: auto;
-            transform: translateX(0);
+        .dropdown-mega .mega-menu {
+            width: 100%;
+            position: static !important;
+            display: none;
+            box-shadow: none;
+            border: none;
+            padding: 10px 0;
+            background: rgba(255, 87, 87, 0.05);
+            opacity: 1;
+            transform: none;
+        }
+
+        .dropdown-mega.show .mega-menu {
+            display: block !important;
+        }
+
+        .nav-item.has-submenu .submenu {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            box-shadow: none;
+            border: none;
+            background: rgba(255, 87, 87, 0.05);
+            min-width: auto;
+            display: none;
+        }
+
+        .nav-item.has-submenu.active .submenu,
+        .nav-item.has-submenu.show .submenu {
+            display: block !important;
         }
     }
 
-    /* Remove grey shadow/backdrop on mobile category clicks */
     @media (max-width: 991.98px) {
 
-        /* Remove any backdrop shadows */
-        .modal-backdrop,
-        .offcanvas-backdrop {
-            display: none !important;
+        .dropdown-mega .mega-menu,
+        .nav-item.has-submenu .submenu {
+            display: none;
         }
 
-        /* Remove focus/active shadows from mobile category links */
-        .mobile-category-link:focus,
-        .mobile-category-link:active,
-        .mobile-category-link.active {
-            background: none !important;
-            box-shadow: none !important;
-            outline: none !important;
-        }
-
-        /* Remove touch highlights */
-        .mobile-category-link,
-        .mobile-subcategory-link {
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        /* Remove any overlay shadows */
-        .offcanvas.show {
-            box-shadow: none !important;
-        }
-
-        /* Ensure no grey overlay appears */
-        body.modal-open,
-        body.offcanvas-open {
-            overflow: auto !important;
-        }
-
-        /* Remove Bootstrap's default focus styles */
-        .mobile-category-link:focus-visible,
-        .mobile-subcategory-link:focus-visible {
-            outline: none !important;
-            box-shadow: none !important;
+        .dropdown-mega.show .mega-menu,
+        .nav-item.has-submenu.show .submenu,
+        .nav-item.has-submenu.active .submenu {
+            display: block !important;
         }
     }
 
-    /* Global fix for grey shadows on touch devices */
-    * {
-        -webkit-tap-highlight-color: transparent !important;
-    }
+    @media (max-width: 991.98px) {
+        .category-nav .navbar-nav {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            width: 100%;
+            scrollbar-width: thin;
+            scrollbar-color: #ff5757 #f1f1f1;
+        }
 
-    /* Remove any lingering shadows from offcanvas */
-    .mobile-menu-offcanvas {
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1) !important;
-    }
+        .category-nav .nav-item {
+            flex: 0 0 auto;
+        }
 
-    .mobile-menu-offcanvas.show {
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1) !important;
+        /* Spacing for touch targets */
+        .category-nav .nav-link {
+            padding-left: 0.8rem;
+            padding-right: 0.8rem;
+        }
     }
 </style>
 
 <body>
-    <!-- Mobile Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="custom-container px-3">
-            <!-- Mobile Layout -->
-            <div class="d-lg-none mobile-navbar-content">
-                <!-- Hamburger Menu Button -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#mobileMenuOffcanvas" aria-controls="mobileMenuOffcanvas" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <div class="d-flex w-100 align-items-center justify-content-between flex-wrap flex-lg-nowrap">
 
-                <!-- Logo (Centered) -->
-                <a class="navbar-brand d-flex align-items-center" id="logo-div" href="/">
-                    <img src="ic_logo.svg" alt="Digitals Design logo" style="height:48px;" />
-                </a>
-                <!-- Cart -->
-                <div class="cart-section">
-                    <a href="cart.php">
-                        <i class="bi bi-bag" style="font-size: 1.2em; color: #222"></i>
-                    </a>
-                    <span id="cartCountBadge" class="ms-1 fs-6" style="color: #aaa">0</span>
-                </div>
-                <!-- Mobile Actions -->
-                <div class="mobile-header-actions">
-                    <?php if (!$usercode): ?>
-                        <a class="btn btn-sign" href="login.php" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;">Sign
-                            In</a>
-                    <?php else: ?>
-                        <div class="dropdown">
-                            <button class="btn btn-cta dropdown-toggle" type="button" id="profileDropdownMobile"
-                                data-bs-toggle="dropdown" aria-expanded="false"
-                                style="font-size: 0.8rem; padding: 0.3rem 0.6rem;">
-                                <i class="fa fa-user-circle"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownMobile">
-                                <li><a class="dropdown-item" href="user/">My Profile</a></li>
-                            </ul>
-                        </div>
-                    <?php endif; ?>
-
-
-                </div>
-            </div>
-
-            <!-- Desktop Layout -->
-            <div class="d-none d-lg-flex w-100 align-items-center justify-content-between">
                 <!-- Logo -->
-                <a class="navbar-brand d-flex align-items-center" id="logo-div" href="/">
-                    <img src="ic_logo.svg" alt="Digitals Design logo" style="height:68px;" />
+                <a class="navbar-brand d-flex align-items-center mx-auto mx-lg-0" id="logo-div" href="/">
+                    <img src="ic_logo.svg" alt="Gadget Grid logo" style="height:68px;" />
                 </a>
+
 
                 <!-- Search Bar (centered) -->
                 <form class="header-search flex-grow-1 mx-3" role="search">
@@ -1391,9 +1305,13 @@ header("Content-Type: text/html; charset=utf-8");
 
                 <!-- Right Side -->
                 <div class="d-flex align-items-center gap-3 flex-shrink-0">
+                    <!-- CTA on small screens -->
+
                     <?php if (!$usercode): ?>
+                        <!-- If not signed in -->
                         <a class="btn btn-sign" href="login.php">Sign In</a>
                     <?php else: ?>
+                        <!-- If signed in -->
                         <div class="dropdown">
                             <button class="btn btn-cta dropdown-toggle" type="button" id="profileDropdown"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -1414,46 +1332,19 @@ header("Content-Type: text/html; charset=utf-8");
                     </div>
                 </div>
             </div>
-
-            <!-- Mobile Search Bar (Full Width Below Header) -->
-
-            <div class="d-lg-none mobile-search-container">
-                <form class="header-search" role="search">
-                    <input id="main-search-input-mobile" class="form-control" type="search"
-                        placeholder="Search names, categories, occasions..." aria-label="Search" />
-                </form>
-            </div>
-
         </div>
     </nav>
 
-    <!-- Mobile Menu Offcanvas -->
-    <div class="offcanvas offcanvas-start mobile-menu-offcanvas" tabindex="-1" id="mobileMenuOffcanvas"
-        aria-labelledby="mobileMenuOffcanvasLabel">
-        <div class="mobile-menu-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0" id="mobileMenuOffcanvasLabel">Categories</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
-        </div>
-        <div class="mobile-menu-body">
-            <div id="mobile-category-menu">
-                <!-- Categories will be loaded here via JavaScript -->
-            </div>
-        </div>
-    </div>
 
-    <!-- Desktop Category Navigation -->
-    <nav class="navbar navbar-expand category-nav d-none d-lg-block">
+    <!-- Category Navigation -->
+    <nav class="navbar navbar-expand category-nav">
         <div class="custom-container px-3">
             <ul class="navbar-nav" id="category-nav"></ul>
         </div>
     </nav>
 
+
+
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
-    <!-- Your existing JavaScript code continues here... -->
-</body>
-
-</html>

@@ -104,7 +104,7 @@ if ($product_id <= 0) {
         <p class="mb-1" id="product-meta"></p>
         <h4 class="text-danger mt-2" id="product-price"></h4>
         <div class="d-flex align-items-center mb-2" id="product-rating"></div>
-        <div class="mb-3" id="product-social"></div>
+
 
         <div class="d-flex flex-column flex-md-row gap-3 mt-4">
           <button id="buyNowBtn" class="btn btn-success w-100">
@@ -272,10 +272,7 @@ if ($product_id <= 0) {
             <span class="ms-2">${wishlist_count}</span>`;
 
         // Social, Additional Info
-        document.getElementById('product-social').innerHTML =
-          `<button class="btn btn-sm btn-outline-danger me-2">Save</button>
-           <button class="btn btn-sm btn-dark me-2">X Post</button>
-           <button class="btn btn-sm btn-primary">Share</button>`;
+
         document.getElementById('product-additional-info').innerHTML =
           `
           <p>${product.addional_info}</p>`;
