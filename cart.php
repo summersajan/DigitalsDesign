@@ -444,8 +444,8 @@
             <thead>
               <tr>
                 <th style="width: 60px; text-align: center;">Remove</th>
-                <th style="width: 150px;"></th>
-                <th>Product</th>
+                <th style="width: 220px;">Product</th>
+                <th></th>
                 <th style="width: 120px;" class="text-end">Price</th>
               </tr>
             </thead>
