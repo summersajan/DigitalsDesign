@@ -876,84 +876,6 @@ header("Content-Type: text/html; charset=utf-8");
     }
 
     /* ===== FOOTER STYLES ===== */
-    footer {
-        background-color: #f9f9f9;
-        padding: 60px 0 30px;
-        font-size: 14px;
-        color: #555;
-    }
-
-    footer h6 {
-        font-weight: 600;
-        margin-bottom: 16px;
-        color: #111;
-        font-size: 15px;
-    }
-
-    footer p,
-    footer a {
-        font-size: 14px;
-        line-height: 1.7;
-        color: #555;
-        text-decoration: none;
-    }
-
-    footer a:hover {
-        color: #ff5757;
-    }
-
-    .footer-logo {
-        font-size: 24px;
-        font-weight: 700;
-    }
-
-    .footer-logo span {
-        color: #ff5757;
-        font-weight: 700;
-    }
-
-    .footer-counts p {
-        margin: 0;
-        font-weight: 600;
-    }
-
-    .footer-links ul {
-        padding-left: 0;
-        list-style: none;
-    }
-
-    .footer-links li {
-        margin-bottom: 8px;
-    }
-
-    .footer-bottom {
-        border-top: 1px solid #ddd;
-        margin-top: 40px;
-        padding-top: 20px;
-        font-size: 13px;
-        color: #777;
-    }
-
-    .social-icons a {
-        color: #555;
-        margin-right: 15px;
-        font-size: 16px;
-    }
-
-    .social-icons a:hover {
-        color: #ff5757;
-    }
-
-    .dropdown-toggle {
-        background-color: white;
-        border: 1px solid #ccc;
-        padding: 6px 14px;
-        border-radius: 6px;
-    }
-
-    .certified-badge img {
-        max-width: 100px;
-    }
 
     /* ===== DROPDOWN MENU STYLES ===== */
     .dropdown-menu {
@@ -1575,6 +1497,74 @@ header("Content-Type: text/html; charset=utf-8");
         }
     }
 </style>
+<style>
+    footer {
+        background-color: #f9f9f9;
+        padding: 60px 0 30px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    footer h6 {
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: #111;
+        font-size: 15px;
+    }
+
+    footer p,
+    footer a {
+        font-size: 14px;
+        line-height: 1.7;
+        color: #555;
+        text-decoration: none;
+    }
+
+    footer a:hover {
+        color: #ff5757;
+    }
+
+    .footer-counts p {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .footer-links ul {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 8px;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid #ddd;
+        margin-top: 40px;
+        padding-top: 20px;
+        font-size: 13px;
+        color: #777;
+    }
+
+    .social-icons a {
+        color: #555;
+        margin-right: 15px;
+        font-size: 16px;
+    }
+
+    .social-icons a:hover {
+        color: #ff5757;
+    }
+
+    /* Mobile & tablet alignment fix */
+    @media (max-width: 991px) {
+
+        .footer-top .col-lg-4,
+        .footer-top .col-lg-2 {
+            text-align: left;
+        }
+    }
+</style>
 
 <body>
     <!-- Mobile Navigation -->
@@ -1609,8 +1599,12 @@ header("Content-Type: text/html; charset=utf-8");
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownMobile">
                                 <li><a class="dropdown-item" href="user/">My Profile</a></li>
+                                <li><a class="dropdown-item" href="user/auth/logout.php">Logout</a></li>
                             </ul>
+
                         </div>
+
+
                     <?php endif; ?>
                     <div class="cart-section">
                         <a href="cart.php">
@@ -1647,7 +1641,9 @@ header("Content-Type: text/html; charset=utf-8");
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                                 <li><a class="dropdown-item" href="user/">My Profile</a></li>
+                                <li><a class="dropdown-item" href="user/auth/logout.php">Logout</a></li>
                             </ul>
+
                         </div>
                     <?php endif; ?>
 

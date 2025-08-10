@@ -238,7 +238,7 @@
                         <div class="mb-3 password-container">
                             <label for="login-password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="login-password" name="password" required>
-                            <i class="fas fa-eye password-toggle" id="toggleLoginPassword"></i>
+                            <i class="fas fa-eye password-toggle" style="margin-top: 5%;" id="toggleLoginPassword"></i>
                         </div>
                         <div class="mb-3">
                             <div class="text-center mt-3">

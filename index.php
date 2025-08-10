@@ -52,7 +52,7 @@
     </div>
 
     <!-- Premium Section -->
-    <div class="container py-4" id="premium-section">
+    <div class="container py-4" id="premium-section" style="margin-top:-3%;">
         <h4 class="fw-bold">Premium Graphic Design Resources</h4>
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="premium-products-dynamic"></div>
@@ -112,7 +112,10 @@
                     <button class="action-btn cart-btn" title="Add to Cart"><i class="fa-solid fa-cart-plus"></i></button>
                 </div>
                 <div class="p-3">
-                    <a href="product.php?product_id=${p.product_id}"><h6 class="mb-1 fw-semibold">${p.title}</h6></a>
+                   <a href="product.php?product_id=${p.product_id}" style="text-decoration: none; color: black;">
+    <h6 class="mb-1 fw-semibold">${p.title}</h6>
+</a>
+
                     <small class="text-muted">${p.vendor || ''}</small><br/>
                     <span class="text-danger fw-bold">$${parseFloat(p.price || 0).toFixed(2)}</span>
                     ${p.old_price ? `<span class="strike">$${parseFloat(p.old_price).toFixed(2)}</span>` : ''}

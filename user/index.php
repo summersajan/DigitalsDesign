@@ -515,14 +515,14 @@
                     const parsed = typeof data === 'string' ? JSON.parse(data) : data;
 
                     $('#userName').text(parsed.name || 'User');
-                    $('#userEmail').text(parsed.email || 'user@example.com');
+                    $('#userEmail').text(parsed.email || '');
                     if (parsed.initials) {
                         $('#userAvatar').html(parsed.initials);
                     }
                 } catch (e) {
                     console.error('Error parsing user data:', e);
                     $('#userName').text('User');
-                    $('#userEmail').text('user@example.com');
+                    $('#userEmail').text('');
                 }
             });
 

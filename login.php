@@ -132,10 +132,13 @@
         .password-toggle {
             position: absolute;
             right: 10px;
+            /* distance from the right edge */
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            color: var(--text-color);
+            color: #6c757d;
+            /* optional */
+            pointer-events: auto;
         }
 
         .password-container {
@@ -253,7 +256,7 @@
                         <div class="mb-3 password-container">
                             <label for="login-password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="login-password" name="password" required>
-                            <i class="fas fa-eye password-toggle" id="toggleLoginPassword"></i>
+                            <i class="fas fa-eye password-toggle" style="margin-top: 5%;" id="toggleLoginPassword"></i>
                         </div>
                         <div class="mb-3 form-check">
                             <div class="text-center mt-3">
@@ -290,7 +293,8 @@
                         <div class="mb-3 password-container">
                             <label for="register-password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="register-password" name="password" required>
-                            <i class="fas fa-eye password-toggle" id="toggleRegisterPassword"></i>
+                            <i class="fas fa-eye password-toggle" style="margin-top: 5%;"
+                                id="toggleRegisterPassword"></i>
                         </div>
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="terms-agree">

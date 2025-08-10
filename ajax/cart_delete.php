@@ -15,4 +15,8 @@ $cart_id = $cart->fetch_assoc()['cart_id'];
 $stmt = $mysqli->prepare("DELETE FROM cart_items WHERE cart_item_id=? AND cart_id=?");
 $stmt->bind_param("ii", $cart_item_id, $cart_id);
 $stmt->execute();
-echo "Cart Deleted";
+if ($stmt->affected_rows > 0) {
+    echo json_encode(["status" => "success", "message" => "Cart item deleted"]);
+} else {
+    echo json_encode(["status" => "error", "message" => "Item not found or already deleted"]);
+}

@@ -694,12 +694,13 @@
         showMessage('Item removed from cart successfully', 'success');
       },
       error: function (xhr, status, error) {
-        console.error('Delete failed:', error, xhr.responseText);
-        try {
-          const errorResponse = JSON.parse(xhr.responseText);
-          showMessage(errorResponse.message || 'Failed to remove item', 'error');
-        } catch (e) {
-          showMessage('Failed to remove item. Please try again.', 'error');
+        if (response.status === 'success') {
+          showMessage('Item removed from cart successfully', 'success');
+          setTimeout(function () {
+            location.reload();
+          }, 1000); // 1 second
+        } else {
+          showMessage(response.message || 'Failed to remove item', 'error');
         }
       },
       complete: function () {
