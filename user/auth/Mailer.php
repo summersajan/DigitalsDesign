@@ -313,7 +313,8 @@ class Mailer
                 $price = number_format($item['price'], 2);
                 $itemsHtml .= "
                         <tr>
-                            <td style='padding: 10px; border-bottom: 1px solid #ddd; color: #333;'>{$item['product_id']}</td>
+                            <td style='padding: 10px; border-bottom: 1px solid #ddd; color: #333;'>{$item['product_name']}</td>
+
                             <td style='padding: 10px; border-bottom: 1px solid #ddd; color: #333; text-align: center;'>{$item['quantity']}</td>
                             <td style='padding: 10px; border-bottom: 1px solid #ddd; color: #333; text-align: right;'>{$price}</td>
                             <td style='padding: 10px; border-bottom: 1px solid #ddd; color: #333; text-align: right; font-weight: bold;'>{$subtotal}</td>
@@ -346,7 +347,7 @@ class Mailer
                         <table width='100%' style='border-collapse: collapse;'>
                             <thead>
                                 <tr style='background: #f5f5f5;'>
-                                    <th style='padding: 10px; text-align: left; font-size: 14px;'>Product ID</th>
+                                    <th style='padding: 10px; text-align: left; font-size: 14px;'>Product Name</th>
                                     <th style='padding: 10px; text-align: center; font-size: 14px;'>Quantity</th>
                                     <th style='padding: 10px; text-align: right; font-size: 14px;'>Price</th>
                                     <th style='padding: 10px; text-align: right; font-size: 14px;'>Subtotal</th>

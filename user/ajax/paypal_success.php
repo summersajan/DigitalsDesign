@@ -74,11 +74,20 @@ $stmt->close();
 
 // STEP 6: Get cart items
 $stmt = $mysqli->prepare("
-    SELECT ci.product_id, ci.quantity, p.price 
+    SELECT ci.product_id, p.title AS product_name, ci.quantity, p.price 
     FROM cart_items ci
     JOIN products p ON ci.product_id = p.product_id
     WHERE ci.cart_id = ?
 ");
+
+
+
+/*$stmt = $mysqli->prepare("
+    SELECT ci.product_id, ci.quantity, p.price 
+    FROM cart_items ci
+    JOIN products p ON ci.product_id = p.product_id
+    WHERE ci.cart_id = ?
+");*/
 $stmt->bind_param('i', $cart_id);
 $stmt->execute();
 $result = $stmt->get_result();
