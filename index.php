@@ -1,5 +1,56 @@
 <?php include 'header.php'; ?>
+<style>
+    /* Container uses flex */
+    .email-signup {
+        display: flex;
+        align-items: center;
+        max-width: 600px;
+        /* optional */
+        margin: 0 auto;
+    }
 
+    /* Input styling */
+    .email-input {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: none;
+        border-radius: 50px 0 0 50px;
+        /* round left side */
+        font-size: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Button styling */
+    .btn-signup {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 0 50px 50px 0;
+        /* round right side */
+        background: #ff4d4d;
+        color: #fff;
+        font-weight: 600;
+        white-space: nowrap;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* ✅ Mobile: stack vertical */
+    @media (max-width: 767px) {
+        .email-signup {
+            flex-direction: column;
+        }
+
+        .email-input {
+            border-radius: 50px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .btn-signup {
+            border-radius: 50px;
+            width: 100%;
+        }
+    }
+</style>
 <!-- Hero -->
 <section class="hero-section" id="hero-section">
     <div class="container">
@@ -20,17 +71,15 @@
                     <span class="text-link"></span> Revolutionize your online presence with expertly
                     crafted digital products engineered for maximum engagement and sales.
                 </p>
-                <form class="email-signup mt-4 row gx-2 align-items-center">
-                    <div class="col-12 col-md-auto d-flex align-items-center mb-2 mb-md-0">
+                <?php if (!$usercode): ?>
+                    <form class="email-signup mt-4 d-flex">
+                        <input type="email" class="form-control email-input" placeholder="Enter email address" required />
+                        <button class="btn btn-signup" type="submit">Sign Up</button>
+                    </form>
+                <?php endif; ?>
 
-                    </div>
-                    <div class="col-12 col-md">
-                        <input type="email" class="form-control" placeholder="Enter email address" required />
-                    </div>
-                    <div class="col-12 col-md-auto mt-2 mt-md-0">
-                        <button class="btn btn-signup w-100" type="submit">Sign Up</button>
-                    </div>
-                </form>
+
+
             </div>
             <div class="col-lg-6 text-center">
                 <img class="hero-img" src="images/octopus.webp" alt="Cute Octopus" />
@@ -112,7 +161,7 @@
                     <button class="action-btn cart-btn" title="Add to Cart"><i class="fa-solid fa-cart-plus"></i></button>
                 </div>
                 <div class="p-3">
-                   <a href="product.php?product_id=${p.product_id}" style="text-decoration: none; color: black;">
+                   <a href="product/${p.product_id}" style="text-decoration: none; color: black;">
     <h6 class="mb-1 fw-semibold">${p.title}</h6>
 </a>
 
@@ -288,7 +337,7 @@
         let searchTimeout = null;
         $('#main-search-input, #main-search-input-mobile').on('input', function () {
             clearTimeout(searchTimeout);
-            let val = $(this).val().trim();
+            let val = $(this).val();
 
             // Sync both search inputs
             $('#main-search-input, #main-search-input-mobile').val(val);
@@ -359,7 +408,7 @@
 
             if (catId) {
                 currentCategory = catId;
-                currentCategoryName = $(this).text().trim();
+                currentCategoryName = $(this).text();
                 currentSearch = "";
                 searchPage = 0;
                 searchMode = true;
@@ -440,7 +489,7 @@
             // Add your email signup AJAX call here
             // showMessage('Thank you for subscribing!', 'success');
             $(this).find('input[type="email"]').val('');
-            window.location.href = 'login.php';
+            window.location.href = 'login?action=signup&email=' + encodeURIComponent(email);
         });
 
         // Initialize cart count
@@ -467,5 +516,7 @@
         }
     });
 </script>
+
+
 
 <?php include 'footer.html'; ?>

@@ -6,7 +6,7 @@ ob_start();
 <html>
 
 <head>
-    <meta http-equiv="refresh" content="2;url=../../index.php">
+    <meta http-equiv="refresh" content="2;url=../../">
     <title>Payment Cancelled</title>
     <style>
         body {

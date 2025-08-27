@@ -62,9 +62,11 @@ if ($items->num_rows === 0) {
             </tr>
         </thead>
         <tbody>
-            <?php while ($row = $items->fetch_assoc()): ?>
+            <?php
+            $i = 1;
+            while ($row = $items->fetch_assoc()): ?>
                 <tr data-id="<?= $row['wishlist_item_id'] ?>">
-                    <td><?= $row['wishlist_item_id'] ?></td>
+                    <td><?= $i++ ?></td>
                     <td>
                         <div class="d-flex align-items-center">
                             <img src="<?= htmlspecialchars($row['image_url']) ?>"

@@ -219,7 +219,7 @@
 </head>
 
 <body>
-    <a href="index.php" style="
+    <a href="/" style="
     position: absolute;
     top: 20px;
     left: 20px;
@@ -893,6 +893,28 @@
                 alert.addClass('d-none');
             }, 3000);
         }
+
+
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const action = urlParams.get("action");
+            const email = urlParams.get("email");
+
+            // If action is signup → show signup form
+            if (action === "signup") {
+                document.getElementById("login-form").style.display = "none";
+                document.getElementById("register-form").style.display = "block";
+
+                // Autofill email if provided
+                if (email) {
+                    document.getElementById("register-email").value = email;
+                }
+            }
+        });
 
 
 

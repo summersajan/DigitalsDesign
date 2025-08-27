@@ -163,7 +163,7 @@ foreach ($cart_items as $ci) {
 if ($mailer->sendPurchaseReceipt($_SESSION['user_email'], $order_id, $cart_items, $amount, $downloadLinks)) {
     echo "✅ Email sent successfully.";
     echo "<h2>✅ Payment Received<br>Order ID: $order_id<br>Redirecting...</h2>";
-    echo "<script>setTimeout(() => { window.location.href = '../index.php'; }, 2500);</script>";
+    echo "<script>setTimeout(() => { window.location.href = '../'; }, 2500);</script>";
 } else {
     echo "❌ Failed to send email. but payment is successful.";
 }

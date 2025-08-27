@@ -20,7 +20,7 @@ class Mailer
         $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $this->mail->Port = 587;
 
-        $this->mail->setFrom(getenv('EMAIL'), 'Digitals Product');
+        $this->mail->setFrom(getenv('EMAIL'), 'Digitals Design');
     }
 
     public function sendLinkEmail($toEmail, $type, $url)
@@ -40,7 +40,7 @@ class Mailer
                     <p><a href='{$url}'>Verify Account</a></p>
                     
                     <p>If you didn't request this, you can ignore this email.</p>
-                    <p>Thanks,<br>Digitals Product Team</p>
+                    <p>Thanks,<br>Digitals Design Team</p>
                 ";
             } elseif ($type === 'reset') {
                 $this->mail->Subject = "Reset Your Password";
@@ -50,7 +50,7 @@ class Mailer
                     <p><a href='{$url}'>Reset Password</a></p>
                     
                     <p>If you didn't request this, you can ignore this email.</p>
-                    <p>Thanks,<br>Digitals Product Team</p>
+                    <p>Thanks,<br>Digitals Design Team</p>
                 ";
             } else {
                 return ["status" => 0, "message" => "Invalid email type."];

@@ -1581,14 +1581,14 @@ header("Content-Type: text/html; charset=utf-8");
 
                 <!-- Logo (Centered) -->
                 <a class="navbar-brand d-flex align-items-center" id="logo-div" href="/">
-                    <img src="ic_logo.svg" alt="Digitals Design logo" style="height:38px;" />
+                    <img src="../ic_logo.svg" alt="Digitals Design logo" style="height:38px;" />
                 </a>
                 <!-- Cart -->
 
                 <!-- Mobile Actions -->
                 <div class="mobile-header-actions">
                     <?php if (!$usercode): ?>
-                        <a class="btn btn-sign" href="login" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;">Sign
+                        <a class="btn btn-sign" href="../login" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;">Sign
                             In</a>
                     <?php else: ?>
                         <div class="dropdown">
@@ -1607,7 +1607,7 @@ header("Content-Type: text/html; charset=utf-8");
 
                     <?php endif; ?>
                     <div class="cart-section">
-                        <a href="cart">
+                        <a href="../cart">
                             <i class="bi bi-bag" style="font-size: 1.2em; color: #222"></i>
                         </a>
                         <span id="cartCountBadge" class="ms-1 fs-6" style="color: #aaa">0</span>
@@ -1620,7 +1620,7 @@ header("Content-Type: text/html; charset=utf-8");
             <div class="d-none d-lg-flex w-100 align-items-center justify-content-between">
                 <!-- Logo -->
                 <a class="navbar-brand d-flex align-items-center" id="logo-div" href="/">
-                    <img src="ic_logo.svg" alt="Digitals Design logo" style="height:68px;" />
+                    <img src="../ic_logo.svg" alt="Digitals Design logo" style="height:68px;" />
                 </a>
 
                 <!-- Search Bar (centered) -->
@@ -1632,7 +1632,7 @@ header("Content-Type: text/html; charset=utf-8");
                 <!-- Right Side -->
                 <div class="d-flex align-items-center gap-3 flex-shrink-0">
                     <?php if (!$usercode): ?>
-                        <a class="btn btn-sign" href="login">Sign In</a>
+                        <a class="btn btn-sign" href="../login">Sign In</a>
                     <?php else: ?>
                         <div class="dropdown">
                             <button class="btn btn-cta dropdown-toggle" type="button" id="profileDropdown"
@@ -1649,7 +1649,7 @@ header("Content-Type: text/html; charset=utf-8");
 
                     <!-- Cart -->
                     <div class="cart-section">
-                        <a href="cart">
+                        <a href="../cart">
                             <i class="bi bi-bag" style="font-size: 1.4em; color: #222"></i>
                         </a>
                         <span id="cartCountBadge" class="ms-1 fs-6" style="color: #aaa">0</span>

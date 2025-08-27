@@ -3,8 +3,8 @@
         <div class="row">
             <!-- Logo + Description -->
             <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                <a class="navbar-brand d-flex align-items-center mb-3" href="index.php">
-                    <img src="ic_logo.svg" alt="logo" style="height: 68px;" />
+                <a class="navbar-brand d-flex align-items-center mb-3" href="../">
+                    <img src="../ic_logo.svg" alt="logo" style="height: 68px;" />
                 </a>
                 <p class="mb-3">
                     Craft, create, and inspire with endless design possibilities at
@@ -30,11 +30,11 @@
             <div class="col-lg-2 col-md-6 mb-4 mb-lg-0 footer-links">
                 <h6>Navigation</h6>
                 <ul>
-                    <li><a href="cookie">Cookie Policy</a></li>
-                    <li><a href="privacy">Privacy Policy</a></li>
-                  
-                    <li><a href="about">About Us</a></li>
-                    <li><a href="contact">Contact Us</a></li>
+                    <li><a href="../cookie">Cookie Policy</a></li>
+                    <li><a href="../privacy">Privacy Policy</a></li>
+                    
+                    <li><a href="../about">About Us</a></li>
+                    <li><a href="../contact">Contact Us</a></li>
                 </ul>
             </div>
 
@@ -45,15 +45,16 @@
                     <li><a href="mailto:support@digitalsdesign.com">Help Center</a></li>
                 </ul>
                 <ul>
-                <li><a href="terms">Terms and Conditions</a></li></ul>
+                    <li><a href="../terms">Terms and Conditions</a></li>
+                </ul>
             </div>
 
             <!-- Pages -->
             <div class="col-lg-2 col-md-6 footer-links">
                 <h6>Pages</h6>
                 <ul>
-                    <li><a href="login?action=signup">Register</a></li>
-                    <li><a href="login">Login</a></li>
+                    <li><a href="../login?action=signup">Register</a></li>
+                    <li><a href="../login">Login</a></li>
                 </ul>
             </div>
         </div>
@@ -75,7 +76,7 @@
 <script>
  
 $(function () {
-  $.getJSON('ajax/get_categories.php', function (tree) {
+  $.getJSON('../ajax/get_categories.php', function (tree) {
     $('#category-nav').html(renderMegaMenu(tree));
   });
 });
@@ -167,7 +168,7 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
   
           $.ajax({
               type: "POST",
-              url: 'ajax/product_action.php',
+              url: '../ajax/product_action.php',
               data: {
                   action: action,
                   product_id: productId,
@@ -180,13 +181,13 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
                   if (resp.success === '1') {
                       updateCartIconCount();
                       alert(resp.message || 'Added to cart successfully');
-                      window.location.href = 'cart';
+                      window.location.href = 'cart.php';
                   } else if (resp.success === '2') {
                       alert(resp.message || 'Added to wishlist successfully');
-                      window.location.href = 'wishlist';
+                      window.location.href = 'wishlist.php';
                   } else if (resp.success === 'login_required') {
                       alert(resp.message || 'Please log in to continue');
-                      window.location.href = 'login';
+                      window.location.href = 'login.php';
                   } else {
                       console.log('Unhandled response:', resp);
                       alert(resp.message || 'Something went wrong');
@@ -208,7 +209,7 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
   });
   
   function updateCartIconCount() {
-      $.getJSON('ajax/cart_get.php', function (items) {
+      $.getJSON('../ajax/cart_get.php', function (items) {
           console.log('Cart items received:', items); // Debug log
           
           let count = 0;
@@ -267,7 +268,7 @@ $(document).on('click', '#category-nav .dropdown-item, #category-nav .nav-link',
 <script>
   $(function () {
       // Load categories for both desktop and mobile
-      $.getJSON('ajax/get_categories.php', function (tree) {
+      $.getJSON('../ajax/get_categories.php', function (tree) {
           // Desktop menu
           $('#category-nav').html(renderMegaMenu(tree));
           // Mobile menu
@@ -612,7 +613,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Fix for category loading - make sure this runs after DOM is ready
   $(document).ready(function () {
       // Load categories immediately
-      $.getJSON('ajax/get_categories.php', function (tree) {
+      $.getJSON('../ajax/get_categories.php', function (tree) {
           // Desktop menu
           $('#category-nav').html(renderMegaMenu(tree));
           // Mobile menu

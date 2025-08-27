@@ -1,0 +1,75 @@
+RewriteEngine On
+# RewriteBase /digitalproductgit/DigitalsDesign/
+
+RewriteBase /
+
+
+# Pretty URL for product page
+# Old: product.php?product_id=13
+# New: product/13
+RewriteCond %{THE_REQUEST} \s/product\.php\?product_id=([0-9]+) [NC]
+RewriteRule ^product\.php$ product/%1 [R=301,L]
+
+# Internally route product
+RewriteRule ^product/([0-9]+)/?$ product.php?product_id=$1 [L,QSA]
+
+# Cart page
+# Old: cart.php
+# New: cart
+RewriteCond %{THE_REQUEST} \s/cart\.php [NC]
+RewriteRule ^cart\.php$ cart [R=301,L]
+
+RewriteRule ^cart/?$ cart.php [L,QSA]
+
+# Wishlist page
+# Old: wishlist.php
+# New: wishlist
+RewriteCond %{THE_REQUEST} \s/wishlist\.php [NC]
+RewriteRule ^wishlist\.php$ wishlist [R=301,L]
+
+RewriteRule ^wishlist/?$ wishlist.php [L,QSA]
+
+# Index page
+# Old: index.php
+# New: /
+RewriteCond %{THE_REQUEST} \s/index\.php [NC]
+RewriteRule ^index\.php$ / [R=301,L]
+
+RewriteRule ^$ index.php [L,QSA]
+
+# Test page rewrite
+RewriteRule ^test/([0-9]+)/?$ test.php?product_id=$1 [L,QSA]
+
+# ----------------------
+# Login Pretty URL
+# Old: login.php?action=signup&email=test@test.com
+# New: login?action=signup&email=test@test.com
+# ----------------------
+RewriteRule ^login$ login.php [L,QSA]
+
+
+# Static Pages Pretty URLs
+RewriteCond %{THE_REQUEST} \s/cookie\.php [NC]
+RewriteRule ^cookie\.php$ cookie [R=301,L]
+
+RewriteRule ^cookie/?$ cookie.php [L]
+
+RewriteCond %{THE_REQUEST} \s/privacy\.php [NC]
+RewriteRule ^privacy\.php$ privacy [R=301,L]
+
+RewriteRule ^privacy/?$ privacy.php [L]
+
+RewriteCond %{THE_REQUEST} \s/terms\.php [NC]
+RewriteRule ^terms\.php$ terms [R=301,L]
+
+RewriteRule ^terms/?$ terms.php [L]
+
+# About Us
+RewriteCond %{THE_REQUEST} \s/about\.php [NC]
+RewriteRule ^about\.php$ about [R=301,L]
+RewriteRule ^about/?$ about.php [L]
+
+# Contact Us
+RewriteCond %{THE_REQUEST} \s/contact\.php [NC]
+RewriteRule ^contact\.php$ contact [R=301,L]
+RewriteRule ^contact/?$ contact.php [L]

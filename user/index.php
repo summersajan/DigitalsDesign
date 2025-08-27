@@ -289,12 +289,46 @@
         }
 
         .order-status {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             padding: 0.25rem 0.75rem;
             border-radius: 999px;
+            /* pill */
             font-size: 0.75rem;
             font-weight: 600;
+
         }
+
+        .order-text {
+            position: relative;
+            top: 2px;
+            /* 👈 adjust this value to move down */
+        }
+
+
+        .order-circle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            /* 👈 smaller size */
+            height: 50px;
+            border-radius: 50%;
+            background: #f5f9fc;
+            font-size: 0.75rem;
+            /* scale text to fit */
+            font-weight: 600;
+            color: #4a5a6a;
+        }
+
+        .order-circle span {
+            position: relative;
+            top: 1px;
+            /* small downward adjustment */
+        }
+
+
 
         .status-completed {
             background: #ecfdf5;

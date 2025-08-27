@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->execute()) {
                 require_once 'Mailer.php'; // Adjust the path as necessary
 
-                $baseUrl = $mail_url . 'user/auth/verify_token.php';
+                $baseUrl = $mail_url . '/user/auth/verify_token.php';
                 $verifyLink = $baseUrl . '?token=' . urlencode($token);
 
                 $mailer = new Mailer();

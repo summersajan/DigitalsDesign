@@ -1,4 +1,4 @@
-<?php include 'header1.php'; ?>
+<?php include 'header.php'; ?>
 <?php
 $product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0;
 if ($product_id <= 0) {
@@ -166,11 +166,8 @@ if ($product_id <= 0) {
   let searchMode = false;
 
   function getProductId() {
-
-    const path = window.location.pathname;
-    const match = path.match(/product\/(\d+)/);
-    const productId = match ? match[1] : null;
-    return productId;
+    let pathParts = window.location.pathname.split('/').filter(Boolean);
+    return pathParts[pathParts.length - 1] || null;
   }
 
 
@@ -201,13 +198,13 @@ if ($product_id <= 0) {
         <div class="col">
             <div class="product-card bg-white">
                 <div class="rating"><i class="fa fa-star"></i> ${parseFloat(p.rating || 5).toFixed(1)}</div>
-                <img src="../${p.image || '../../images/octopus.webp'}" class="product-img" alt="${p.title}">
+                <img src="${p.image || '../../images/octopus.webp'}" class="product-img" alt="${p.title}">
                 <div class="overlay-buttons" data-product-id="${p.product_id}">
                     <button class="action-btn wishlist-btn" title="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
                     <button class="action-btn cart-btn" title="Add to Cart"><i class="fa-solid fa-cart-plus"></i></button>
                 </div>
                 <div class="p-3">
-                    <a href="product/${p.product_id}"><h6 class="mb-1 fw-semibold">${p.title}</h6></a>
+                    <a href="product.php?product_id=${p.product_id}"><h6 class="mb-1 fw-semibold">${p.title}</h6></a>
                     <small class="text-muted">${p.vendor || ''}</small><br/>
                     <span class="text-danger fw-bold">$${parseFloat(p.price).toFixed(2)}</span>
                     ${p.old_price ? `<span class="strike">$${parseFloat(p.old_price).toFixed(2)}</span>` : ''}
@@ -240,7 +237,7 @@ if ($product_id <= 0) {
     if (currentSearch) params.search = currentSearch;
     if (currentCategory) params.category_id = currentCategory;
 
-    $.getJSON('../ajax/get_products.php', params, function (resp) {
+    $.getJSON('ajax/get_products.php', params, function (resp) {
       renderProducts(resp.products, '#search-products-dynamic', !reset);
       let totalLoaded = (searchPage + 1) * ITEMS_PER_PAGE;
 
@@ -275,7 +272,7 @@ if ($product_id <= 0) {
     let wishlist_count = 0;
 
     // Fetch product reviews
-    fetch('../ajax/get_product_reviews.php?product_id=' + encodeURIComponent(productId))
+    fetch('ajax/get_product_reviews.php?product_id=' + encodeURIComponent(productId))
       .then(r => {
         if (!r.ok) throw new Error('Failed to fetch reviews');
         return r.json();
@@ -305,7 +302,7 @@ if ($product_id <= 0) {
       });
 
     // Fetch wishlist count
-    fetch('../ajax/get_wishlist_count.php?product_id=' + encodeURIComponent(productId))
+    fetch('ajax/get_wishlist_count.php?product_id=' + encodeURIComponent(productId))
       .then(response => {
         if (!response.ok) throw new Error('Failed to fetch wishlist count');
         return response.json();
@@ -320,7 +317,7 @@ if ($product_id <= 0) {
       });
 
     // Fetch product info
-    fetch('../ajax/get_product_info.php?product_id=' + encodeURIComponent(productId))
+    fetch('ajax/get_product_info.php?product_id=' + encodeURIComponent(productId))
       .then(r => {
         if (!r.ok) throw new Error('Failed to fetch product info');
         return r.json();
@@ -334,7 +331,7 @@ if ($product_id <= 0) {
                     <div class="carousel-inner rounded">` +
           product.images.map((img, idx) =>
             `<div class="carousel-item${idx === 0 ? ' active' : ''}">
-                        <img src="../${img}" class="responsive-image" alt="Product Image">
+                        <img src="${img}" class="responsive-image" alt="Product Image">
                     </div>`
           ).join('') +
           `</div>
@@ -352,7 +349,7 @@ if ($product_id <= 0) {
 
         // Thumbnails
         document.getElementById('product-thumbs').innerHTML = product.images.map((img, idx) =>
-          `<img src="../${img}" class="thumb-img rounded border border-2${idx === 0 ? ' active border-danger' : ''}"
+          `<img src="${img}" class="thumb-img rounded border border-2${idx === 0 ? ' active border-danger' : ''}"
                       style="height:70px;width:100px;"
                       onclick="setMainImage(this)"
                       alt="Thumbnail ${idx + 1}">`
@@ -402,7 +399,7 @@ if ($product_id <= 0) {
       $btn.prop("disabled", true).html('<i class="fa fa-spinner fa-spin"></i> Processing...');
 
       // Check if product is already in cart
-      $.getJSON('../ajax/cart_get.php', function (cartItems) {
+      $.getJSON('ajax/cart_get.php', function (cartItems) {
         let found = false;
         if (Array.isArray(cartItems)) {
           cartItems.forEach(item => {
@@ -411,11 +408,11 @@ if ($product_id <= 0) {
         }
 
         if (found) {
-          window.location.href = '../cart';
+          window.location.href = 'cart.php';
         } else {
           $.ajax({
             type: "POST",
-            url: '../ajax/product_action.php',
+            url: 'ajax/product_action.php',
             data: {
               action: 'add_to_cart',
               product_id: productId,
@@ -425,10 +422,10 @@ if ($product_id <= 0) {
             success: function (resp) {
               console.log('Add to cart response:', resp);
               if (resp.success === '1') {
-                window.location.href = '../cart';
+                window.location.href = 'cart.php';
               } else if (resp.success === 'login_required') {
                 alert(resp.message || 'Please log in to continue');
-                window.location.href = '../login';
+                window.location.href = 'login.php';
               } else {
                 alert(resp.message || 'Failed to add to cart.');
                 $btn.prop("disabled", false).html(originalText);
@@ -535,7 +532,7 @@ if ($product_id <= 0) {
         let catName = $(this).text().trim();
         $('#search-title').text('Category: ' + catName);
         fetchAndRenderSearch(true);
-        $('#product_id').hide();
+
         // Ensure page is scrollable after content loads (mobile fix)
         if (window.innerWidth < 992) {
           setTimeout(() => {
@@ -575,4 +572,4 @@ if ($product_id <= 0) {
   });
 </script>
 
-<?php include 'footer1.html'; ?>
+<?php include 'footer.html'; ?>

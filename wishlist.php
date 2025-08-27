@@ -110,7 +110,7 @@ include 'header.php';
                         data: {
                             action: action,
                             product_id: productId,
-                            url: 'index.php' // Current page URL
+                            url: 'index' // Current page URL
                         },
                         dataType: "json",
                         success: function (resp) {
@@ -118,11 +118,11 @@ include 'header.php';
                             if (resp.success) {
                                 updateCartIconCount();
                                 alert(resp.message || 'Action complete');
-                                window.location.href = 'cart.php';
+                                window.location.href = 'cart';
                             } else {
                                 console.log('Error:', resp);
                                 alert(resp.message || 'Something went wrong');
-                                window.location.href = 'login.php';
+                                window.location.href = 'login';
 
 
                             }

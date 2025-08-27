@@ -11,6 +11,8 @@ $q->execute();
 $res = $q->get_result();
 ?>
 
+
+
 <?php if ($res->num_rows === 0): ?>
     <div class="empty-state">
         <div class="empty-state-icon">
@@ -52,9 +54,10 @@ $res = $q->get_result();
                         <span class="order-id">Order #<?= $row['order_id'] ?></span>
                         <div class="order-date">Placed on <?= $orderDate ?></div>
                     </div>
-                    <span class="order-status <?= $statusClass ?>">
-                        <?= ucfirst($row['order_status']) ?>
+                    <span class="order-circle <?= $statusClass ?>">
+                        <span><?= ucfirst($row['order_status']) ?></span>
                     </span>
+
                 </div>
 
                 <div class="order-items">

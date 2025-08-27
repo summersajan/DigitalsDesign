@@ -513,7 +513,7 @@
           </div>
           <h4 class="empty-cart-title">Your cart is empty</h4>
           <p class="empty-cart-text">Looks like you haven't added any items to your cart yet.</p>
-          <a href="index.php" class="btn btn-primary btn-lg px-4">
+          <a href="/" class="btn btn-primary btn-lg px-4">
             <i class="fas fa-arrow-left me-2"></i>
             Continue Shopping
           </a>
@@ -553,9 +553,15 @@
   let searchMode = false;
   let cartProductIds = [];
   let cartProductQtys = [];
-
+  const cartTotalSection = document.getElementById("cartTotalSection");
+  const cartSection = document.getElementById("cartSection");
+  const emptySection = document.getElementById("emptyCartMessage");
   // Render individual cart item for desktop
   function renderCartItem(item) {
+
+
+
+
     return `
   <tr class="cart-item" data-id="${item.cart_item_id}">
     <td class="text-center">
@@ -612,6 +618,10 @@
 
   // Load cart items
   function loadCart() {
+    $('#cartSection').addClass('d-none');
+    $('#cartTotalSection').addClass('d-none');
+    $('#emptyCartMessage').addClass('d-none');
+
     $.getJSON('ajax/cart_get.php', function (items) {
       console.log('Cart items loaded:', items);
       let desktopHtml = '';
@@ -624,9 +634,12 @@
 
       if (!hasItems) {
         $('#cartSection').addClass('d-none');
-
         $('#cartTotalSection').addClass('d-none');
         $('#emptyCartMessage').removeClass('d-none');
+
+
+
+
         console.log('Cart is empty');
       } else {
         $('#cartSection').removeClass('d-none');
@@ -770,7 +783,7 @@
           showMessage(data.error, 'error');
           if (data.error.includes('login') || data.error.includes('authenticate')) {
             setTimeout(() => {
-              window.location.href = 'login.php';
+              window.location.href = 'login';
             }, 2000);
           }
         } else {
@@ -787,7 +800,7 @@
           if (xhr.status === 401) {
             showMessage("Please log in to continue", 'error');
             setTimeout(() => {
-              window.location.href = 'login.php';
+              window.location.href = 'login';
             }, 2000);
           } else {
             showMessage("Checkout error occurred. Please try again.", 'error');
@@ -1080,6 +1093,14 @@
     }
   });
   // Update the renderMobileMenu function
+
+
+
+  window.addEventListener("DOMContentLoaded", function () {
+    $('#cartSection').addClass('d-none');
+    $('#cartTotalSection').addClass('d-none');
+    $('#emptyCartMessage').addClass('d-none');
+  });
 
 
 </script>
