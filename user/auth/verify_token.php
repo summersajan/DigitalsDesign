@@ -32,7 +32,7 @@ if ($update->execute() && $update->affected_rows > 0) {
     $_SESSION['user_email'] = $email;
 
     // Redirect to dashboard
-    header("Location: ../index.php");
+    header("Location: ../../");
 } else {
     die("Failed to verify account");
 }
